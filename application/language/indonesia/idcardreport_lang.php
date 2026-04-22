@@ -1,0 +1,29 @@
+<?php
+
+$lang['idcardreport_slno'] = "#";
+$lang['idcardreport_add'] = "Tambah";
+$lang['idcardreport_edit'] = "Edit";
+$lang['idcardreport_view'] = "Lihat";
+$lang['idcardreport_delete'] = "Hapus";
+$lang['idcardreport_action'] = "Tindakan";
+$lang['idcardreport_please_select'] = "Silakan Pilih";
+$lang['idcardreport_role'] = "Peran";
+$lang['idcardreport_member'] = "Anggota";
+$lang['idcardreport_member_ID'] = "ID Anggota";
+$lang['idcardreport_blood_group'] = "Golongan Darah";
+$lang['idcardreport_emergency'] = "Darurat"; 
+$lang['idcardreport_type'] = "Jenis";
+$lang['idcardreport_front_part'] = "Bagian Depan";
+$lang['idcardreport_back_part'] = "Bagian Belakang";
+$lang['idcardreport_memberID'] = "ID Anggota";
+$lang['idcardreport_blood_group'] = "Golongan Darah";
+$lang['idcardreport_phone_no'] = "Nomor Telepon";
+$lang['idcardreport_email_no'] = "Nomor Email";
+$lang['idcardreport_card_property'] = "Kartu ini adalah milik";
+$lang['idcardreport_found_please_return_to'] = "Jika Anda menemukan, silakan kembalikan ke";
+$lang['idcardreport_valid_till'] = "Sampai Berlaku";
+$lang['idcardreport_authorized'] = "Diotorisasi"; 
+$lang['idcardreport_data_not_available'] = "Data tidak tersedia";
+$lang['idcardreport_get_card'] = "Dapatkan Kartu";
+$lang['idcardreport_print_card'] = "Cetak Kartu";
+$lang['idcardreport_pdf_card'] = "Kartu PDF";
