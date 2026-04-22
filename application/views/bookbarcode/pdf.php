@@ -7,10 +7,10 @@
 <body>
 	<?php if(calculate($bookitems)) { ?>
 		<div class="booklist">
-			<?php foreach ($bookitems as $bookitem) { ?>
-				<div class="bookitem">
-					<p><?=$book->codeno.'-'.$bookitem->bookno?></p>
-					<img class="bookitemimg" src="<?=base_url('uploads/bookbarcode/'.$book->codeno.'-'.$bookitem->bookno.'.jpg')?>" alt="">
+			<?php foreach ($bookitems as $item_buku) { ?>
+				<div class='item_buku'>
+					<p><?=$buku->codeno.'-'.$item_buku->bookno?></p>
+					<img class="bookitemimg" src="<?=base_url('uploads/bookbarcode/'.$buku->codeno.'-'.$item_buku->bookno.'.jpg')?>" alt="">
 				</div>
 			<?php } ?>
 		</div>

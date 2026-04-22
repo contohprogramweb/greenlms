@@ -10,22 +10,22 @@ class Ebook extends Admin_Controller
         $this->load->model('ebook_m');
 
         $lang = 'indonesia';
-        $this->lang->load('ebook', $lang);
+        $this->lang->load('buku_elektronik', $lang);
     }
 
     public function index()
     {
         $this->data['headerassets'] = array(
             'css' => array(
-                'assets/custom/css/ebook.css',
+                'assets/custom/css/buku_elektronik.css',
             ),
         );
 		
-		$this->data['get_title'] = 'Kelola Ebook | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Kelola Ebook | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->load->library('pagination');
 
-        $config['base_url']       = base_url('ebook/index');
+        $config['base_url']       = base_url('buku_elektronik/index');
         $config['total_rows']     = calculate($this->ebook_m->get_ebook());
         $config['per_page']       = 12;
         $config['num_links']      = 1;
@@ -42,14 +42,14 @@ class Ebook extends Admin_Controller
         $config['next_tag_close'] = '</li>';
         $config['num_tag_open']   = '<li>';
         $config['num_tag_close']  = '</li>';
-        $config['cur_tag_open']   = '<li class="active"><a>';
+        $config['cur_tag_open']   = '<li class='aktif'><a>';
         $config['cur_tag_close']  = '</a></li>';
         $this->pagination->initialize($config);
 
         $ebookID              = htmlentities(escapeString($this->uri->segment(3)));
         $this->data["ebooks"] = $this->ebook_m->get_order_by_ebook_limit($config['per_page'], $ebookID);
 
-        $this->data["subview"] = "ebook/index";
+        $this->data["subview"] = "buku_elektronik/index";
         $this->load->view('_main_layout', $this->data);
     }
 
@@ -61,35 +61,35 @@ class Ebook extends Admin_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Tambah Ebook | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Tambah Ebook | '.$this->data['pengaturan_umum']->sitename;
 		
         if ($_POST) {
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
-                $this->data["subview"] = "ebook/add";
+                $this->data["subview"] = "buku_elektronik/add";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $array                       = [];
-                $array['name']               = $this->input->post('name');
-                $array['author']             = $this->input->post('author');
+                $array['nama']               = $this->input->post('nama');
+                $array['penulis']             = $this->input->post('penulis');
                 $array['coverphoto']         = $this->upload_data['coverphoto']['file_name'];
                 $array['file']               = $this->upload_data['file']['file_name'];
                 $array['file_original_name'] = $this->upload_data['file']['client_name'];
                 $array['notes']              = $this->input->post('notes');
-                $array['create_date']        = date('Y-m-d H:i:s');
+                $array['tanggal_dibuat']        = date('Y-m-d H:i:s');
                 $array['create_memberID']    = $this->session->userdata('loginmemberID');
-                $array['create_roleID']      = $this->session->userdata('roleID');
+                $array['create_roleID']      = $this->session->userdata('id_peran');
                 $array['modify_date']        = date('Y-m-d H:i:s');
                 $array['modify_memberID']    = $this->session->userdata('loginmemberID');
-                $array['modify_roleID']      = $this->session->userdata('roleID');
+                $array['modify_roleID']      = $this->session->userdata('id_peran');
 
                 $this->ebook_m->insert_ebook($array);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('ebook/index'));
+                redirect(base_url('buku_elektronik/index'));
             }
         } else {
-            $this->data["subview"] = "ebook/add";
+            $this->data["subview"] = "buku_elektronik/add";
             $this->load->view('_main_layout', $this->data);
         }
     }
@@ -101,37 +101,37 @@ class Ebook extends Admin_Controller
                 'assets/custom/js/fileupload.js',
             ),
         );
-		$this->data['get_title'] = 'Edit Ebook | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Edit Ebook | '.$this->data['pengaturan_umum']->sitename;
 		
 		
         $ebookID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $ebookID) {
-            $this->data['ebook'] = $this->ebook_m->get_single_ebook(array('ebookID' => $ebookID));
-            if (calculate($this->data['ebook'])) {
+            $this->data['buku_elektronik'] = $this->ebook_m->get_single_ebook(array('id_buku_elektronik' => $ebookID));
+            if (calculate($this->data['buku_elektronik'])) {
                 if ($_POST) {
                     $rules = $this->rules();
                     $this->form_validation->set_rules($rules);
                     if ($this->form_validation->run() == false) {
-                        $this->data["subview"] = "ebook/edit";
+                        $this->data["subview"] = "buku_elektronik/edit";
                         $this->load->view('_main_layout', $this->data);
                     } else {
                         $array                       = [];
-                        $array['name']               = $this->input->post('name');
-                        $array['author']             = $this->input->post('author');
+                        $array['nama']               = $this->input->post('nama');
+                        $array['penulis']             = $this->input->post('penulis');
                         $array['coverphoto']         = $this->upload_data['coverphoto']['file_name'];
                         $array['file']               = $this->upload_data['file']['file_name'];
                         $array['file_original_name'] = $this->upload_data['file']['client_name'];
                         $array['notes']              = $this->input->post('notes');
                         $array['modify_date']        = date('Y-m-d H:i:s');
                         $array['modify_memberID']    = $this->session->userdata('loginmemberID');
-                        $array['modify_roleID']      = $this->session->userdata('roleID');
+                        $array['modify_roleID']      = $this->session->userdata('id_peran');
 
                         $this->ebook_m->update_ebook($array, $ebookID);
                         $this->session->set_flashdata('success', 'Success');
-                        redirect(base_url('ebook/index'));
+                        redirect(base_url('buku_elektronik/index'));
                     }
                 } else {
-                    $this->data["subview"] = "ebook/edit";
+                    $this->data["subview"] = "buku_elektronik/edit";
                     $this->load->view('_main_layout', $this->data);
                 }
             } else {
@@ -147,22 +147,22 @@ class Ebook extends Admin_Controller
     public function view()
     {
         $ebookID = htmlentities(escapeString($this->uri->segment(3)));
-		$this->data['get_title'] = 'Lihat Data Ebook | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Lihat Data Ebook | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $ebookID) {
-            $this->data['ebook'] = $this->ebook_m->get_single_ebook(array('ebookID' => $ebookID));
-            if (calculate($this->data['ebook'])) {
-                $fileimg = FCPATH . '/uploads/ebook/' . $this->data['ebook']->file;
+            $this->data['buku_elektronik'] = $this->ebook_m->get_single_ebook(array('id_buku_elektronik' => $ebookID));
+            if (calculate($this->data['buku_elektronik'])) {
+                $fileimg = FCPATH . '/uploads/buku_elektronik/' . $this->data['buku_elektronik']->file;
                 if (!file_exists($fileimg)) {
                     $this->session->set_flashdata('error', 'The Book file is not found');
-                    redirect(base_url('ebook/index'));
+                    redirect(base_url('buku_elektronik/index'));
                 } else {
                     $this->data['headerassets'] = array(
                         'headerjs' => array(
                             'assets/custom/js/pdfobject.min.js',
                         ),
                     );
-                    $this->data["subview"] = "ebook/view";
+                    $this->data["subview"] = "buku_elektronik/view";
                     $this->load->view('_main_layout', $this->data);
                 }
             } else {
@@ -179,23 +179,23 @@ class Ebook extends Admin_Controller
     {
         $ebookID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $ebookID) {
-            $ebook = $this->ebook_m->get_single_ebook(array('ebookID' => $ebookID));
-            if (calculate($ebook)) {
-                if ($ebook->coverphoto != 'ebook.jpg') {
-                    $deleleteimg = FCPATH . '/uploads/ebook/' . $ebook->coverphoto;
+            $buku_elektronik = $this->ebook_m->get_single_ebook(array('id_buku_elektronik' => $ebookID));
+            if (calculate($buku_elektronik)) {
+                if ($buku_elektronik->coverphoto != 'buku_elektronik.jpg') {
+                    $deleleteimg = FCPATH . '/uploads/buku_elektronik/' . $buku_elektronik->coverphoto;
                     if (file_exists($deleleteimg)) {
                         unlink($deleleteimg);
                     }
                 }
 
-                $deleleteimg = FCPATH . '/uploads/ebook/' . $ebook->file;
+                $deleleteimg = FCPATH . '/uploads/buku_elektronik/' . $buku_elektronik->file;
                 if (file_exists($deleleteimg)) {
                     unlink($deleleteimg);
                 }
 
                 $this->ebook_m->delete_ebook($ebookID);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('ebook/index'));
+                redirect(base_url('buku_elektronik/index'));
             } else {
                 $this->data["subview"] = "_not_found";
                 $this->load->view('_main_layout', $this->data);
@@ -208,18 +208,18 @@ class Ebook extends Admin_Controller
 
     public function download()
     {
-        if($this->data["generalsetting"]->ebook_download != 1) {
-            $this->session->set_flashdata('error', "You dont have permission to download this ebook.");
-            redirect(base_url('ebook/index'));
+        if($this->data['pengaturan_umum']->ebook_download != 1) {
+            $this->session->set_flashdata('error', "You dont have permission to download this buku_elektronik.");
+            redirect(base_url('buku_elektronik/index'));
         }
         if (permissionChecker('ebook_view')) {
             $ebookID = htmlentities(escapeString($this->uri->segment(3)));
             if ((int) $ebookID) {
-                $ebook = $this->ebook_m->get_single_ebook(array('ebookID' => $ebookID));
-                if (calculate($ebook)) {
-                    $file = realpath('uploads/ebook/' . $ebook->file);
+                $buku_elektronik = $this->ebook_m->get_single_ebook(array('id_buku_elektronik' => $ebookID));
+                if (calculate($buku_elektronik)) {
+                    $file = realpath('uploads/buku_elektronik/' . $buku_elektronik->file);
                     if (file_exists($file)) {
-                        $originalname = $ebook->file_original_name;
+                        $originalname = $buku_elektronik->file_original_name;
                         header('Content-Description: File Transfer');
                         header('Content-Type: application/octet-stream');
                         header('Content-Disposition: attachment; filename="' . basename($originalname) . '"');
@@ -230,16 +230,16 @@ class Ebook extends Admin_Controller
                         readfile($file);
                         exit;
                     } else {
-                        redirect(base_url('ebook/index'));
+                        redirect(base_url('buku_elektronik/index'));
                     }
                 } else {
-                    redirect(base_url('ebook/index'));
+                    redirect(base_url('buku_elektronik/index'));
                 }
             } else {
-                redirect(base_url('ebook/index'));
+                redirect(base_url('buku_elektronik/index'));
             }
         } else {
-            redirect(base_url('ebook/index'));
+            redirect(base_url('buku_elektronik/index'));
         }
     }
 
@@ -247,12 +247,12 @@ class Ebook extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'name',
+                'field' => 'nama',
                 'label' => $this->lang->line('ebook_name'),
                 'rules' => 'trim|xss_clean|required|max_length[100]|callback_check_unique_ebook',
             ),
             array(
-                'field' => 'author',
+                'field' => 'penulis',
                 'label' => $this->lang->line('ebook_author'),
                 'rules' => 'trim|xss_clean|required|max_length[100]',
             ),
@@ -278,20 +278,20 @@ class Ebook extends Admin_Controller
     public function coverphoto_upload()
     {
         $ebookID = htmlentities(escapeString($this->uri->segment(3)));
-        $ebook   = array();
+        $buku_elektronik   = array();
         if ((int) $ebookID) {
-            $ebook = $this->ebook_m->get_single_ebook(array('ebookID' => $ebookID));
+            $buku_elektronik = $this->ebook_m->get_single_ebook(array('id_buku_elektronik' => $ebookID));
         }
 
-        $new_file = "ebook.jpg";
-        if ($_FILES["coverphoto"]['name'] != "") {
-            $file_name        = $_FILES["coverphoto"]['name'];
+        $new_file = "buku_elektronik.jpg";
+        if ($_FILES["coverphoto"]['nama'] != "") {
+            $file_name        = $_FILES["coverphoto"]['nama'];
             $random           = rand(1, 10000000000000000);
             $file_name_rename = hash('sha512', $random . config_item("encryption_key"));
             $explode          = explode('.', $file_name);
             if (calculate($explode) >= 2) {
                 $new_file                = $file_name_rename . '.' . end($explode);
-                $config['upload_path']   = "./uploads/ebook";
+                $config['upload_path']   = "./uploads/buku_elektronik";
                 $config['allowed_types'] = "gif|jpg|png|jpeg";
                 $config['file_name']     = $new_file;
                 $config['max_size']      = '2048';
@@ -312,8 +312,8 @@ class Ebook extends Admin_Controller
                 return false;
             }
         } else {
-            if (calculate($ebook)) {
-                $this->upload_data['coverphoto'] = array('file_name' => $ebook->coverphoto);
+            if (calculate($buku_elektronik)) {
+                $this->upload_data['coverphoto'] = array('file_name' => $buku_elektronik->coverphoto);
                 return true;
             } else {
                 $this->form_validation->set_message("coverphoto_upload", "The %s field is required.");
@@ -325,27 +325,27 @@ class Ebook extends Admin_Controller
     public function file_upload()
     {
         $ebookID = htmlentities(escapeString($this->uri->segment(3)));
-        $ebook   = array();
+        $buku_elektronik   = array();
         if ((int) $ebookID) {
-            $ebook = $this->ebook_m->get_single_ebook(array('ebookID' => $ebookID));
+            $buku_elektronik = $this->ebook_m->get_single_ebook(array('id_buku_elektronik' => $ebookID));
         }
 
         $new_file = "";
-        if ($_FILES["file"]['name'] != "") {
-            $file_name        = $_FILES["file"]['name'];
+        if ($_FILES['file']['nama'] != "") {
+            $file_name        = $_FILES['file']['nama'];
             $random           = rand(1, 10000000000000000);
             $file_name_rename = hash('sha512', $random . config_item("encryption_key"));
             $explode          = explode('.', $file_name);
             if (calculate($explode) >= 2) {
                 $new_file                = $file_name_rename . '.' . end($explode);
-                $config['upload_path']   = "./uploads/ebook";
+                $config['upload_path']   = "./uploads/buku_elektronik";
                 $config['allowed_types'] = "pdf";
                 $config['file_name']     = $new_file;
                 $config['max_size']      = '51200';
                 $this->load->library('upload', $config);
                 $this->upload->initialize($config);
 
-                if (!$this->upload->do_upload("file")) {
+                if (!$this->upload->do_upload('file')) {
                     $this->form_validation->set_message("file_upload", $this->upload->display_errors());
                     return false;
                 } else {
@@ -357,8 +357,8 @@ class Ebook extends Admin_Controller
                 return false;
             }
         } else {
-            if (calculate($ebook)) {
-                $this->upload_data['file'] = array('file_name' => $ebook->file);
+            if (calculate($buku_elektronik)) {
+                $this->upload_data['file'] = array('file_name' => $buku_elektronik->file);
                 return true;
             } else {
                 $this->form_validation->set_message("file_upload", "The %s field is required.");
@@ -371,15 +371,15 @@ class Ebook extends Admin_Controller
     {
         $ebookID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $ebookID) {
-            $ebook = $this->ebook_m->get_single_ebook(array('name' => $name, 'ebookID !=' => $ebookID));
-            if (calculate($ebook)) {
+            $buku_elektronik = $this->ebook_m->get_single_ebook(array('nama' => $name, 'ebookID !=' => $ebookID));
+            if (calculate($buku_elektronik)) {
                 $this->form_validation->set_message("check_unique_ebook", "The %s is already exits.");
                 return false;
             }
             return true;
         } else {
-            $ebook = $this->ebook_m->get_single_ebook(array('name' => $name));
-            if (calculate($ebook)) {
+            $buku_elektronik = $this->ebook_m->get_single_ebook(array('nama' => $name));
+            if (calculate($buku_elektronik)) {
                 $this->form_validation->set_message("check_unique_ebook", "The %s is already exits.");
                 return false;
             }

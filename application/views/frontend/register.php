@@ -13,30 +13,30 @@
                     <form action="<?=base_url('myaccount/register')?>" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Nama Lengkap</label> <span class="text-danger">*</span>
-                            <input type="text" class="form-control <?=form_error('name') ? 'is-invalid' : ''?>" name="name" value="<?=set_value('name')?>" />
+                            <input type="text" class="form-control <?=form_error('nama') ? 'is-invalid' : ''?>" name='nama' value="<?=set_value('nama')?>" />
                         </div>
                         <div class="form-group">
                             <label>Email</label> <span class="text-danger">*</span>
-                            <input type="text" class="form-control <?=form_error('email') ? 'is-invalid' : ''?>" name="email" value="<?=set_value('email')?>" />
+                            <input type="text" class="form-control <?=form_error('surel') ? 'is-invalid' : ''?>" name='surel' value="<?=set_value('surel')?>" />
                         </div>
                         <div class="form-group">
                             <label>Nomor Telp.</label> <span class="text-danger">*</span>
-                            <input type="text" class="form-control <?=form_error('phone') ? 'is-invalid' : ''?>" name="phone" value="<?=set_value('phone')?>" />
+                            <input type="text" class="form-control <?=form_error('telepon') ? 'is-invalid' : ''?>" name='telepon' value="<?=set_value('telepon')?>" />
                         </div>
                         <div class="form-group">
                             <label>Foto</label> <span class="text-danger">*</span>
                             <div class="custom-file">
-                                <input type="file" name="photo" class="custom-file-input" id="photo">
-                                <label class="custom-file-label" for="photo">Pilih File</label>
+                                <input type='file' name='foto' class="custom-file-input" id='foto'>
+                                <label class="custom-file-label" for='foto'>Pilih File</label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Username</label> <span class="text-danger">*</span>
-                            <input type="text" class="form-control <?=form_error('username') ? 'is-invalid' : ''?>" name="username" value="<?=set_value('username')?>" />
+                            <input type="text" class="form-control <?=form_error('nama_pengguna') ? 'is-invalid' : ''?>" name='nama_pengguna' value="<?=set_value('nama_pengguna')?>" />
                         </div>
                         <div class="form-group">
                             <label>Password</label> <span class="text-danger">*</span>
-                            <input type="text" class="form-control <?=form_error('password') ? 'is-invalid' : ''?>" name="password" value="<?=set_value('password')?>" />
+                            <input type="text" class="form-control <?=form_error('kata_sandi') ? 'is-invalid' : ''?>" name='kata_sandi' value="<?=set_value('kata_sandi')?>" />
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success btn-block">Kirim</button>

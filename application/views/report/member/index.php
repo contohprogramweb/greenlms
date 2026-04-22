@@ -3,7 +3,7 @@
         <h1>Laporan Data Anggota</h1>
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li class="active">Laporan Data Anggota</li>
+            <li class='aktif'>Laporan Data Anggota</li>
         </ol>
     </section>
     <section class="content">
@@ -12,30 +12,30 @@
                 <form method="POST" action="<?=base_url('memberreport/index')?>">
                     <div class="row">
                         <div class="col-sm-4">
-                            <div class="form-group <?=form_error('roleID') ? 'has-error' : ''?>">
+                            <div class="form-group <?=form_error('id_peran') ? 'has-error' : ''?>">
                                 <label>Hak Akses</label>
                                 <?php 
                                     $roleArray[0]   = 'Silakan Pilih';
                                     if(calculate($roles)) {
-                                        foreach($roles as $role) {
-                                            $roleArray[$role->roleID] = $role->role;
+                                        foreach($roles as $peran) {
+                                            $roleArray[$peran->id_peran] = $peran->peran;
                                         }
                                     }
-                                    echo form_dropdown('roleID', $roleArray, set_value('roleID'),'id="roleID" class="form-control"');
+                                    echo form_dropdown('id_peran', $roleArray, set_value('id_peran'),'id='id_peran' class="form-control"');
                                 ?>
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="form-group <?=form_error('memberID') ? 'has-error' : ''?>">
+                            <div class="form-group <?=form_error('id_anggota') ? 'has-error' : ''?>">
                                 <label>Anggota</label>
                                 <?php 
                                     $memberArray[0]   = 'Silakan Pilih';
                                     if(calculate($members)) {
-                                        foreach($members as $member) {
-                                            $memberArray[$member->memberID] = $member->name;
+                                        foreach($members as $anggota) {
+                                            $memberArray[$anggota->id_anggota] = $anggota->nama;
                                         }
                                     }
-                                    echo form_dropdown('memberID', $memberArray, set_value('memberID'),'id="memberID" class="form-control"');
+                                    echo form_dropdown('id_anggota', $memberArray, set_value('id_anggota'),'id='id_anggota' class="form-control"');
                                 ?>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                                     $statusArray[0]   = 'Silakan Pilih';
                                     $statusArray[1]   = 'Aktif';
                                     $statusArray[2]   = 'Non Aktif';
-                                    echo form_dropdown('status', $statusArray, set_value('status'),'id="status" class="form-control"');
+                                    echo form_dropdown('status', $statusArray, set_value('status'),'id='status' class="form-control"');
                                 ?>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-sm-12" id="printDiv">
-                            <?php $this->load->view('report/member/view')?>
+                            <?php $this->load->view('report/anggota/view')?>
                         </div>
                     </div>
                 </div>

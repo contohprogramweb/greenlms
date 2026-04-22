@@ -3,26 +3,26 @@
   		<h1>Permintaan Buku</h1>
   		<ol class="breadcrumb">
         	<li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-  			<li><a href="<?=base_url('requestbook/index')?>">Permintaan Buku</a></li>
-  			<li class="active">Tambah</li>
+  			<li><a href="<?=base_url('permintaan_buku/index')?>">Permintaan Buku</a></li>
+  			<li class='aktif'>Tambah</li>
   		</ol>
     </section>
     <section class="content">
 		<div class="box box-mytheme">
 			<div class="row">
 				<div class="col-md-6">
-					<form role="form" method="post" enctype="multipart/form-data">
+					<form peran="form" method="post" enctype="multipart/form-data">
 						<div class="box-body">
-							<div class="form-group <?=form_error('name') ? 'has-error' : ''?>">
-							 	<label for="name">Judul Buku</label> <span class="text-red">*</span>
-							  	<input type="text" class="form-control" id="name" name="name" value="<?=set_value('name')?>" placeholder="Enter name">
-							  	<?=form_error('name')?>
+							<div class="form-group <?=form_error('nama') ? 'has-error' : ''?>">
+							 	<label for='nama'>Judul Buku</label> <span class="text-red">*</span>
+							  	<input type="text" class="form-control" id='nama' name='nama' value="<?=set_value('nama')?>" placeholder="Enter name">
+							  	<?=form_error('nama')?>
 							</div>
 
-							<div class="form-group <?=form_error('author') ? 'has-error' : ''?>">
-							 	<label for="author">Penulis</label> <span class="text-red">*</span>
-							  	<input type="text" class="form-control" id="author" name="author" value="<?=set_value('author')?>" placeholder="Enter Author">
-							  	<?=form_error('author')?>
+							<div class="form-group <?=form_error('penulis') ? 'has-error' : ''?>">
+							 	<label for='penulis'>Penulis</label> <span class="text-red">*</span>
+							  	<input type="text" class="form-control" id='penulis' name='penulis' value="<?=set_value('penulis')?>" placeholder="Enter Author">
+							  	<?=form_error('penulis')?>
 							</div>	
 
 							<div class="form-group <?=form_error('coverphoto') ? 'has-error' : ''?>">
@@ -36,7 +36,7 @@
 						                <div class="btn btn-success image-preview-input">
 						                    <span class="fa fa-repeat"></span>
 						                    <span class="image-preview-input-title">Browse</span>
-						                    <input type="file" accept="image/png, image/jpeg, image/gif" name="coverphoto"/>
+						                    <input type='file' accept="image/png, image/jpeg, image/gif" name="coverphoto"/>
 						                </div>
 						            </span>
 						        </div>
@@ -49,8 +49,8 @@
 									$bookcategoryArray = [];
 									$bookcategoryArray[0] = 'Silakan Pilih';
 									if(calculate($bookcategorys)) {
-										foreach($bookcategorys as $bookcategory) {
-											$bookcategoryArray[$bookcategory->bookcategoryID] = $bookcategory->name;
+										foreach($bookcategorys as $kategori_buku) {
+											$bookcategoryArray[$kategori_buku->bookcategoryID] = $kategori_buku->nama;
 										}
 									}
 									echo form_dropdown('bookcategoryID', $bookcategoryArray, set_value('bookcategoryID'), 'id="bookcategoryID" class="form-control"');
@@ -76,10 +76,10 @@
 							  	<?=form_error('editiondate')?>
 							</div>
 							
-							<div class="form-group <?=form_error('publisher') ? 'has-error' : ''?>">
-							 	<label for="publisher">Penerbit</label>
-							  	<input type="text" class="form-control" id="publisher" name="publisher" value="<?=set_value('publisher')?>" placeholder="Enter Publisher">
-							  	<?=form_error('publisher')?>
+							<div class="form-group <?=form_error('penerbit') ? 'has-error' : ''?>">
+							 	<label for='penerbit'>Penerbit</label>
+							  	<input type="text" class="form-control" id='penerbit' name='penerbit' value="<?=set_value('penerbit')?>" placeholder="Enter Publisher">
+							  	<?=form_error('penerbit')?>
 							</div>
 							
 							<div class="form-group <?=form_error('publisheddate') ? 'has-error' : ''?>">

@@ -3,14 +3,14 @@
 		<h1>Pendapatan</h1>
 		<ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-			<li class="active">Pendapatan</li>
+			<li class='aktif'>Pendapatan</li>
 		</ol>
     </section>
     <section class="content">
         <div class="box box-mytheme">
             <?php if(permissionChecker('income_add')) { ?>
             <div class="box-header">
-                <a href="<?=base_url('income/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i> Tambah Pendapatan</a>
+                <a href="<?=base_url('pemasukan/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i> Tambah Pendapatan</a>
             </div>
             <?php } ?>
             <div class="box-body">
@@ -30,25 +30,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(calculate($incomes)) { $i=0; foreach($incomes as $income) { $i++; ?>
+                            <?php if(calculate($incomes)) { $i=0; foreach($incomes as $pemasukan) { $i++; ?>
                                 <tr>
                                     <td data-title="#"><?=$i?></td>
-                                    <td data-title="Nama Pendapatan"><?=$income->name?></td>
-                                    <td data-title="Tanggal"><?=app_date($income->date)?></td>
-                                    <td data-title="Jumlah"><?=number_format($income->amount, 2)?></td>
+                                    <td data-title="Nama Pendapatan"><?=$pemasukan->nama?></td>
+                                    <td data-title="Tanggal"><?=app_date($pemasukan->tanggal)?></td>
+                                    <td data-title="Jumlah"><?=number_format($pemasukan->jumlah, 2)?></td>
                                     <td data-title="File">
                                         <?php 
-                                            if($income->file != '') {
-                                                echo btn_download('income/download/'.$income->incomeID, $income->fileoriginalname);
+                                            if($pemasukan->file != '') {
+                                                echo btn_download('pemasukan/download/'.$pemasukan->id_pemasukan, $pemasukan->fileoriginalname);
                                             }
                                         ?>
                                     </td>
-                                    <td data-title="Catatan"><?=$income->note?></td>
+                                    <td data-title="Catatan"><?=$pemasukan->catatan?></td>
                                     <?php if(permissionChecker('income_view') || permissionChecker('income_edit') || permissionChecker('income_delete')) { ?>
                                         <td data-title="Aksi">
-                                            <?=btn_view('income/view/'.$income->incomeID,'Lihat'); ?>
-                                            <?=btn_edit('income/edit/'.$income->incomeID,'Edit'); ?>
-                                            <?=btn_delete('income/delete/'.$income->incomeID,'Delete'); ?>
+                                            <?=btn_view('pemasukan/view/'.$pemasukan->id_pemasukan,'Lihat'); ?>
+                                            <?=btn_edit('pemasukan/edit/'.$pemasukan->id_pemasukan,'Edit'); ?>
+                                            <?=btn_delete('pemasukan/delete/'.$pemasukan->id_pemasukan,'Delete'); ?>
                                         </td>
                                     <?php } ?>
                                 </tr>

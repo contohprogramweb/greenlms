@@ -254,7 +254,7 @@ $config['log_file_extension'] = '';
 | Log File Permissions
 |--------------------------------------------------------------------------
 |
-| The file system permissions to be applied on newly created log files.
+| The file system izin to be applied on newly created log files.
 |
 | IMPORTANT: This MUST be an integer (no quotes) and you MUST use octal
 |            integer notation (i.e. 0700, 0644, etc.)

@@ -31,9 +31,9 @@ class Dashboard extends Admin_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Dashboard | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Dashboard | '.$this->data['pengaturan_umum']->sitename;
 		
-        $this->data['members'] = pluck($this->member_m->get_member(), 'obj', 'memberID');
+        $this->data['members'] = pluck($this->member_m->get_member(), 'obj', 'id_anggota');
 
         $this->db->order_by('chatID desc');
         $chats = $this->chat_m->get_chat_by_limit(20);
@@ -58,24 +58,24 @@ class Dashboard extends Admin_Controller
         $incomeArr  = $monthArr;
         $expenseArr = $monthArr;
         if (calculate($incomes)) {
-            foreach ($incomes as $income) {
-                $month = (int) date('m', strtotime($income->date));
+            foreach ($incomes as $pemasukan) {
+                $month = (int) date('m', strtotime($pemasukan->tanggal));
                 if (isset($incomeArr[$month])) {
-                    $incomeArr[$month] += $income->amount;
+                    $incomeArr[$month] += $pemasukan->jumlah;
                 }
             }
         }
         if (calculate($expenses)) {
-            foreach ($expenses as $expense) {
-                $month = (int) date('m', strtotime($expense->date));
+            foreach ($expenses as $pengeluaran) {
+                $month = (int) date('m', strtotime($pengeluaran->tanggal));
                 if (isset($expenseArr[$month])) {
-                    $expenseArr[$month] += $expense->amount;
+                    $expenseArr[$month] += $pengeluaran->jumlah;
                 }
             }
         }
 
-        $this->data['income']  = implode(',', $incomeArr);
-        $this->data['expense'] = implode(',', $expenseArr);
+        $this->data['pemasukan']  = implode(',', $incomeArr);
+        $this->data['pengeluaran'] = implode(',', $expenseArr);
     }
 
     public function langswitch()
@@ -91,7 +91,7 @@ class Dashboard extends Admin_Controller
         }
     }
 
-    public function chat()
+    public function obrolan()
     {
         $retArray           = [];
         $retArray['status'] = false;
@@ -99,31 +99,31 @@ class Dashboard extends Admin_Controller
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
-                $retArray['message'] = 'Error';
+                $retArray['pesan'] = 'Error';
             } else {
                 $array                    = [];
-                $array['message']         = $this->input->post('message');
-                $array['create_date']     = date('Y-m-d H:i:s');
+                $array['pesan']         = $this->input->post('pesan');
+                $array['tanggal_dibuat']     = date('Y-m-d H:i:s');
                 $array['create_memberID'] = $this->session->userdata('loginmemberID');
-                $array['create_roleID']   = $this->session->userdata('roleID');
+                $array['create_roleID']   = $this->session->userdata('id_peran');
                 $array['modify_date']     = date('Y-m-d H:i:s');
                 $array['modify_memberID'] = $this->session->userdata('loginmemberID');
-                $array['modify_roleID']   = $this->session->userdata('roleID');
+                $array['modify_roleID']   = $this->session->userdata('id_peran');
 
                 $result         = $this->chat_m->insert_chat($array);
-                $array['name']  = $this->session->userdata('name');
-                $array['photo'] = profile_img($this->session->userdata('photo'));
+                $array['nama']  = $this->session->userdata('nama');
+                $array['foto'] = profile_img($this->session->userdata('foto'));
                 $array['time']  = date('d M Y H:i s');
 
                 if ($result) {
                     $retArray           = $array;
                     $retArray['status'] = true;
                 } else {
-                    $retArray['message'] = 'Error';
+                    $retArray['pesan'] = 'Error';
                 }
             }
         } else {
-            $retArray['message'] = 'Error';
+            $retArray['pesan'] = 'Error';
         }
         echo json_encode($retArray);
     }
@@ -133,7 +133,7 @@ class Dashboard extends Admin_Controller
         $retArray           = [];
         $retArray['status'] = false;
         if ($_POST) {
-            $chatID = $this->input->post('chatID');
+            $chatID = $this->input->post('id_obrolan');
             if ((int) $chatID) {
 
                 $chatID    = $chatID - 1;
@@ -146,7 +146,7 @@ class Dashboard extends Admin_Controller
                     $chatID = $newChatID;
                 }
 
-                $members = pluck($this->member_m->get_member(), 'obj', 'memberID');
+                $members = pluck($this->member_m->get_member(), 'obj', 'id_anggota');
                 $chats   = $this->chat_m->get_chat_by_limit($showitem, $chatID);
 
                 $retArray['data'] = $this->load->view('dashboard/getchat', array('chats' => $chats, 'members' => $members), true);
@@ -166,11 +166,11 @@ class Dashboard extends Admin_Controller
             if ($this->form_validation->run() == false) {
                 $this->session->set_flashdata('error', $this->lang->line('dashboard_provide_valid_info'));
             } else {
-                $name      = $this->session->userdata('name');
-                $email     = $this->input->post('email');
-                $subject   = $this->input->post('subject');
-                $message   = $this->input->post('message');
-                $fromemail = $this->session->userdata('email');
+                $name      = $this->session->userdata('nama');
+                $email     = $this->input->post('surel');
+                $subject   = $this->input->post('subjek');
+                $message   = $this->input->post('pesan');
+                $fromemail = $this->session->userdata('surel');
 
                 $sendmail = $this->applications->sendmail($email, $message, $subject, $name, $fromemail = 'no-reply@admin.com');
                 if ($sendmail) {
@@ -187,17 +187,17 @@ class Dashboard extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'email',
+                'field' => 'surel',
                 'label' => $this->lang->line('dashboard_email'),
                 'rules' => 'trim|xss_clean|required|valid_email',
             ),
             array(
-                'field' => 'subject',
+                'field' => 'subjek',
                 'label' => $this->lang->line('dashboard_subject'),
                 'rules' => 'trim|xss_clean|required',
             ),
             array(
-                'field' => 'message',
+                'field' => 'pesan',
                 'label' => $this->lang->line('dashboard_message'),
                 'rules' => 'trim|xss_clean|required',
             ),
@@ -209,7 +209,7 @@ class Dashboard extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'message',
+                'field' => 'pesan',
                 'label' => $this->lang->line('dashboard_message'),
                 'rules' => 'trim|xss_clean|required',
             ),

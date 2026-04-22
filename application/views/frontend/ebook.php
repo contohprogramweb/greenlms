@@ -1,6 +1,6 @@
-<section class="main-ebook mainebook">
+<section class="main-buku_elektronik mainebook">
 	<div class="container">
-        <div class="card ebook-header mb-4">
+        <div class="card buku_elektronik-header mb-4">
             <div class="card-body">
                 <form action="">
                     <div class="row">
@@ -21,30 +21,30 @@
         </div>
 		<?php if(calculate($ebooks)) { ?>
             <div class="row">
-                <?php foreach($ebooks as $ebook) { ?>
+                <?php foreach($ebooks as $buku_elektronik) { ?>
                     <div class="col-lg-4 col-md-4 col-sm-12">
-                        <div class="single-ebook">
-                            <div class="single-ebook-img">
-                                <img src="<?=app_image_link($ebook->coverphoto, 'uploads/ebook/', 'ebook.jpg')?>" class="img-fluid" alt="">
+                        <div class="single-buku_elektronik">
+                            <div class="single-buku_elektronik-img">
+                                <img src="<?=app_image_link($buku_elektronik->coverphoto, 'uploads/buku_elektronik/', 'buku_elektronik.jpg')?>" class="img-fluid" alt="">
                                 <div class="single-overlay">
                                     <div class="icon-info">
-                                        <h6><b>Judul :</b> <?=$ebook->name?></h6>
-                                        <h6><b>Penulis :</b> <?=$ebook->author?></h6>
-                                        <p><?=namesorting($ebook->notes, 200)?></p>
+                                        <h6><b>Judul :</b> <?=$buku_elektronik->nama?></h6>
+                                        <h6><b>Penulis :</b> <?=$buku_elektronik->penulis?></h6>
+                                        <p><?=namesorting($buku_elektronik->notes, 200)?></p>
                                     </div>
                                     <div class="icon-item">
                                         <ul>
-                                            <li><a href="<?=base_url('frontend/ebookview/'.$ebook->ebookID)?>"><i class="fa fa-eye"></i></a></li>
-                                            <?php if($generalsetting->ebook_download == 1) { ?>
-                                                <li><a href="<?=base_url('frontend/ebookdownload/'.$ebook->ebookID)?>"><i class="fa fa-download"></i></a></li>
+                                            <li><a href="<?=base_url('frontend/ebookview/'.$buku_elektronik->id_buku_elektronik)?>"><i class="fa fa-eye"></i></a></li>
+                                            <?php if($pengaturan_umum->ebook_download == 1) { ?>
+                                                <li><a href="<?=base_url('frontend/ebookdownload/'.$buku_elektronik->id_buku_elektronik)?>"><i class="fa fa-download"></i></a></li>
                                             <?php } ?>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="single-ebook-content">
-                                <h6><b>Judul :</b> <?=$ebook->name?></h6>
-                                <h6><b>Penulis :</b> <?=$ebook->author?></h6>
+                            <div class="single-buku_elektronik-content">
+                                <h6><b>Judul :</b> <?=$buku_elektronik->nama?></h6>
+                                <h6><b>Penulis :</b> <?=$buku_elektronik->penulis?></h6>
                             </div>
                         </div>
                     </div>

@@ -2,20 +2,20 @@
     <!-- Logo -->
     <a href="<?=base_url('/dashboard')?>" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b><?=character_limiter($generalsetting->sitename,3)?></b></span>
+        <span class="logo-mini"><b><?=character_limiter($pengaturan_umum->sitename,3)?></b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b><?=$generalsetting->sitename?></b></span>
+        <span class="logo-lg"><b><?=$pengaturan_umum->sitename?></b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" peran="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
 
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <?php if($generalsetting->frontend == 1) { ?>
+                <?php if($pengaturan_umum->frontend == 1) { ?>
                 	<li class="dropdown tasks-menu">
                 		<a href="<?=base_url('/')?>" target="_blank" title="View Frontend" aria-expanded="true">
     		              <i class="fa fa-globe"></i>
@@ -31,7 +31,7 @@
                   <ul class="dropdown-menu">
                     <li class="header">Please select your language</li>
                     <li>
-                      <ul class="menu">
+                      <ul class='menu'>
                         <li>
                           <a href="<?=base_url('dashboard/langswitch/indonesia')?>">
                             <h3>
@@ -58,14 +58,14 @@
                 <!-- user Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?=profile_img($this->session->userdata('photo'))?>" class="user-image" alt="user Image">
-                      <span class="hidden-xs"><?=$this->session->userdata('name')?></span>
+                        <img src="<?=profile_img($this->session->userdata('foto'))?>" class="user-image" alt="user Image">
+                      <span class="hidden-xs"><?=$this->session->userdata('nama')?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- user image -->
                         <li class="user-header">
-                            <img src="<?=profile_img($this->session->userdata('photo'))?>" class="img-circle" alt="user Image">
-                            <p><?=$this->session->userdata('name')?> - <?=$this->session->userdata('role')?><small> Anggota sejak - <?=date('d F Y',strtotime($this->session->userdata('joinningdate')))?></small></p>
+                            <img src="<?=profile_img($this->session->userdata('foto'))?>" class="img-circle" alt="user Image">
+                            <p><?=$this->session->userdata('nama')?> - <?=$this->session->userdata('peran')?><small> Anggota sejak - <?=date('d F Y',strtotime($this->session->userdata('joinningdate')))?></small></p>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">

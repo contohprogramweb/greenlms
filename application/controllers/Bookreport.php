@@ -24,11 +24,11 @@ class Bookreport extends Admin_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Laporan Data Buku | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Laporan Data Buku | '.$this->data['pengaturan_umum']->sitename;
 
         $this->data['flag']           = 0;
         $this->data['bookcategoryID'] = 0;
-        $this->data['bookID']         = 0;
+        $this->data['id_buku']         = 0;
         $this->data['status']         = 0;
 
         $this->data['books']         = [];
@@ -40,20 +40,20 @@ class Bookreport extends Admin_Controller
             if ($this->form_validation->run() == false) {
                 $message = implode('<br/>', $this->form_validation->error_array());
                 $this->session->set_flashdata('error', $message);
-                $this->data["subview"] = "report/book/index";
+                $this->data["subview"] = "report/buku/index";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $bookcategoryID = $this->input->post('bookcategoryID');
-                $bookID         = $this->input->post('bookID');
+                $bookID         = $this->input->post('id_buku');
                 $status         = $this->input->post('status');
 
-                $this->_queryArray(['bookcategoryID' => $bookcategoryID, 'bookID' => $bookID, 'status' => $status]);
+                $this->_queryArray(['bookcategoryID' => $bookcategoryID, 'id_buku' => $bookID, 'status' => $status]);
 
-                $this->data["subview"] = "report/book/index";
+                $this->data["subview"] = "report/buku/index";
                 $this->load->view('_main_layout', $this->data);
             }
         } else {
-            $this->data["subview"] = "report/book/index";
+            $this->data["subview"] = "report/buku/index";
             $this->load->view('_main_layout', $this->data);
         }
     }
@@ -66,10 +66,10 @@ class Bookreport extends Admin_Controller
 
         if (((int) $bookcategoryID || $bookcategoryID == 0) && ((int) $bookID || $bookID == 0) && ((int) $status || $status == 0)) {
 
-            $this->_queryArray(['bookcategoryID' => $bookcategoryID, 'bookID' => $bookID, 'status' => $status]);
+            $this->_queryArray(['bookcategoryID' => $bookcategoryID, 'id_buku' => $bookID, 'status' => $status]);
             $this->data['bookcategorys'] = pluck($this->bookcategory_m->get_bookcategory(), 'obj', 'bookcategoryID');
 
-            $this->pdf->create(['stylesheet' => 'bookreport.css', 'view' => 'report/book/pdf.php', 'data' => $this->data]);
+            $this->pdf->create(['stylesheet' => 'bookreport.css', 'view' => 'report/buku/pdf.php', 'data' => $this->data]);
         } else {
             $this->data["subview"] = "_not_found";
             $this->load->view('_main_layout', $this->data);
@@ -86,32 +86,32 @@ class Bookreport extends Admin_Controller
             $queryArray['bookcategoryID'] = $bookcategoryID;
         }
         if ((int) $bookID) {
-            $queryArray['bookID'] = $bookID;
-            $itemArray['bookID']  = $bookID;
+            $queryArray['id_buku'] = $bookID;
+            $itemArray['id_buku']  = $bookID;
         }
         if ((int) $status) {
             $queryArray['status'] = $status - 1;
         }
         $itemArray['status']     = 0;
-        $itemArray['deleted_at'] = 0;
+        $itemArray['dihapus_pada'] = 0;
 
         $books     = $this->book_m->get_order_by_book_for_report($queryArray);
         $bookitems = $this->bookitem_m->get_order_by_bookitem($itemArray);
 
         $bookQuantity = [];
         if (calculate($bookitems)) {
-            foreach ($bookitems as $bookitem) {
-                if (isset($bookQuantity[$bookitem->bookID])) {
-                    $bookQuantity[$bookitem->bookID]++;
+            foreach ($bookitems as $item_buku) {
+                if (isset($bookQuantity[$item_buku->id_buku])) {
+                    $bookQuantity[$item_buku->id_buku]++;
                 } else {
-                    $bookQuantity[$bookitem->bookID] = 1;
+                    $bookQuantity[$item_buku->id_buku] = 1;
                 }
             }
         }
 
         $this->data['flag']           = 1;
         $this->data['bookcategoryID'] = $bookcategoryID;
-        $this->data['bookID']         = $bookID;
+        $this->data['id_buku']         = $bookID;
         $this->data['status']         = $status;
         $this->data['bookQuantity']   = $bookQuantity;
         $this->data['books']          = $books;
@@ -122,14 +122,14 @@ class Bookreport extends Admin_Controller
         echo "<option value='0'>" . $this->lang->line('bookreport_please_select') . "</option>";
         if ($_POST && permissionChecker('bookreport')) {
             $bookcategoryID          = $this->input->post('bookcategoryID');
-            $array['deleted_at']     = 0;
+            $array['dihapus_pada']     = 0;
             $array['bookcategoryID'] = $bookcategoryID;
 
             if ((int) $bookcategoryID) {
-                $books = $this->book_m->get_order_by_book($array, array('bookID', 'name', 'codeno'));
+                $books = $this->book_m->get_order_by_book($array, array('id_buku', 'nama', 'codeno'));
                 if (calculate($books)) {
-                    foreach ($books as $book) {
-                        echo "<option value='" . $book->bookID . "'>" . $book->name . ' - ' . $book->codeno . "</option>";
+                    foreach ($books as $buku) {
+                        echo "<option value='" . $buku->id_buku . "'>" . $buku->nama . ' - ' . $buku->codeno . "</option>";
                     }
                 }
             }
@@ -142,14 +142,14 @@ class Bookreport extends Admin_Controller
         echo "<option value='0'>" . $this->lang->line('bookreport_please_select') . "</option>";
         
             $bookcategoryID          = $this->input->post('bookcategoryID');
-            $array['deleted_at']     = 0;
+            $array['dihapus_pada']     = 0;
             $array['bookcategoryID'] = $bookcategoryID;
 
             if ((int) $bookcategoryID) {
-                $books = $this->book_m->get_order_by_book($array, array('bookID', 'name', 'codeno'));
+                $books = $this->book_m->get_order_by_book($array, array('id_buku', 'nama', 'codeno'));
                 if (calculate($books)) {
-                    foreach ($books as $book) {
-                        echo "<option value='" . $book->bookID . "'>" . $book->name . ' - ' . $book->codeno . "</option>";
+                    foreach ($books as $buku) {
+                        echo "<option value='" . $buku->id_buku . "'>" . $buku->nama . ' - ' . $buku->codeno . "</option>";
                     }
                 }
             }
@@ -166,7 +166,7 @@ class Bookreport extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|numeric',
             ),
             array(
-                'field' => 'bookID',
+                'field' => 'id_buku',
                 'label' => $this->lang->line('bookreport_book'),
                 'rules' => 'trim|xss_clean|required|numeric',
             ),

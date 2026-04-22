@@ -27,7 +27,7 @@ class Frontend extends Frontend_Controller
 
     public function index()
     {
-		$this->data['get_title'] = 'Home | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Home | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data['bookcategorys']      = $this->bookcategory_m->get_bookcategory();
         $this->data['storebookcategorys'] = $this->storebookcategory_m->get_storebookcategory();
@@ -36,26 +36,26 @@ class Frontend extends Frontend_Controller
     }
 
     // Ebook
-    public function ebook()
+    public function buku_elektronik()
     {
         $ebookID                    = htmlentities(escapeString($this->uri->segment(3)));
         $this->data['headerassets'] = array(
             'css' => array(
-                'assets/custom/css/ebook.css',
+                'assets/custom/css/buku_elektronik.css',
             ),
         );
 		
-		$this->data['get_title'] = 'Ebook | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Ebook | '.$this->data['pengaturan_umum']->sitename;
 
         $search = $this->input->get('search');
         if (empty($search)) {
-            $ebook = calculate($this->ebook_m->get_ebook());
+            $buku_elektronik = calculate($this->ebook_m->get_ebook());
         } else {
-            $ebook = calculate($this->ebook_m->get_ebook_search($search));
+            $buku_elektronik = calculate($this->ebook_m->get_ebook_search($search));
         }
 
-        $config['base_url']           = base_url('frontend/ebook');
-        $config['total_rows']         = $ebook;
+        $config['base_url']           = base_url('frontend/buku_elektronik');
+        $config['total_rows']         = $buku_elektronik;
         $config['per_page']           = 12;
         $config['num_links']          = 5;
         $config['full_tag_open']      = '<ul class="pagination">';
@@ -88,22 +88,22 @@ class Frontend extends Frontend_Controller
         }
         $this->data['search'] = $search;
 
-        $this->data["subview"] = "frontend/ebook";
+        $this->data["subview"] = "frontend/buku_elektronik";
         $this->load->view('_frontend_layout', $this->data);
     }
 
     public function ebookview()
     {
         $ebookID = htmlentities(escapeString($this->uri->segment(3)));
-		$this->data['get_title'] = 'Detail Ebook | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Detail Ebook | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $ebookID) {
-            $this->data['ebook'] = $this->ebook_m->get_single_ebook(array('ebookID' => $ebookID));
-            if (calculate($this->data['ebook'])) {
-                $fileimg = FCPATH . '/uploads/ebook/' . $this->data['ebook']->file;
+            $this->data['buku_elektronik'] = $this->ebook_m->get_single_ebook(array('id_buku_elektronik' => $ebookID));
+            if (calculate($this->data['buku_elektronik'])) {
+                $fileimg = FCPATH . '/uploads/buku_elektronik/' . $this->data['buku_elektronik']->file;
                 if (!file_exists($fileimg)) {
                     $this->session->set_flashdata('error', 'The Book file is not found');
-                    redirect(base_url('frontend/ebook'));
+                    redirect(base_url('frontend/buku_elektronik'));
                 } else {
                     $this->data['headerassets'] = array(
                         'headerjs' => array(
@@ -115,28 +115,28 @@ class Frontend extends Frontend_Controller
                 }
             } else {
                 $this->session->set_flashdata('error', 'The Book file is not found');
-                redirect(base_url('frontend/ebook'));
+                redirect(base_url('frontend/buku_elektronik'));
             }
         } else {
             $this->session->set_flashdata('error', 'The Book file is not found');
-            redirect(base_url('frontend/ebook'));
+            redirect(base_url('frontend/buku_elektronik'));
         }
     }
 
     public function ebookdownload()
     {
-        if ($this->data["generalsetting"]->ebook_download != 1) {
-            $this->session->set_flashdata('error', "You dont have permission to download this ebook.");
-            redirect(base_url('frontend/ebook'));
+        if ($this->data['pengaturan_umum']->ebook_download != 1) {
+            $this->session->set_flashdata('error', "You dont have permission to download this buku_elektronik.");
+            redirect(base_url('frontend/buku_elektronik'));
         }
         $ebookID = htmlentities(escapeString($this->uri->segment(3)));
 		
         if ((int) $ebookID) {
-            $ebook = $this->ebook_m->get_single_ebook(array('ebookID' => $ebookID));
-            if (calculate($ebook)) {
-                $file = realpath('uploads/ebook/' . $ebook->file);
+            $buku_elektronik = $this->ebook_m->get_single_ebook(array('id_buku_elektronik' => $ebookID));
+            if (calculate($buku_elektronik)) {
+                $file = realpath('uploads/buku_elektronik/' . $buku_elektronik->file);
                 if (file_exists($file)) {
-                    $originalname = $ebook->file_original_name;
+                    $originalname = $buku_elektronik->file_original_name;
                     header('Content-Description: File Transfer');
                     header('Content-Type: application/octet-stream');
                     header('Content-Disposition: attachment; filename="' . basename($originalname) . '"');
@@ -148,20 +148,20 @@ class Frontend extends Frontend_Controller
                     exit;
                 } else {
                     $this->session->set_flashdata('error', 'The Book file is not found');
-                    redirect(base_url('frontend/ebook'));
+                    redirect(base_url('frontend/buku_elektronik'));
                 }
             } else {
                 $this->session->set_flashdata('error', 'The Book file is not found');
-                redirect(base_url('frontend/ebook'));
+                redirect(base_url('frontend/buku_elektronik'));
             }
         } else {
             $this->session->set_flashdata('error', 'The Book file is not found');
-            redirect(base_url('frontend/ebook'));
+            redirect(base_url('frontend/buku_elektronik'));
         }
     }
 
     // Book
-    public function book()
+    public function buku()
     {
         $this->data['headerassets'] = array(
             'js' => array(
@@ -169,11 +169,11 @@ class Frontend extends Frontend_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Buku | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Buku | '.$this->data['pengaturan_umum']->sitename;
 
         $this->data['flag']           = 0;
         $this->data['bookcategoryID'] = 0;
-        $this->data['bookID']         = 0;
+        $this->data['id_buku']         = 0;
         $this->data['status']         = 0;
 
         $this->data['books']         = [];
@@ -185,17 +185,17 @@ class Frontend extends Frontend_Controller
             if ($this->form_validation->run() == false) {
                 $message = implode('<br/>', $this->form_validation->error_array());
                 $this->session->set_flashdata('error', $message);
-                $this->data["subview"] = "report/book/index";
+                $this->data["subview"] = "report/buku/index";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $bookcategoryID = $this->input->post('bookcategoryID');
-                $bookID         = $this->input->post('bookID');
+                $bookID         = $this->input->post('id_buku');
                 $status         = $this->input->post('status');
 
-                $this->_queryArray(['bookcategoryID' => $bookcategoryID, 'bookID' => $bookID, 'status' => $status]);
+                $this->_queryArray(['bookcategoryID' => $bookcategoryID, 'id_buku' => $bookID, 'status' => $status]);
             }
         }
-        $this->data["subview"] = "frontend/book";
+        $this->data["subview"] = "frontend/buku";
         $this->load->view('_frontend_layout', $this->data);
     }
 	
@@ -208,13 +208,13 @@ class Frontend extends Frontend_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Buku | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Buku | '.$this->data['pengaturan_umum']->sitename;
 
 		 
 		
         $this->data['flag']           = 0;
         $this->data['bookcategoryID'] = $this->uri->segment(3);
-        $this->data['bookID']         = 0;
+        $this->data['id_buku']         = 0;
         $this->data['status']         = 0;
 
         $this->data['books']         = [];
@@ -223,13 +223,13 @@ class Frontend extends Frontend_Controller
          
            
 		$bookcategoryID = $this->uri->segment(3);
-		$bookID         = $this->input->post('bookID');
+		$bookID         = $this->input->post('id_buku');
 		$status         = $this->input->post('status');
 
-		$this->_queryArray(['bookcategoryID' => $bookcategoryID, 'bookID' => $bookID, 'status' => $status]);
+		$this->_queryArray(['bookcategoryID' => $bookcategoryID, 'id_buku' => $bookID, 'status' => $status]);
              
         
-        $this->data["subview"] = "frontend/book";
+        $this->data["subview"] = "frontend/buku";
         $this->load->view('_frontend_layout', $this->data);
     }
 	
@@ -244,32 +244,32 @@ class Frontend extends Frontend_Controller
             $queryArray['bookcategoryID'] = $bookcategoryID;
         }
         if ((int) $bookID) {
-            $queryArray['bookID'] = $bookID;
-            $itemArray['bookID']  = $bookID;
+            $queryArray['id_buku'] = $bookID;
+            $itemArray['id_buku']  = $bookID;
         }
         if ((int) $status) {
             $queryArray['status'] = $status - 1;
         }
         $itemArray['status']     = 0;
-        $itemArray['deleted_at'] = 0;
+        $itemArray['dihapus_pada'] = 0;
 
         $books     = $this->book_m->get_order_by_book_for_report($queryArray);
         $bookitems = $this->bookitem_m->get_order_by_bookitem($itemArray);
 
         $bookQuantity = [];
         if (calculate($bookitems)) {
-            foreach ($bookitems as $bookitem) {
-                if (isset($bookQuantity[$bookitem->bookID])) {
-                    $bookQuantity[$bookitem->bookID]++;
+            foreach ($bookitems as $item_buku) {
+                if (isset($bookQuantity[$item_buku->id_buku])) {
+                    $bookQuantity[$item_buku->id_buku]++;
                 } else {
-                    $bookQuantity[$bookitem->bookID] = 1;
+                    $bookQuantity[$item_buku->id_buku] = 1;
                 }
             }
         }
 
         $this->data['flag']           = 1;
         $this->data['bookcategoryID'] = $bookcategoryID;
-        $this->data['bookID']         = $bookID;
+        $this->data['id_buku']         = $bookID;
         $this->data['status']         = $status;
         $this->data['bookQuantity']   = $bookQuantity;
         $this->data['books']          = $books;
@@ -280,14 +280,14 @@ class Frontend extends Frontend_Controller
         echo "<option value='0'>" . $this->lang->line('frontend_please_select') . "</option>";
         if ($_POST) {
             $bookcategoryID          = $this->input->post('bookcategoryID');
-            $array['deleted_at']     = 0;
+            $array['dihapus_pada']     = 0;
             $array['bookcategoryID'] = $bookcategoryID;
 
             if ((int) $bookcategoryID) {
-                $books = $this->book_m->get_order_by_book($array, array('bookID', 'name', 'codeno'));
+                $books = $this->book_m->get_order_by_book($array, array('id_buku', 'nama', 'codeno'));
                 if (calculate($books)) {
-                    foreach ($books as $book) {
-                        echo "<option value='" . $book->bookID . "'>" . $book->name . ' - ' . $book->codeno . "</option>";
+                    foreach ($books as $buku) {
+                        echo "<option value='" . $buku->id_buku . "'>" . $buku->nama . ' - ' . $buku->codeno . "</option>";
                     }
                 }
             }
@@ -303,7 +303,7 @@ class Frontend extends Frontend_Controller
                 'rules' => 'trim|xss_clean|required|numeric',
             ),
             array(
-                'field' => 'bookID',
+                'field' => 'id_buku',
                 'label' => $this->lang->line('frontend_book'),
                 'rules' => 'trim|xss_clean|required|numeric',
             ),
@@ -320,7 +320,7 @@ class Frontend extends Frontend_Controller
     public function shop()
     {
 		
-		$this->data['get_title'] = 'Toko Buku | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Toko Buku | '.$this->data['pengaturan_umum']->sitename;
 		
         $storebookID = htmlentities(escapeString($this->uri->segment(3)));
         $search      = $this->input->get('search');
@@ -334,13 +334,13 @@ class Frontend extends Frontend_Controller
         }
 
         if (calculate($queryArray)) {
-            $storebook = calculate($this->storebook_m->get_storebook_search($queryArray));
+            $buku_toko = calculate($this->storebook_m->get_storebook_search($queryArray));
         } else {
-            $storebook = calculate($this->storebook_m->get_storebook());
+            $buku_toko = calculate($this->storebook_m->get_storebook());
         }
 
         $config['base_url']           = base_url('frontend/shop');
-        $config['total_rows']         = $storebook;
+        $config['total_rows']         = $buku_toko;
         $config['per_page']           = 12;
         $config['num_links']          = 5;
         $config['full_tag_open']      = '<ul class="pagination">';
@@ -380,9 +380,9 @@ class Frontend extends Frontend_Controller
 
     public function single($storebookID)
     {
-		$this->data['get_title']	 	= 'Detail Data Buku | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title']	 	= 'Detail Data Buku | '.$this->data['pengaturan_umum']->sitename;
 		
-        $this->data['storebook']       = $this->storebook_m->get_single_storebook($storebookID);
+        $this->data['buku_toko']       = $this->storebook_m->get_single_storebook($storebookID);
         $this->data['storebookimages'] = $this->storebookimage_m->get_order_by_storebookimage(['storebookID' => $storebookID]);
         $this->data["subview"]         = "frontend/single";
         $this->load->view('_frontend_layout', $this->data);
@@ -404,34 +404,34 @@ class Frontend extends Frontend_Controller
     {
         $storebookID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $storebookID) {
-            $storebook = $this->storebook_m->get_single_storebook($storebookID);
-            if (calculate($storebook)) {
+            $buku_toko = $this->storebook_m->get_single_storebook($storebookID);
+            if (calculate($buku_toko)) {
                 $qty = $this->input->post('qty') ? $this->input->post('qty') : 1;
 
-                if ($this->checkOrderQuantity($storebook, $qty)) {
+                if ($this->checkOrderQuantity($buku_toko, $qty)) {
                     $data = array(
-                        'id'     => $storebook->storebookID,
-                        'name'   => $storebook->name,
-                        'images' => app_image_link($storebook->coverphoto, 'uploads/storebook/', 'storebook.jpg'),
-                        'price'  => $storebook->price,
+                        'id'     => $buku_toko->storebookID,
+                        'nama'   => $buku_toko->nama,
+                        'images' => app_image_link($buku_toko->coverphoto, 'uploads/buku_toko/', 'buku_toko.jpg'),
+                        'harga'  => $buku_toko->harga,
                         'qty'    => $qty,
                     );
                     $this->cart->insert($data);
                     $this->session->set_flashdata('success', 'This product added cart successfully.');
                 } else {
-                    $this->session->set_flashdata('error', 'This book are not out of stock.');
+                    $this->session->set_flashdata('error', 'This buku are not out of stock.');
                 }
             } else {
-                $this->session->set_flashdata('error', 'This book is not found.');
+                $this->session->set_flashdata('error', 'This buku is not found.');
             }
         }
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    private function checkOrderQuantity($storebook, $qty)
+    private function checkOrderQuantity($buku_toko, $qty)
     {
-        $orderQuantity = $this->orderitem_m->get_order_by_orderitem_with_sum(['storebookID' => $storebook->storebookID]) + $qty;
-        if ($orderQuantity <= $storebook->quantity) {
+        $orderQuantity = $this->orderitem_m->get_order_by_orderitem_with_sum(['storebookID' => $buku_toko->storebookID]) + $qty;
+        if ($orderQuantity <= $buku_toko->jumlah) {
             return true;
         }
         return false;
@@ -450,7 +450,7 @@ class Frontend extends Frontend_Controller
 
     public function checkout()
     {
-		$this->data['get_title'] = 'Checkout | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Checkout | '.$this->data['pengaturan_umum']->sitename;
 		
         $cart_contents = $this->cart->contents();
         if (!calculate($cart_contents)) {
@@ -465,12 +465,12 @@ class Frontend extends Frontend_Controller
                 $this->data["subview"] = "frontend/checkout";
                 $this->load->view('_frontend_layout', $this->data);
             } else {
-                $order['memberID']         = $this->session->userdata('loginmemberID');
-                $order['name']             = $this->input->post('name');
-                $order['mobile']           = $this->input->post('mobile');
-                $order['email']            = $this->input->post('email');
-                $order['address']          = $this->input->post('address');
-                $order['delivery_charge']  = $this->data['generalsetting']->delivery_charge;
+                $order['id_anggota']         = $this->session->userdata('loginmemberID');
+                $order['nama']             = $this->input->post('nama');
+                $order['seluler']           = $this->input->post('seluler');
+                $order['surel']            = $this->input->post('surel');
+                $order['alamat']          = $this->input->post('alamat');
+                $order['delivery_charge']  = $this->data['pengaturan_umum']->delivery_charge;
                 $order['subtotal']         = $this->cart->total();
                 $order['total']            = $this->cart->total() + $order['delivery_charge'];
                 $order['payment_status']   = 5;
@@ -479,19 +479,19 @@ class Frontend extends Frontend_Controller
                 $order['discounted_price'] = 0;
                 $order['status']           = 5;
                 $order['notes']            = $this->input->post('notes');
-                $order['create_date']      = date('Y-m-d H:i:s');
+                $order['tanggal_dibuat']      = date('Y-m-d H:i:s');
                 $order['modify_date']      = date('Y-m-d H:i:s');
 
                 $this->order_m->insert_order($order);
                 $orderID = $this->db->insert_id();
 
                 foreach ($cart_contents as $cart_content) {
-                    $orderitem['orderID']     = $orderID;
+                    $orderitem['id_pesanan']     = $orderID;
                     $orderitem['storebookID'] = $cart_content['id'];
-                    $orderitem['quantity']    = $cart_content['qty'];
-                    $orderitem['unit_price']  = $cart_content['price'];
+                    $orderitem['jumlah']    = $cart_content['qty'];
+                    $orderitem['unit_price']  = $cart_content['harga'];
                     $orderitem['subtotal']    = $cart_content['subtotal'];
-                    $orderitem['create_date'] = date('Y-m-d H:i:s');
+                    $orderitem['tanggal_dibuat'] = date('Y-m-d H:i:s');
                     $orderitem['modify_date'] = date('Y-m-d H:i:s');
 
                     $this->orderitem_m->insert_orderitem($orderitem);
@@ -508,7 +508,7 @@ class Frontend extends Frontend_Controller
 
     public function payment($orderID)
     {
-        $order          = $this->order_m->get_single_order(['orderID' => $orderID]);
+        $order          = $this->order_m->get_single_order(['id_pesanan' => $orderID]);
         $payment_method = $order->payment_method;
 
         if ($payment_method == 5) {
@@ -532,17 +532,17 @@ class Frontend extends Frontend_Controller
         $notifyURL = base_url('frontend/paypalipn'); //ipn url
 
         //get particular product data
-        $this->session->set_userdata('orderID', $order->orderID);
+        $this->session->set_userdata('id_pesanan', $order->id_pesanan);
         $userID = $this->session->userdata('loginmemberID'); //current user id
-        $logo   = app_image_link($this->data['generalsetting']->logo, 'uploads/images/', 'logo.jpg');
+        $logo   = app_image_link($this->data['pengaturan_umum']->logo, 'uploads/images/', 'logo.jpg');
 
         $this->paypal_lib->add_field('return', $returnURL);
         $this->paypal_lib->add_field('fail_return', $failURL);
         $this->paypal_lib->add_field('notify_url', $notifyURL);
 
         $this->paypal_lib->add_field('item_name', 'Order Item');
-        $this->paypal_lib->add_field('amount', $order->total);
-        $this->paypal_lib->add_field('item_number', $order->orderID);
+        $this->paypal_lib->add_field('jumlah', $order->total);
+        $this->paypal_lib->add_field('item_number', $order->id_pesanan);
         $this->paypal_lib->add_field('custom', $userID);
         $this->paypal_lib->image($logo);
 
@@ -557,7 +557,7 @@ class Frontend extends Frontend_Controller
             redirect(base_url('myaccount/order'));
         }
 
-        $orderID = $this->session->userdata('orderID');
+        $orderID = $this->session->userdata('id_pesanan');
 
         $miscArray['item_number']   = $orderID;
         $miscArray['txn_id']        = $paypalInfo["tx"];
@@ -565,7 +565,7 @@ class Frontend extends Frontend_Controller
         $miscArray['currency_code'] = $paypalInfo["cc"];
         $miscArray['status']        = $paypalInfo["st"];
 
-        $order = $this->order_m->get_single_order(['orderID' => $orderID]);
+        $order = $this->order_m->get_single_order(['id_pesanan' => $orderID]);
         if (calculate($order)) {
             $updateArray['misc']           = json_encode($miscArray);
             $updateArray['paid_amount']    = $paypalInfo["amt"];
@@ -576,7 +576,7 @@ class Frontend extends Frontend_Controller
             $this->order_m->update_order($updateArray, $orderID);
         }
         $this->session->set_flashdata('success', 'Your order payment successfully paid.');
-        redirect(base_url('myaccount/orderview/' . $order->orderID));
+        redirect(base_url('myaccount/orderview/' . $order->id_pesanan));
     }
 
     public function paypalfail()
@@ -601,26 +601,26 @@ class Frontend extends Frontend_Controller
 
             \Stripe\Stripe::setApiKey($stripeSecret);
             $charge = \Stripe\Charge::create([
-                "amount"      => (int) $order->total,
+                'jumlah'      => (int) $order->total,
                 "currency"    => "usd",
                 "source"      => $this->session->userdata('stripeToken'),
-                "description" => $order->notes,
+                'deskripsi' => $order->notes,
             ]);
 
             if (!empty($charge) && $charge['amount_refunded'] == 0 && empty($charge['failure_code']) && $charge['paid'] == 1 && $charge['captured'] == 1) {
-                $paidAmount                    = $charge['amount'];
+                $paidAmount                    = $charge['jumlah'];
                 $updateArray['paid_amount']    = $paidAmount;
                 $updateArray['payment_status'] = 10;
                 if ($order->total == $updateArray['paid_amount']) {
                     $updateArray['payment_status'] = 15;
                 }
-                $this->order_m->update_order($updateArray, $order->orderID);
+                $this->order_m->update_order($updateArray, $order->id_pesanan);
             }
             $this->session->set_flashdata('success', 'Your order payment successfully paid.');
-            redirect(base_url('myaccount/orderview/' . $order->orderID));
+            redirect(base_url('myaccount/orderview/' . $order->id_pesanan));
         } catch (Exception $e) {
             $this->session->set_flashdata('error', $e->getMessage());
-            redirect(base_url('myaccount/orderview/' . $order->orderID));
+            redirect(base_url('myaccount/orderview/' . $order->id_pesanan));
         }
 
     }
@@ -629,22 +629,22 @@ class Frontend extends Frontend_Controller
     {
         $rules = array(
             array(
-                'field' => 'name',
+                'field' => 'nama',
                 'label' => $this->lang->line('frontend_name'),
                 'rules' => 'trim|xss_clean|required',
             ),
             array(
-                'field' => 'mobile',
+                'field' => 'seluler',
                 'label' => $this->lang->line('frontend_mobile'),
                 'rules' => 'trim|xss_clean|required',
             ),
             array(
-                'field' => 'email',
+                'field' => 'surel',
                 'label' => $this->lang->line('frontend_email'),
                 'rules' => 'trim|xss_clean|required|valid_email',
             ),
             array(
-                'field' => 'address',
+                'field' => 'alamat',
                 'label' => $this->lang->line('frontend_address'),
                 'rules' => 'trim|xss_clean|required',
             ),
@@ -665,7 +665,7 @@ class Frontend extends Frontend_Controller
     //// Contacnt Page
     public function contact()
     {
-		$this->data['get_title'] = 'Kontak | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Kontak | '.$this->data['pengaturan_umum']->sitename;
 		
         if ($_POST) {
             $rules = $this->rules_contact();
@@ -674,11 +674,11 @@ class Frontend extends Frontend_Controller
                 $this->data["subview"] = "frontend/contact";
                 $this->load->view('_frontend_layout', $this->data);
             } else {
-                $name      = $this->input->post('name');
-                $fromemail = $this->input->post('email');
-                $subject   = $this->input->post('subject');
-                $message   = $this->input->post('message');
-                $toemail   = $this->session->userdata('email');
+                $name      = $this->input->post('nama');
+                $fromemail = $this->input->post('surel');
+                $subject   = $this->input->post('subjek');
+                $message   = $this->input->post('pesan');
+                $toemail   = $this->session->userdata('surel');
 
                 $sendmail = $this->applications->sendmail($toemail, $message, $subject, $name, $fromemail);
                 if ($sendmail) {
@@ -698,22 +698,22 @@ class Frontend extends Frontend_Controller
     {
         $rules = array(
             array(
-                'field' => 'name',
+                'field' => 'nama',
                 'label' => $this->lang->line('frontend_name'),
                 'rules' => 'trim|xss_clean|required',
             ),
             array(
-                'field' => 'email',
+                'field' => 'surel',
                 'label' => $this->lang->line('frontend_email'),
                 'rules' => 'trim|xss_clean|required|valid_email',
             ),
             array(
-                'field' => 'subject',
+                'field' => 'subjek',
                 'label' => $this->lang->line('frontend_subject'),
                 'rules' => 'trim|xss_clean|required',
             ),
             array(
-                'field' => 'message',
+                'field' => 'pesan',
                 'label' => $this->lang->line('frontend_message'),
                 'rules' => 'trim|xss_clean|required',
             ),
@@ -731,9 +731,9 @@ class Frontend extends Frontend_Controller
                 $message = implode('<br/>', $this->form_validation->error_array());
                 $this->session->set_flashdata('error', $message);
             } else {
-                $newsletter = $this->newsletter_m->get_single_newsletter(['email' => $this->input->post('email')]);
-                if (!calculate($newsletter)) {
-                    $this->newsletter_m->insert_newsletter(['email' => $this->input->post('email')]);
+                $buletin = $this->newsletter_m->get_single_newsletter(['surel' => $this->input->post('surel')]);
+                if (!calculate($buletin)) {
+                    $this->newsletter_m->insert_newsletter(['surel' => $this->input->post('surel')]);
                 }
                 $this->session->set_flashdata('success', 'Success');
             }
@@ -745,7 +745,7 @@ class Frontend extends Frontend_Controller
     {
         $rules = array(
             array(
-                'field' => 'email',
+                'field' => 'surel',
                 'label' => $this->lang->line('frontend_subsciption'),
                 'rules' => 'trim|xss_clean|required|valid_email',
             ),

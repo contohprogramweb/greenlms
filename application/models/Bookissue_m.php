@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Bookissue_m extends MY_Model
 {
 
-    protected $_table_name  = 'bookissue';
+    protected $_table_name  = 'peminjaman_buku';
     protected $_primary_key = 'bookissueID';
     protected $_order_by    = "bookissueID desc";
 
@@ -57,17 +57,17 @@ class Bookissue_m extends MY_Model
     {
         $this->db->select('*');
         $this->db->from($this->_table_name);
-        if (isset($array['roleID'])) {
-            $this->db->where('roleID', $array['roleID']);
-            if (isset($array['memberID'])) {
-                $this->db->where('memberID', $array['memberID']);
+        if (isset($array['id_peran'])) {
+            $this->db->where('id_peran', $array['id_peran']);
+            if (isset($array['id_anggota'])) {
+                $this->db->where('id_anggota', $array['id_anggota']);
             }
         }
         if (isset($array['fromdate']) && isset($array['todate'])) {
             $this->db->where('issue_date >=', $array['fromdate']);
             $this->db->where('issue_date <=', $array['todate']);
         }
-        $this->db->where('deleted_at', 0);
+        $this->db->where('dihapus_pada', 0);
         $this->db->where('paidstatus !=', 2);
         return $this->db->get()->result();
     }
@@ -78,14 +78,14 @@ class Bookissue_m extends MY_Model
         $this->db->from($this->_table_name);
         if (isset($array['bookcategoryID'])) {
             $this->db->where('bookcategoryID', $array['bookcategoryID']);
-            if (isset($array['bookID'])) {
-                $this->db->where('bookID', $array['bookID']);
+            if (isset($array['id_buku'])) {
+                $this->db->where('id_buku', $array['id_buku']);
             }
         }
-        if (isset($array['roleID'])) {
-            $this->db->where('roleID', $array['roleID']);
-            if (isset($array['memberID'])) {
-                $this->db->where('memberID', $array['memberID']);
+        if (isset($array['id_peran'])) {
+            $this->db->where('id_peran', $array['id_peran']);
+            if (isset($array['id_anggota'])) {
+                $this->db->where('id_anggota', $array['id_anggota']);
             }
         }
         if (isset($array['status'])) {
@@ -95,7 +95,7 @@ class Bookissue_m extends MY_Model
             $this->db->where('issue_date >=', $array['fromdate']);
             $this->db->where('issue_date <=', $array['todate']);
         }
-        $this->db->where('deleted_at', 0);
+        $this->db->where('dihapus_pada', 0);
         return $this->db->get()->result();
     }
 

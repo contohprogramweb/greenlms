@@ -4,7 +4,7 @@
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
             <li><a href="<?=base_url('order/index')?>">Pesanan</a></li>
-            <li class="active">Edit</li>
+            <li class='aktif'>Edit</li>
         </ol>
     </section>
     <section class="content">
@@ -19,7 +19,7 @@
                                     <?php 
                                         $statusArr[0]  = 'Silakan Pilih';
                                         $statusArray   = $statusArr + orderStatusArray();
-                                        echo form_dropdown('status', $statusArray, set_value('status', $order->status),' id="status" class="form-control"');
+                                        echo form_dropdown('status', $statusArray, set_value('status', $order->status),' id='status' class="form-control"');
                                     ?>
                                     <?=form_error('status')?>
                                 </div>
@@ -41,12 +41,12 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                        foreach($orderitems as $orderitem) { ?>
+                                        foreach($item_pesanan as $orderitem) { ?>
                                             <tr>
                                                 <td class="p-1">
-                                                    <img class="checkoutimage rounded mx-auto d-block" src="<?=app_image_link($orderitem->coverphoto,'uploads/storebook/','storebook.jpg')?>" alt="<?=$orderitem->name?>">
+                                                    <img class="checkoutimage rounded mx-auto d-block" src="<?=app_image_link($orderitem->coverphoto,'uploads/buku_toko/','buku_toko.jpg')?>" alt="<?=$orderitem->nama?>">
                                                 </td>
-                                                <td><?=$orderitem->name?> <strong> × <?=$orderitem->quantity?></strong></td>
+                                                <td><?=$orderitem->nama?> <strong> × <?=$orderitem->jumlah?></strong></td>
                                                 <td><?=app_amount_format($orderitem->subtotal)?></td>
                                             </tr>
                                         <?php } ?>
@@ -54,7 +54,7 @@
                                     <tfoot>
                                         <tr class="order_total">
                                             <th colspan="2">Ongkos Kirim</th>
-                                            <th><strong><?=app_amount_format($generalsetting->delivery_charge) ?></strong></th>
+                                            <th><strong><?=app_amount_format($pengaturan_umum->delivery_charge) ?></strong></th>
                                         </tr>
                                         <tr class="order_total">
                                             <th colspan="2">Harga Diskon</th>
@@ -62,7 +62,7 @@
                                         </tr>
                                         <tr class="order_total">
                                             <th colspan="2">Total Pesanan</th>
-                                            <th><strong><?=app_amount_format($order->total + $generalsetting->delivery_charge); ?></strong></th>
+                                            <th><strong><?=app_amount_format($order->total + $pengaturan_umum->delivery_charge); ?></strong></th>
                                         </tr>
                                     </tfoot>
                                 </table>

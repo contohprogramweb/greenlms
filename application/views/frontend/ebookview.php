@@ -3,13 +3,13 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="profile_view_item">
-                    <p><b>Judul</b>: <?=$ebook->name?></p>
+                    <p><b>Judul</b>: <?=$buku_elektronik->nama?></p>
                 </div>
                 <div class="profile_view_item">
-                    <p><b>Penulis</b>: <?=$ebook->author?></p>
+                    <p><b>Penulis</b>: <?=$buku_elektronik->penulis?></p>
                 </div>
                 <div class="profile_view_item">
-                    <p><b>Catatan</b>: <?=$ebook->notes?></p>
+                    <p><b>Catatan</b>: <?=$buku_elektronik->notes?></p>
                 </div>
             </div>
             <div class="col-sm-12">
@@ -24,9 +24,9 @@
         height: "1000px",
         pdfOpenParams: { pagemode: 'none', scrollbar: '1', toolbar: '0', statusbar: '1', messages: '1', navpanes: '1' }
     };
-    PDFObject.embed("<?=base_url('uploads/ebook/'.$ebook->file)?>", "#pdffile", options);
+    PDFObject.embed("<?=base_url('uploads/buku_elektronik/'.$buku_elektronik->file)?>", "#pdffile", options);
 
-    <?php if($generalsetting->ebook_download == 0) { ?>
+    <?php if($pengaturan_umum->ebook_download == 0) { ?>
         $(document).on({ "contextmenu": function(e) { e.preventDefault(); }});
     <?php } ?>
 </script>

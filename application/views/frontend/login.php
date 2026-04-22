@@ -16,8 +16,8 @@
                             <input name="username_or_email" type="text" class="form-control <?=form_error('username_or_email') ? 'is-invalid' : ''?>" placeholder="Masukkan Username / Email" id="membername" value="<?=set_value('username_or_email')?>">
                         </div>
                         <div class="form-group">
-                            <label for="password">Password</label> <span class="text-danger">*</span>
-                            <input name="password" type="password" class="form-control <?=form_error('password') ? 'is-invalid' : ''?>" placeholder="Masukkan password" id="password" value="<?=set_value('password')?>">
+                            <label for='kata_sandi'>Password</label> <span class="text-danger">*</span>
+                            <input name='kata_sandi' type='kata_sandi' class="form-control <?=form_error('kata_sandi') ? 'is-invalid' : ''?>" placeholder="Masukkan password" id='kata_sandi' value="<?=set_value('kata_sandi')?>">
                         </div>
                         <button type="submit" class="btn btn-success btn-block">Login</button>
                     </form>

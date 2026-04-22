@@ -21,7 +21,7 @@ class Themesetting extends Admin_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Pengaturan Theme | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Pengaturan Theme | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data["subview"] = "themesetting/index";
         $this->load->view('_main_layout', $this->data);

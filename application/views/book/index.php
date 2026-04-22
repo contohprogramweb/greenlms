@@ -3,14 +3,14 @@
 		<h1>Buku</h1>
 		<ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-			<li class="active">Buku</li>
+			<li class='aktif'>Buku</li>
 		</ol>
     </section>
     <section class="content">
         <div class="box box-mytheme">
             <?php if(permissionChecker('book_add')) { ?>
             <div class="box-header">
-                <a href="<?=base_url('book/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i> Tambah Buku</a>
+                <a href="<?=base_url('buku/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i> Tambah Buku</a>
             </div>
             <?php } ?>
             <div class="box-body">
@@ -30,20 +30,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(calculate($books)) { $i=0; foreach($books as $book) { $i++; ?>
+                            <?php if(calculate($books)) { $i=0; foreach($books as $buku) { $i++; ?>
                                 <tr>
                                     <td data-title="#"><?=$i?></td>
-                                    <td data-title="Foto Sampul"><img src="<?=app_image_link($book->coverphoto,'uploads/book/','book.jpg')?>" class="profile_img" alt=""></td>
-                                    <td data-title="Judul Buku"><?=$book->name?></td>
-                                    <td data-title="Penulis"><?=$book->author?></td>
-                                    <td data-title="Quantity"><?=$book->quantity?></td>
-                                    <td data-title="Kode Buku"><?=$book->codeno?></td>
+                                    <td data-title="Foto Sampul"><img src="<?=app_image_link($buku->coverphoto,'uploads/buku/','buku.jpg')?>" class="profile_img" alt=""></td>
+                                    <td data-title="Judul Buku"><?=$buku->nama?></td>
+                                    <td data-title="Penulis"><?=$buku->penulis?></td>
+                                    <td data-title="Quantity"><?=$buku->jumlah?></td>
+                                    <td data-title="Kode Buku"><?=$buku->codeno?></td>
                                     <?php if(permissionChecker('book_edit') || permissionChecker('book_delete')) { ?>
                                         <td data-title="Aksi">
-                                            <?=btn_view('book/view/'.$book->bookID,'Lihat'); ?>
-                                            <?php if($book->deleted_at == 0) {
-                                                echo btn_edit('book/edit/'.$book->bookID,'Edit'). " ";
-                                                echo btn_delete('book/delete/'.$book->bookID,'Delete');
+                                            <?=btn_view('buku/view/'.$buku->id_buku,'Lihat'); ?>
+                                            <?php if($buku->dihapus_pada == 0) {
+                                                echo btn_edit('buku/edit/'.$buku->id_buku,'Edit'). " ";
+                                                echo btn_delete('buku/delete/'.$buku->id_buku,'Delete');
                                             } ?>
                                         </td>
                                     <?php } ?>

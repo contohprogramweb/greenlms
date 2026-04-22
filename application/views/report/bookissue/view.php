@@ -40,10 +40,10 @@
 
 </style>
 <div class="reportheader">
-	<h2><?=$generalsetting->sitename?></h2>
-	<p><?=$generalsetting->phone?></p>
-	<p><?=$generalsetting->email?></p>
-	<p><?=$generalsetting->address?></p>
+	<h2><?=$pengaturan_umum->sitename?></h2>
+	<p><?=$pengaturan_umum->telepon?></p>
+	<p><?=$pengaturan_umum->surel?></p>
+	<p><?=$pengaturan_umum->alamat?></p>
 </div>
 <?php if(calculate($bookissues)) { ?>
 	<table class="table table-hover table-striped table-bordered reporttable">
@@ -62,24 +62,24 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php $i=0; foreach($bookissues as $bookissue) { $i++; ?>
+			<?php $i=0; foreach($bookissues as $peminjaman_buku) { $i++; ?>
 			<tr>
 				<td><?=$i?></td>
-				<td><img src="<?=app_image_link(isset($members[$bookissue->memberID]) ? $members[$bookissue->memberID]->photo : '', 'uploads/images/')?>" class="profile_img"></td>
-				<td><?=isset($members[$bookissue->memberID]) ? $members[$bookissue->memberID]->name : ''?></td>
-				<td><?=isset($roles[$bookissue->roleID]) ? $roles[$bookissue->roleID]->role : ''?></td>
-				<td><?=isset($books[$bookissue->bookID]) ? $books[$bookissue->bookID] : ''?></td>
-				<td><?=$bookissue->bookno?></td>
-				<td><?=app_date($bookissue->issue_date)?></td>
-				<td><?=app_date($bookissue->expire_date)?></td>
-				<td><?=$bookissue->renewed?></td>
+				<td><img src="<?=app_image_link(isset($members[$peminjaman_buku->id_anggota]) ? $members[$peminjaman_buku->id_anggota]->foto : '', 'uploads/images/')?>" class="profile_img"></td>
+				<td><?=isset($members[$peminjaman_buku->id_anggota]) ? $members[$peminjaman_buku->id_anggota]->nama : ''?></td>
+				<td><?=isset($roles[$peminjaman_buku->id_peran]) ? $roles[$peminjaman_buku->id_peran]->peran : ''?></td>
+				<td><?=isset($books[$peminjaman_buku->id_buku]) ? $books[$peminjaman_buku->id_buku] : ''?></td>
+				<td><?=$peminjaman_buku->bookno?></td>
+				<td><?=app_date($peminjaman_buku->issue_date)?></td>
+				<td><?=app_date($peminjaman_buku->expire_date)?></td>
+				<td><?=$peminjaman_buku->diperbarui?></td>
 				<td>
 					<?php
-						if($bookissue->status == 0) {
+						if($peminjaman_buku->status == 0) {
 							echo 'Issued';
-						} elseif($bookissue->status == 1) {
+						} elseif($peminjaman_buku->status == 1) {
 							echo 'Return';
-						} elseif($bookissue->status == 2) {
+						} elseif($peminjaman_buku->status == 2) {
 							echo 'Lost';
 						}
 					?>						
@@ -94,6 +94,6 @@
 	</div>
 <?php } ?>
 <div class="reportfooter">
-	<h4><?=$generalsetting->sitename?></h4>
-	<p><?=$generalsetting->address?></p>
+	<h4><?=$pengaturan_umum->sitename?></h4>
+	<p><?=$pengaturan_umum->alamat?></p>
 </div>

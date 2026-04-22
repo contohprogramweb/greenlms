@@ -3,8 +3,8 @@
         <h1>Ebook</h1>
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li><a href="<?=base_url('ebook/index')?>">Ebook</a></li>
-            <li class="active">Lihat</li>
+            <li><a href="<?=base_url('buku_elektronik/index')?>">Ebook</a></li>
+            <li class='aktif'>Lihat</li>
         </ol>
     </section>
     <section class="content">
@@ -13,13 +13,13 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="profile_view_item">
-                            <p><b>Judul Ebook</b>: <?=$ebook->name?></p>
+                            <p><b>Judul Ebook</b>: <?=$buku_elektronik->nama?></p>
                         </div>
                         <div class="profile_view_item">
-                            <p><b>Penulis</b>: <?=$ebook->author?></p>
+                            <p><b>Penulis</b>: <?=$buku_elektronik->penulis?></p>
                         </div>
                         <div class="profile_view_item">
-                            <p><b>Catatan</b>: <?=$ebook->notes?></p>
+                            <p><b>Catatan</b>: <?=$buku_elektronik->notes?></p>
                         </div>
                     </div>
                     <div class="col-sm-12">
@@ -36,5 +36,5 @@
         pdfOpenParams: { view: 'Fit', pagemode: 'none', scrollbar: '1', toolbar: '1', statusbar: '1', messages: '1', navpanes: '1' }
     };
 
-    PDFObject.embed("<?=base_url('uploads/ebook/'.$ebook->file)?>", "#pdffile");
+    PDFObject.embed("<?=base_url('uploads/buku_elektronik/'.$buku_elektronik->file)?>", "#pdffile");
 </script>

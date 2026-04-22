@@ -9,18 +9,18 @@ class Generalsetting extends Admin_Controller
         parent::__construct();
 
         $lang = 'indonesia';
-        $this->lang->load('generalsetting', $lang);
+        $this->lang->load('pengaturan_umum', $lang);
     }
 
     public function index()
     {
-		$this->data['get_title'] = 'Pengaturan Umum | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Pengaturan Umum | '.$this->data['pengaturan_umum']->sitename;
 		
         if ($_POST) {
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
-                $this->data["subview"] = "generalsetting/index";
+                $this->data["subview"] = "pengaturan_umum/index";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $array = [];
@@ -42,10 +42,10 @@ class Generalsetting extends Admin_Controller
 
                 $this->generalsetting_m->insertorupdate_generalsetting($array);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('generalsetting/index'));
+                redirect(base_url('pengaturan_umum/index'));
             }
         } else {
-            $this->data["subview"] = "generalsetting/index";
+            $this->data["subview"] = "pengaturan_umum/index";
             $this->load->view('_main_layout', $this->data);
         }
     }
@@ -64,12 +64,12 @@ class Generalsetting extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|max_length[60]',
             ),
             array(
-                'field' => 'email',
+                'field' => 'surel',
                 'label' => $this->lang->line('generalsetting_email'),
                 'rules' => 'trim|xss_clean|required|max_length[255]|valid_email',
             ),
             array(
-                'field' => 'phone',
+                'field' => 'telepon',
                 'label' => $this->lang->line('generalsetting_phone'),
                 'rules' => 'trim|xss_clean|required|max_length[255]|numeric',
             ),
@@ -79,7 +79,7 @@ class Generalsetting extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|max_length[255]',
             ),
             array(
-                'field' => 'address',
+                'field' => 'alamat',
                 'label' => $this->lang->line('generalsetting_address'),
                 'rules' => 'trim|xss_clean|required|max_length[255]',
             ),
@@ -114,8 +114,8 @@ class Generalsetting extends Admin_Controller
 
     public function logo_upload()
     {
-        if ($_FILES["logo"]['name'] != "") {
-            $file_name = $_FILES["logo"]['name'];
+        if ($_FILES["logo"]['nama'] != "") {
+            $file_name = $_FILES["logo"]['nama'];
             $explode   = explode('.', $file_name);
             if (calculate($explode) >= 2) {
                 $random   = rand(1, 10000000000000000);

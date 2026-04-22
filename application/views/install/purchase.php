@@ -43,13 +43,13 @@
                             </div>
 
                             <div class="tab-content wizard-tabcontent">
-                                <div class="tab-pane active" role="tabpanel" id="purchase">
+                                <div class="tab-pane active" peran="tabpanel" id="purchase">
                                     <form action="<?=base_url('install/purchase')?>" method="POST">
-                                        <div class="form-group <?=form_error('username') ? 'has-error' : ''?>">
-                                            <label for="username">User Name</label>
+                                        <div class="form-group <?=form_error('nama_pengguna') ? 'has-error' : ''?>">
+                                            <label for='nama_pengguna'>User Name</label>
                                             <span class="text-danger">*</span>
-                                            <input type="text" class="form-control" name="username" value="<?=set_value('username')?>" placeholder="Envato User Name">
-                                            <span class="help-block"><?=form_error('username')?></span>
+                                            <input type="text" class="form-control" name='nama_pengguna' value="<?=set_value('nama_pengguna')?>" placeholder="Envato User Name">
+                                            <span class="help-block"><?=form_error('nama_pengguna')?></span>
                                         </div>
                                         <div class="form-group <?=form_error('purchasecode') ? 'has-error' : ''?>">
                                             <label for="purchasecode">Purchase Code</label>

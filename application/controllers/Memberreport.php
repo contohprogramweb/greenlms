@@ -23,15 +23,15 @@ class Memberreport extends Admin_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Laporan Data Anggota | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Laporan Data Anggota | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data['flag']         = 0;
-        $this->data['roleID']       = 0;
-        $this->data['memberID']     = 0;
+        $this->data['id_peran']       = 0;
+        $this->data['id_anggota']     = 0;
         $this->data['bloodgroupID'] = 0;
         $this->data['status']       = 0;
 
-        $this->data['roles']   = pluck($this->role_m->get_role(), 'obj', 'roleID');
+        $this->data['roles']   = pluck($this->role_m->get_role(), 'obj', 'id_peran');
         $this->data['members'] = [];
         unset($_SESSION['error']);
         if ($_POST) {
@@ -40,20 +40,20 @@ class Memberreport extends Admin_Controller
             if ($this->form_validation->run() == false) {
                 $message = implode('<br/>', $this->form_validation->error_array());
                 $this->session->set_flashdata('error', $message);
-                $this->data["subview"] = "report/member/index";
+                $this->data["subview"] = "report/anggota/index";
                 $this->load->view('_main_layout', $this->data);
             } else {
-                $roleID       = $this->input->post('roleID');
-                $memberID     = $this->input->post('memberID');
+                $roleID       = $this->input->post('id_peran');
+                $memberID     = $this->input->post('id_anggota');
                 $bloodgroupID = $this->input->post('bloodgroupID');
                 $status       = $this->input->post('status');
 
                 $queryArray = [];
                 if ((int) $roleID) {
-                    $queryArray['roleID'] = $roleID;
+                    $queryArray['id_peran'] = $roleID;
                 }
                 if ((int) $memberID) {
-                    $queryArray['memberID'] = $memberID;
+                    $queryArray['id_anggota'] = $memberID;
                 }
                 if ((int) $bloodgroupID) {
                     $queryArray['bloodgroup'] = $bloodgroupID;
@@ -61,21 +61,21 @@ class Memberreport extends Admin_Controller
                 if ((int) $status) {
                     $queryArray['status'] = $status;
                 }
-                $queryArray['deleted_at'] = 0;
+                $queryArray['dihapus_pada'] = 0;
                 $members                  = $this->member_m->get_order_by_member($queryArray);
 
                 $this->data['flag']         = 1;
-                $this->data['roleID']       = 0;
-                $this->data['memberID']     = 0;
+                $this->data['id_peran']       = 0;
+                $this->data['id_anggota']     = 0;
                 $this->data['bloodgroupID'] = 0;
                 $this->data['status']       = 0;
                 $this->data['members']      = $members;
 
-                $this->data["subview"] = "report/member/index";
+                $this->data["subview"] = "report/anggota/index";
                 $this->load->view('_main_layout', $this->data);
             }
         } else {
-            $this->data["subview"] = "report/member/index";
+            $this->data["subview"] = "report/anggota/index";
             $this->load->view('_main_layout', $this->data);
         }
     }
@@ -91,10 +91,10 @@ class Memberreport extends Admin_Controller
 
             $queryArray = [];
             if ((int) $roleID) {
-                $queryArray['roleID'] = $roleID;
+                $queryArray['id_peran'] = $roleID;
             }
             if ((int) $memberID) {
-                $queryArray['memberID'] = $memberID;
+                $queryArray['id_anggota'] = $memberID;
             }
             if ((int) $bloodgroupID) {
                 $queryArray['bloodgroup'] = $bloodgroupID;
@@ -102,18 +102,18 @@ class Memberreport extends Admin_Controller
             if ((int) $status) {
                 $queryArray['status'] = $status;
             }
-            $queryArray['deleted_at'] = 0;
+            $queryArray['dihapus_pada'] = 0;
             $members                  = $this->member_m->get_order_by_member($queryArray);
 
             $this->data['flag']         = 1;
-            $this->data['roleID']       = 0;
-            $this->data['memberID']     = 0;
+            $this->data['id_peran']       = 0;
+            $this->data['id_anggota']     = 0;
             $this->data['bloodgroupID'] = 0;
             $this->data['status']       = 0;
             $this->data['members']      = $members;
-            $this->data['roles']        = pluck($this->role_m->get_role(), 'obj', 'roleID');
+            $this->data['roles']        = pluck($this->role_m->get_role(), 'obj', 'id_peran');
 
-            $this->pdf->create(['stylesheet' => 'memberreport.css', 'view' => 'report/member/pdf.php', 'data' => $this->data]);
+            $this->pdf->create(['stylesheet' => 'memberreport.css', 'view' => 'report/anggota/pdf.php', 'data' => $this->data]);
         } else {
             $this->data["subview"] = "_not_found";
             $this->load->view('_main_layout', $this->data);
@@ -124,12 +124,12 @@ class Memberreport extends Admin_Controller
     {
         echo "<option value='0'>" . $this->lang->line('memberreport_please_select') . "</option>";
         if ($_POST && permissionChecker('memberreport')) {
-            $roleID = $this->input->post('roleID');
+            $roleID = $this->input->post('id_peran');
             if ((int) $roleID) {
-                $members = $this->member_m->get_order_by_member(array('roleID' => $roleID, 'status' => 1, 'deleted_at' => 0), array('memberID', 'name'));
+                $members = $this->member_m->get_order_by_member(array('id_peran' => $roleID, 'status' => 1, 'dihapus_pada' => 0), array('id_anggota', 'nama'));
                 if (calculate($members)) {
-                    foreach ($members as $member) {
-                        echo "<option value='" . $member->memberID . "'>" . $member->name . "</option>";
+                    foreach ($members as $anggota) {
+                        echo "<option value='" . $anggota->id_anggota . "'>" . $anggota->nama . "</option>";
                     }
                 }
             }
@@ -140,12 +140,12 @@ class Memberreport extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'roleID',
+                'field' => 'id_peran',
                 'label' => $this->lang->line('memberreport_role'),
                 'rules' => 'trim|xss_clean|required|numeric',
             ),
             array(
-                'field' => 'memberID',
+                'field' => 'id_anggota',
                 'label' => $this->lang->line('memberreport_member'),
                 'rules' => 'trim|xss_clean|required|numeric',
             ),

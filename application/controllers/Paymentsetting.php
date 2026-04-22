@@ -14,7 +14,7 @@ class Paymentsetting extends Admin_Controller
 
     public function index()
     {
-		$this->data['get_title'] = 'Pengaturan Pembayaran | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Pengaturan Pembayaran | '.$this->data['pengaturan_umum']->sitename;
         if ($_POST) {
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);

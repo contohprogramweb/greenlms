@@ -3,14 +3,14 @@
 		<h1>Rak</h1>
 		<ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-			<li class="active">Rak</li>
+			<li class='aktif'>Rak</li>
 		</ol>
     </section>
     <section class="content">
         <div class="box box-mytheme">
             <?php if(permissionChecker('rack_add')) { ?>
             <div class="box-header">
-                <a href="<?=base_url('rack/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i> Tambah Rak</a>
+                <a href="<?=base_url('rak/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i> Tambah Rak</a>
             </div>
             <?php } ?>
             <div class="box-body">
@@ -27,15 +27,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(calculate($racks)) { $i=0; foreach($racks as $rack) { $i++; ?>
+                            <?php if(calculate($racks)) { $i=0; foreach($racks as $rak) { $i++; ?>
                                 <tr>
                                     <td data-title="#"><?=$i?></td>
-                                    <td data-title="Nama Rak"><?=$rack->name?></td>
-                                    <td data-title="Deskripsi"><?=$rack->description?></td>
+                                    <td data-title="Nama Rak"><?=$rak->nama?></td>
+                                    <td data-title="Deskripsi"><?=$rak->deskripsi?></td>
                                     <?php if(permissionChecker('rack_edit') || permissionChecker('rack_delete')) { ?>
                                         <td data-title="Aksi">
-                                            <?=btn_edit('rack/edit/'.$rack->rackID,'Edit'); ?>
-                                            <?=btn_delete('rack/delete/'.$rack->rackID,'Delete'); ?>
+                                            <?=btn_edit('rak/edit/'.$rak->rackID,'Edit'); ?>
+                                            <?=btn_delete('rak/delete/'.$rak->rackID,'Delete'); ?>
                                         </td>
                                     <?php } ?>
                                 </tr>

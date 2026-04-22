@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Rack_m extends MY_Model
 {
 
-    protected $_table_name  = 'rack';
+    protected $_table_name  = 'rak';
     protected $_primary_key = 'rackID';
     protected $_order_by    = "rackID desc";
 

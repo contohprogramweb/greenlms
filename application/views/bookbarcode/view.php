@@ -16,18 +16,18 @@
 		overflow: hidden;
 	}
 
-	.bookitem {
+	.item_buku {
 		width: 150px;
 		margin:0px 15px 25px 0px;
 		float: left;
 	}
 
-	.bookitem p {
+	.item_buku p {
 		text-align: center;
 		margin-bottom: 2px;	
 	}
 
-	.bookitem img {
+	.item_buku img {
 		width: 150px;
 		height: 40px;
 	}
@@ -35,10 +35,10 @@
 </style>
 <?php if(calculate($bookitems)) { ?>
 	<div class="booklist">
-		<?php foreach ($bookitems as $bookitem) { ?>
-			<div class="bookitem">
-				<p><?=$book->codeno.'-'.$bookitem->bookno?></p>
-				<img src="<?=base_url('uploads/bookbarcode/'.$book->codeno.'-'.$bookitem->bookno.'.jpg')?>" alt="">
+		<?php foreach ($bookitems as $item_buku) { ?>
+			<div class='item_buku'>
+				<p><?=$buku->codeno.'-'.$item_buku->bookno?></p>
+				<img src="<?=base_url('uploads/bookbarcode/'.$buku->codeno.'-'.$item_buku->bookno.'.jpg')?>" alt="">
 			</div>
 		<?php } ?>
 	</div>

@@ -6,10 +6,10 @@
 </head>
 <body>
 	<div class="reportheader">
-		<h2><?=$generalsetting->sitename?></h2>
-		<p><?=$generalsetting->phone?></p>
-		<p><?=$generalsetting->email?></p>
-		<p><?=$generalsetting->address?></p>
+		<h2><?=$pengaturan_umum->sitename?></h2>
+		<p><?=$pengaturan_umum->telepon?></p>
+		<p><?=$pengaturan_umum->surel?></p>
+		<p><?=$pengaturan_umum->alamat?></p>
 	</div>
 	<?php if(calculate($members)) { ?>
 		<table class="reporttable">
@@ -25,15 +25,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $i=0; foreach($members as $member) { $i++;?>
+				<?php $i=0; foreach($members as $anggota) { $i++;?>
 				<tr>
 					<td><?=$i?></td>
-					<td><img src="<?=app_image_link($member->photo, 'uploads/member/')?>" class="profile_img"></td>
-					<td><?=$member->name?></td>
-					<td><?=isset($roles[$member->roleID]) ? $roles[$member->roleID]->role : ''?></td>
-					<td><?=$member->bloodgroup?></td>
-					<td><?=$member->phone?></td>
-					<td><?=$member->email?></td>
+					<td><img src="<?=app_image_link($anggota->foto, 'uploads/anggota/')?>" class="profile_img"></td>
+					<td><?=$anggota->nama?></td>
+					<td><?=isset($roles[$anggota->id_peran]) ? $roles[$anggota->id_peran]->peran : ''?></td>
+					<td><?=$anggota->bloodgroup?></td>
+					<td><?=$anggota->telepon?></td>
+					<td><?=$anggota->surel?></td>
 				</tr>
 				<?php } ?>
 			</tbody>
@@ -44,8 +44,8 @@
 		</div>
 	<?php } ?>
 	<div class="reportfooter">
-		<h4><?=$generalsetting->sitename?></h4>
-		<p><?=$generalsetting->address?></p>
+		<h4><?=$pengaturan_umum->sitename?></h4>
+		<p><?=$pengaturan_umum->alamat?></p>
 	</div>
 </body>
 </html>

@@ -4,14 +4,14 @@
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
             <li><a href="<?=base_url('menu/index')?>">Menu</a></li>
-            <li class="active">Edit</li>
+            <li class='aktif'>Edit</li>
         </ol>
     </section>
     <section class="content">
         <div class="box box-mytheme">
             <div class="row">
                 <div class="col-md-6">
-                    <form role="form" method="POST">
+                    <form peran="form" method="POST">
                         <div class="box-body">
                             <div class="form-group <?=form_error('menuname') ? 'has-error' : ''?>">
                               <label for="menuname">Nama Menu</label> <span class="text-red">*</span>
@@ -28,10 +28,10 @@
                               <input type="text" class="form-control" value="<?=set_value('menuicon', $menu->menuicon)?>" id="menuicon" name="menuicon"/>
                               <?=form_error('menuicon')?>
                             </div>
-                            <div class="form-group <?=form_error('priority') ? 'has-error' : ''?>">
-                              <label for="priority">Prioritas</label> <span class="text-red">*</span>
-                              <input type="text" class="form-control" value="<?=set_value('priority', $menu->priority)?>" id="priority" name="priority"/>
-                              <?=form_error('priority')?>
+                            <div class="form-group <?=form_error('prioritas') ? 'has-error' : ''?>">
+                              <label for='prioritas'>Prioritas</label> <span class="text-red">*</span>
+                              <input type="text" class="form-control" value="<?=set_value('prioritas', $menu->prioritas)?>" id='prioritas' name='prioritas'/>
+                              <?=form_error('prioritas')?>
                             </div>
                             <div class="form-group <?=form_error('parentmenuID') ? 'has-error' : ''?>">
                               <label for="parentmenuID">Parent Menu</label> <span class="text-red">*</span>
@@ -39,7 +39,7 @@
                                 $parentmenuArray['0'] = 'Silakan Pilih';
                                 if(calculate($parentmenus)) {
                                   foreach($parentmenus as $parentmenu) {
-                                    $parentmenuArray[$parentmenu->menuID] = $parentmenu->menuname;
+                                    $parentmenuArray[$parentmenu->id_menu] = $parentmenu->menuname;
                                   }
                                 }
                                 echo form_dropdown('parentmenuID', $parentmenuArray, set_value('status', $menu->parentmenuID) , 'class="form-control"');
@@ -47,7 +47,7 @@
                               ?>
                             </div>
                             <div class="form-group <?=form_error('status') ? 'has-error' : ''?>">
-                              <label for="status">Status</label> <span class="text-red">*</span>
+                              <label for='status'>Status</label> <span class="text-red">*</span>
                               <?php 
                                 $statusArray['0'] = 'Silakan Pilih'; 
                                 $statusArray['1'] = 'Aktif'; 

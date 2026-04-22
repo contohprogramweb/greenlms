@@ -1,6 +1,6 @@
  
 <?php  if(calculate($bookcategorys)) { ?>
-<div class="main-book-category-list">
+<div class="main-buku-category-list">
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
@@ -8,14 +8,14 @@
 			</div>
 		</div>
 		<div class="row">
-			<?php foreach($bookcategorys as $bookcategory) { ?>
+			<?php foreach($bookcategorys as $kategori_buku) { ?>
 				<div class="col-sm-2">
-				    <div class="single-book-category">
-				        <div class="book-category-image">
-				            <img class="book-category-thumbnail-image" src="<?=app_image_link($bookcategory->coverphoto,'uploads/bookcategory/','bookcategory.jpg')?>" alt="<?=$bookcategory->name?>" />
+				    <div class="single-buku-category">
+				        <div class="buku-category-image">
+				            <img class="buku-category-thumbnail-image" src="<?=app_image_link($kategori_buku->coverphoto,'uploads/kategori_buku/','kategori_buku.jpg')?>" alt="<?=$kategori_buku->nama?>" />
 				        </div>
-				        <div class="book-category-content">
-				            <a href="<?=base_url()?>frontend/book_category/<?=$bookcategory->bookcategoryID?>" class="book-category-title"><?=$bookcategory->name?></a>
+				        <div class="buku-category-content">
+				            <a href="<?=base_url()?>frontend/book_category/<?=$kategori_buku->bookcategoryID?>" class="buku-category-title"><?=$kategori_buku->nama?></a>
 				        </div>
 				    </div>
 				</div>

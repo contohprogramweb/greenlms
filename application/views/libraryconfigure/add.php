@@ -3,28 +3,28 @@
   		<h1>Pengaturan Perpustakaan</h1>
   		<ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-  			<li><a href="<?=base_url('libraryconfigure')?>">Pengaturan Perpustakaan</a></li>
-  			<li class="active">Tambah</li>
+  			<li><a href="<?=base_url('konfigurasi_perpustakaan')?>">Pengaturan Perpustakaan</a></li>
+  			<li class='aktif'>Tambah</li>
   		</ol>
     </section>
     <section class="content">
         <div class="box box-mytheme">
             <div class="row">
                 <div class="col-md-6">
-                    <form role="form" method="POST">
+                    <form peran="form" method="POST">
                         <div class="box-body">
-                            <div class="form-group <?=form_error('roleID') ? 'has-error' : ''?>">
-                                <label for="roleID">Hak Akses</label> <span class="text-red">*</span>
+                            <div class="form-group <?=form_error('id_peran') ? 'has-error' : ''?>">
+                                <label for='id_peran'>Hak Akses</label> <span class="text-red">*</span>
                                 <?php 
                                     $roleArray[0] = 'Silakan Pilih';
                                     if(calculate($roles)) {
-                                      foreach ($roles as $role) {
-                                        $roleArray[$role->roleID] = $role->role;
+                                      foreach ($roles as $peran) {
+                                        $roleArray[$peran->id_peran] = $peran->peran;
                                       }
                                     }
-                                    echo form_dropdown('roleID', $roleArray,set_value('roleID'),'id="roleID" class="form-control"');
+                                    echo form_dropdown('id_peran', $roleArray,set_value('id_peran'),'id='id_peran' class="form-control"');
                                 ?>
-                                <?=form_error('roleID')?>
+                                <?=form_error('id_peran')?>
                             </div>
                             <div class="form-group <?=form_error('max_issue_book') ? 'has-error' : ''?>">
                                 <label for="max_issue_book">Max Buku Dipinjam</label> <span class="text-red">*</span>

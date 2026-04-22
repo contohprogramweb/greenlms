@@ -23,16 +23,16 @@ class Myaccount extends Frontend_Controller
     public function index()
     {
         $memberID              = $this->session->userdata('loginmemberID');
-		$this->data['get_title'] = 'My Account | '.$this->data["generalsetting"]->sitename;
-        $this->data['member']  = $this->member_m->get_single_member(array('memberID' => $memberID));
-        $this->data['role']    = $this->role_m->get_single_role(array('roleID' => $this->data['member']->roleID));
+		$this->data['get_title'] = 'My Account | '.$this->data['pengaturan_umum']->sitename;
+        $this->data['anggota']  = $this->member_m->get_single_member(array('id_anggota' => $memberID));
+        $this->data['peran']    = $this->role_m->get_single_role(array('id_peran' => $this->data['anggota']->id_peran));
         $this->data["subview"] = "frontend/myaccount";
         $this->load->view('_frontend_layout', $this->data);
     }
 
     public function login()
     {
-		$this->data['get_title'] = 'Login | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Login | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->loggedCheck();
         if ($_POST) {
@@ -45,32 +45,32 @@ class Myaccount extends Frontend_Controller
                 $this->load->view('_frontend_layout', $this->data);
             } else {
                 $array['username_or_email'] = $this->input->post('username_or_email');
-                $array['password']          = $this->password_hash($this->input->post('password'));
+                $array['kata_sandi']          = $this->password_hash($this->input->post('kata_sandi'));
 
-                $member = $this->login_m->get_single_login_by_username_or_email_and_password($array);
-                if (calculate($member) && $member->status == 1) {
-                    $role                          = $this->role_m->get_single_role(array('roleID' => $member->roleID));
+                $anggota = $this->login_m->get_single_login_by_username_or_email_and_password($array);
+                if (calculate($anggota) && $anggota->status == 1) {
+                    $peran                          = $this->role_m->get_single_role(array('id_peran' => $anggota->id_peran));
                     $sessionArray                  = [];
-                    $sessionArray['name']          = $member->name;
-                    $sessionArray['username']      = $member->username;
-                    $sessionArray['roleID']        = $member->roleID;
-                    $sessionArray['role']          = calculate($role) ? $role->role : '';
-                    $sessionArray['loginmemberID'] = $member->memberID;
-                    $sessionArray['email']         = $member->email;
-                    $sessionArray['photo']         = $member->photo;
-                    $sessionArray['joinningdate']  = $member->joinningdate;
+                    $sessionArray['nama']          = $anggota->nama;
+                    $sessionArray['nama_pengguna']      = $anggota->nama_pengguna;
+                    $sessionArray['id_peran']        = $anggota->id_peran;
+                    $sessionArray['peran']          = calculate($peran) ? $peran->peran : '';
+                    $sessionArray['loginmemberID'] = $anggota->id_anggota;
+                    $sessionArray['surel']         = $anggota->surel;
+                    $sessionArray['foto']         = $anggota->foto;
+                    $sessionArray['joinningdate']  = $anggota->joinningdate;
                     $sessionArray['language']      = 'english';
                     $sessionArray['loggedin']      = true;
                     $this->session->set_userdata($sessionArray);
 
                     $this->session->set_flashdata('success', $this->lang->line('frontend_you_login_successfully'));
                     redirect(base_url('myaccount/index'));
-                } elseif (calculate($member) && $member->status == 2) {
-                    $this->data['errors'] = ['message' => "You are now blocked. Please contact our admin. Thank You"];
-                } elseif (calculate($member) && $member->status == 0) {
-                    $this->data['errors'] = ['message' => "You are a new member. Please wait until to approved our admin. Thank You"];
+                } elseif (calculate($anggota) && $anggota->status == 2) {
+                    $this->data['errors'] = ['pesan' => "You are now blocked. Please contact our admin. Thank You"];
+                } elseif (calculate($anggota) && $anggota->status == 0) {
+                    $this->data['errors'] = ['pesan' => "You are a new anggota. Please wait until to approved our admin. Thank You"];
                 } else {
-                    $this->data['errors'] = ['message' => "You provide invalid username/email or password."];
+                    $this->data['errors'] = ['pesan' => "You provide invalid username/email or password."];
                 }
                 $this->data["subview"] = "frontend/login";
                 $this->load->view('_frontend_layout', $this->data);
@@ -90,7 +90,7 @@ class Myaccount extends Frontend_Controller
                 'rules' => 'trim|xss_clean|required|min_length[4]|max_length[60]|callback_valid_username_or_email_check',
             ),
             array(
-                'field' => 'password',
+                'field' => 'kata_sandi',
                 'label' => $this->lang->line('frontend_password'),
                 'rules' => 'trim|xss_clean|required|min_length[6]|max_length[128]',
             ),
@@ -130,9 +130,9 @@ class Myaccount extends Frontend_Controller
 
     public function register()
     {
-		$this->data['get_title'] = 'Register | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Register | '.$this->data['pengaturan_umum']->sitename;
 		
-        if (!$this->data["generalsetting"]->registration) {
+        if (!$this->data['pengaturan_umum']->registration) {
             $this->session->set_flashdata('error', 'The new user registration is currently not allowed.');
             redirect('/');
         }
@@ -144,15 +144,15 @@ class Myaccount extends Frontend_Controller
                 $this->data["subview"] = "frontend/register";
                 $this->load->view('_frontend_layout', $this->data);
             } else {
-                $array['name']        = $this->input->post('name');
-                $array['email']       = $this->input->post('email');
-                $array['phone']       = $this->input->post('phone');
-                $array['photo']       = $this->upload_data['file']['file_name'];
-                $array['roleID']      = 4;
+                $array['nama']        = $this->input->post('nama');
+                $array['surel']       = $this->input->post('surel');
+                $array['telepon']       = $this->input->post('telepon');
+                $array['foto']       = $this->upload_data['file']['file_name'];
+                $array['id_peran']      = 4;
                 $array['status']      = 0;
-                $array['username']    = $this->input->post('username');
-                $array['password']    = $this->password_hash($this->input->post('password'));
-                $array['create_date'] = date('Y-m-d H:i:s');
+                $array['nama_pengguna']    = $this->input->post('nama_pengguna');
+                $array['kata_sandi']    = $this->password_hash($this->input->post('kata_sandi'));
+                $array['tanggal_dibuat'] = date('Y-m-d H:i:s');
                 $array['modify_date'] = date('Y-m-d H:i:s');
 
                 $this->login_m->insert_login($array);
@@ -169,32 +169,32 @@ class Myaccount extends Frontend_Controller
     {
         $rules = array(
             array(
-                'field' => 'name',
+                'field' => 'nama',
                 'label' => $this->lang->line('frontend_name'),
                 'rules' => 'trim|xss_clean|required|max_length[60]',
             ),
             array(
-                'field' => 'email',
+                'field' => 'surel',
                 'label' => $this->lang->line('frontend_email'),
                 'rules' => 'trim|xss_clean|required|max_length[60]|valid_email|callback_check_unique_email',
             ),
             array(
-                'field' => 'phone',
+                'field' => 'telepon',
                 'label' => $this->lang->line('frontend_phone'),
                 'rules' => 'trim|xss_clean|required|max_length[15]',
             ),
             array(
-                'field' => 'photo',
+                'field' => 'foto',
                 'label' => $this->lang->line('frontend_photo'),
                 'rules' => 'trim|xss_clean|max_length[200]|callback_photo_upload',
             ),
             array(
-                'field' => 'username',
+                'field' => 'nama_pengguna',
                 'label' => $this->lang->line('frontend_username'),
                 'rules' => 'trim|xss_clean|required|min_length[4]|max_length[60]',
             ),
             array(
-                'field' => 'password',
+                'field' => 'kata_sandi',
                 'label' => $this->lang->line('frontend_password'),
                 'rules' => 'trim|xss_clean|required|min_length[6]|max_length[128]',
             ),
@@ -204,8 +204,8 @@ class Myaccount extends Frontend_Controller
 
     public function check_unique_email($email)
     {
-        $member = $this->login_m->get_single_login(array('email' => $email));
-        if (calculate($member)) {
+        $anggota = $this->login_m->get_single_login(array('surel' => $email));
+        if (calculate($anggota)) {
             $this->form_validation->set_message("check_unique_email", $this->lang->line('frontend_unique_email_activate'));
             return false;
         }
@@ -215,21 +215,21 @@ class Myaccount extends Frontend_Controller
     public function photo_upload()
     {
         $new_file = "default.png";
-        if ($_FILES["photo"]['name'] != "") {
-            $file_name   = $_FILES["photo"]['name'];
+        if ($_FILES['foto']['nama'] != "") {
+            $file_name   = $_FILES['foto']['nama'];
             $random      = rand(1, 10000000000000000);
-            $file_rename = hash('sha512', $random . $this->input->post('username') . config_item("encryption_key"));
+            $file_rename = hash('sha512', $random . $this->input->post('nama_pengguna') . config_item("encryption_key"));
             $explode     = explode('.', $file_name);
             if (calculate($explode) >= 2) {
                 $new_file                = $file_rename . '.' . end($explode);
-                $config['upload_path']   = "./uploads/member";
+                $config['upload_path']   = "./uploads/anggota";
                 $config['allowed_types'] = "gif|jpg|png|jpeg|jpeg";
                 $config['file_name']     = $new_file;
                 $config['max_size']      = '2048';
                 $config['max_width']     = '2000';
                 $config['max_height']    = '2000';
                 $this->load->library('upload', $config);
-                if (!$this->upload->do_upload("photo")) {
+                if (!$this->upload->do_upload('foto')) {
                     $this->form_validation->set_message("photo_upload", $this->upload->display_errors());
                     return false;
                 } else {
@@ -249,20 +249,20 @@ class Myaccount extends Frontend_Controller
     //Order check
     public function order()
     {
-		$this->data['get_title'] = 'My Order | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'My Order | '.$this->data['pengaturan_umum']->sitename;
 		
-        $this->data['orders']  = $this->order_m->get_order_by_order(['memberID' => $this->session->userdata('loginmemberID')]);
+        $this->data['pesanan']  = $this->order_m->get_order_by_order(['id_anggota' => $this->session->userdata('loginmemberID')]);
         $this->data["subview"] = "frontend/order";
         $this->load->view('_frontend_layout', $this->data);
     }
 
     public function orderview($orderID)
     {
-		$this->data['get_title'] = 'Detail Data Pesanan | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Detail Data Pesanan | '.$this->data['pengaturan_umum']->sitename;
 		
-        $this->data['order']      = $this->order_m->get_single_order(['memberID' => $this->session->userdata('loginmemberID'), 'orderID' => $orderID]);
-        $this->data['member']     = $this->member_m->get_single_member(['memberID' => $this->session->userdata('loginmemberID')]);
-        $this->data['orderitems'] = $this->orderitem_m->get_order_by_orderitem_with_storebook(['orderID' => $orderID]);
+        $this->data['order']      = $this->order_m->get_single_order(['id_anggota' => $this->session->userdata('loginmemberID'), 'id_pesanan' => $orderID]);
+        $this->data['anggota']     = $this->member_m->get_single_member(['id_anggota' => $this->session->userdata('loginmemberID')]);
+        $this->data['item_pesanan'] = $this->orderitem_m->get_order_by_orderitem_with_storebook(['id_pesanan' => $orderID]);
         $this->data["subview"]    = "frontend/orderview";
         $this->load->view('_frontend_layout', $this->data);
     }

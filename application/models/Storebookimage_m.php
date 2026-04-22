@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Storebookimage_m extends MY_Model
 {
 
-    protected $_table_name  = 'storebookimage';
+    protected $_table_name  = 'gambar_buku_toko';
     protected $_primary_key = 'storebookimageID';
     protected $_order_by    = "storebookimageID desc";
 

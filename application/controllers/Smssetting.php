@@ -26,7 +26,7 @@ class Smssetting extends Admin_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Pengaturan SMS | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Pengaturan SMS | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data['smssetting'] = (object) pluck($this->smssetting_m->get_smssetting(), 'optionvalue', 'optionkey');
         if ($_POST) {

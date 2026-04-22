@@ -24,13 +24,13 @@ class Idcardreport extends Admin_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Laporan Kartu Anggota | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Laporan Kartu Anggota | '.$this->data['pengaturan_umum']->sitename;
 		
 		
         $this->data['flag']     = 0;
         $this->data['type']     = 0;
-        $this->data['roleID']   = 0;
-        $this->data['memberID'] = 0;
+        $this->data['id_peran']   = 0;
+        $this->data['id_anggota'] = 0;
         $this->data['members']  = [];
         $this->data['roles']    = $this->role_m->get_role();
         if ($_POST) {
@@ -42,16 +42,16 @@ class Idcardreport extends Admin_Controller
                 $this->data["subview"] = "report/idcard/index";
                 $this->load->view('_main_layout', $this->data);
             } else {
-                $roleID   = $this->input->post('roleID');
-                $memberID = $this->input->post('memberID');
+                $roleID   = $this->input->post('id_peran');
+                $memberID = $this->input->post('id_anggota');
                 $type     = $this->input->post('type');
 
-                $queryArray['roleID'] = $roleID;
+                $queryArray['id_peran'] = $roleID;
                 if ((int) $memberID) {
-                    $queryArray['memberID'] = $memberID;
+                    $queryArray['id_anggota'] = $memberID;
                 }
                 $queryArray['status']     = 1;
-                $queryArray['deleted_at'] = 0;
+                $queryArray['dihapus_pada'] = 0;
                 $members                  = $this->member_m->get_order_by_member($queryArray);
                 if ($type == 2) {
                     $this->generatebarcode($members);
@@ -59,8 +59,8 @@ class Idcardreport extends Admin_Controller
 
                 $this->data['flag']     = 1;
                 $this->data['type']     = $type;
-                $this->data['roleID']   = $roleID;
-                $this->data['memberID'] = $memberID;
+                $this->data['id_peran']   = $roleID;
+                $this->data['id_anggota'] = $memberID;
                 $this->data['members']  = $members;
                 $this->data["subview"]  = "report/idcard/index";
                 $this->load->view('_main_layout', $this->data);
@@ -78,20 +78,20 @@ class Idcardreport extends Admin_Controller
         $type     = htmlentities(escapeString($this->uri->segment(5)));
 
         if ((int) $roleID && ((int) $memberID || $memberID == 0) && (int) $type) {
-            $queryArray['roleID'] = $roleID;
+            $queryArray['id_peran'] = $roleID;
             if ((int) $memberID) {
-                $queryArray['memberID'] = $memberID;
+                $queryArray['id_anggota'] = $memberID;
             }
             $queryArray['status']     = 1;
-            $queryArray['deleted_at'] = 0;
+            $queryArray['dihapus_pada'] = 0;
             $members                  = $this->member_m->get_order_by_member($queryArray);
             if ($type == 2) {
                 $this->generatebarcode($members);
             }
 
             $this->data['type']     = $type;
-            $this->data['roleID']   = $roleID;
-            $this->data['memberID'] = $memberID;
+            $this->data['id_peran']   = $roleID;
+            $this->data['id_anggota'] = $memberID;
             $this->data['members']  = $members;
 
             $this->pdf->create(['stylesheet' => 'idcardreport.css', 'view' => 'report/idcard/pdf.php', 'data' => $this->data]);
@@ -104,8 +104,8 @@ class Idcardreport extends Admin_Controller
     private function generatebarcode($members)
     {
         if (calculate($members)) {
-            foreach ($members as $member) {
-                $memberID = generate_memberID($member->memberID);
+            foreach ($members as $anggota) {
+                $memberID = generate_memberID($anggota->id_anggota);
                 $this->barcode->generate($memberID, $memberID);
             }
         }
@@ -115,12 +115,12 @@ class Idcardreport extends Admin_Controller
     {
         echo "<option value='0'>" . $this->lang->line('idcardreport_please_select') . "</option>";
         if ($_POST && permissionChecker('idcardreport')) {
-            $roleID = $this->input->post('roleID');
+            $roleID = $this->input->post('id_peran');
             if ((int) $roleID) {
-                $members = $this->member_m->get_order_by_member(array('roleID' => $roleID, 'status' => 1, 'deleted_at' => 0), array('memberID', 'name'));
+                $members = $this->member_m->get_order_by_member(array('id_peran' => $roleID, 'status' => 1, 'dihapus_pada' => 0), array('id_anggota', 'nama'));
                 if (calculate($members)) {
-                    foreach ($members as $member) {
-                        echo "<option value='" . $member->memberID . "'>" . $member->name . "</option>";
+                    foreach ($members as $anggota) {
+                        echo "<option value='" . $anggota->id_anggota . "'>" . $anggota->nama . "</option>";
                     }
                 }
             }
@@ -131,12 +131,12 @@ class Idcardreport extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'roleID',
+                'field' => 'id_peran',
                 'label' => $this->lang->line('idcardreport_role'),
                 'rules' => 'trim|xss_clean|required|numeric|required_no_zero',
             ),
             array(
-                'field' => 'memberID',
+                'field' => 'id_anggota',
                 'label' => $this->lang->line('idcardreport_member'),
                 'rules' => 'trim|xss_clean|required|numeric',
             ),

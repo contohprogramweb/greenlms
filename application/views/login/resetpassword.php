@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title><?=$get_title?></title>
         <!-- Tell the browser to be responsive to screen width -->
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, member-scalable=no" name="viewport">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, anggota-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
         <link rel="stylesheet" href="<?=base_url('assets/plugins/bootstrap/dist/css/bootstrap.min.css')?>">
         <!-- Theme style -->
@@ -25,7 +25,7 @@
 	<!-- style="background: url('<?=base_url('uploads/default/loginbg.jpg')?>') no-repeat center center fixed;background-size: 100% 100%; " -->
         <div class="login-box">
             <div class="login-logo">
-                 <a href="<?=base_url('/')?>"><b><?=$generalsetting->sitename?></b></a>
+                 <a href="<?=base_url('/')?>"><b><?=$pengaturan_umum->sitename?></b></a>
             </div>
             <div class="login-box-body">
                 <p class="login-box-msg text-bold">Berikan email yang benar</p>
@@ -34,7 +34,7 @@
                         echo "<p class='text-red'>".$error."</p>";
                     }
                 } ?>
-                <form action="<?=base_url('login/resetpassword')?>" method="post">
+                <form action="<?=base_url('login/reset_kata_sandi')?>" method="post">
                     <div class="form-group has-feedback <?=form_error('username_or_email') ? 'has-error' : ''?>">
                         <label>Username / Email</label> <span class="text-red">*</span>
                         <input type="text" class="form-control" name="username_or_email" value="<?=set_value('username_or_email')?>"/>

@@ -14,7 +14,7 @@ class Member extends Admin_Controller
         $this->load->model('bookissue_m');
 
         $lang = 'indonesia';
-        $this->lang->load('member', $lang);
+        $this->lang->load('anggota', $lang);
     }
 
     public function index()
@@ -30,17 +30,17 @@ class Member extends Admin_Controller
             'headerjs' => array(
                 'assets/plugins/datatables.net/js/jquery.dataTables.min.js',
                 'assets/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js',
-                'assets/custom/js/member.js',
+                'assets/custom/js/anggota.js',
             ),
         );
 		
-		$this->data['get_title'] = 'Kelola Anggota | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Kelola Anggota | '.$this->data['pengaturan_umum']->sitename;
 		
 		
-        $this->data['members']   = $this->member_m->get_order_by_member(['deleted_at' => 0, 'roleID' => $setroleID]);
-        $this->data['roles']     = pluck($this->role_m->get_role(), 'role', 'roleID');
+        $this->data['members']   = $this->member_m->get_order_by_member(['dihapus_pada' => 0, 'id_peran' => $setroleID]);
+        $this->data['roles']     = pluck($this->role_m->get_role(), 'peran', 'id_peran');
         $this->data['setroleID'] = $setroleID;
-        $this->data["subview"]   = "member/index";
+        $this->data["subview"]   = "anggota/index";
         $this->load->view('_main_layout', $this->data);
     }
 
@@ -54,49 +54,49 @@ class Member extends Admin_Controller
                 'assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
             ),
             'js'       => array(
-                'assets/custom/js/member.js',
+                'assets/custom/js/anggota.js',
                 'assets/custom/js/fileupload.js',
             ),
         );
 		
-		$this->data['get_title'] = 'Tambah Anggota | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Tambah Anggota | '.$this->data['pengaturan_umum']->sitename;
 		
-        $this->data['roles'] = $this->role_m->get_role(array('roleID', 'role'));
+        $this->data['roles'] = $this->role_m->get_role(array('id_peran', 'peran'));
         if ($_POST) {
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
-                $this->data["subview"] = "member/add";
+                $this->data["subview"] = "anggota/add";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $array                    = [];
-                $array['name']            = $this->input->post('name');
-                $array['gender']          = $this->input->post('gender');
-                $array['religion']        = $this->input->post('religion');
-                $array['email']           = $this->input->post('email');
-                $array['phone']           = $this->input->post('phone');
+                $array['nama']            = $this->input->post('nama');
+                $array['jenis_kelamin']          = $this->input->post('jenis_kelamin');
+                $array['agama']        = $this->input->post('agama');
+                $array['surel']           = $this->input->post('surel');
+                $array['telepon']           = $this->input->post('telepon');
                 $array['bloodgroup']      = $this->input->post('bloodgroup');
-                $array['address']         = $this->input->post('address');
+                $array['alamat']         = $this->input->post('alamat');
                 $array['dateofbirth']     = date('Y-m-d', strtotime($this->input->post('dateofbirth')));
                 $array['joinningdate']    = date('Y-m-d', strtotime($this->input->post('joinningdate')));
-                $array['photo']           = $this->upload_data['file']['file_name'];
-                $array['roleID']          = $this->input->post('roleID');
+                $array['foto']           = $this->upload_data['file']['file_name'];
+                $array['id_peran']          = $this->input->post('id_peran');
                 $array['status']          = $this->input->post('status');
-                $array['username']        = $this->input->post('username');
-                $array['password']        = $this->password_hash($this->input->post('password'));
-                $array['create_date']     = date('Y-m-d H:i:s');
+                $array['nama_pengguna']        = $this->input->post('nama_pengguna');
+                $array['kata_sandi']        = $this->password_hash($this->input->post('kata_sandi'));
+                $array['tanggal_dibuat']     = date('Y-m-d H:i:s');
                 $array['create_memberID'] = $this->session->userdata('loginmemberID');
-                $array['create_roleID']   = $this->session->userdata('roleID');
+                $array['create_roleID']   = $this->session->userdata('id_peran');
                 $array['modify_date']     = date('Y-m-d H:i:s');
                 $array['modify_memberID'] = $this->session->userdata('loginmemberID');
-                $array['modify_roleID']   = $this->session->userdata('roleID');
+                $array['modify_roleID']   = $this->session->userdata('id_peran');
 
                 $this->member_m->insert_member($array);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('member/index'));
+                redirect(base_url('anggota/index'));
             }
         } else {
-            $this->data["subview"] = "member/add";
+            $this->data["subview"] = "anggota/add";
             $this->load->view('_main_layout', $this->data);
         }
     }
@@ -104,11 +104,11 @@ class Member extends Admin_Controller
     public function edit()
     {
         $memberID = htmlentities(escapeString($this->uri->segment(3)));
-		$this->data['get_title'] = 'Edit Anggota | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Edit Anggota | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $memberID) {
-            $member = $this->member_m->get_single_member(array('memberID' => $memberID, 'deleted_at' => 0));
-            if (calculate($member)) {
+            $anggota = $this->member_m->get_single_member(array('id_anggota' => $memberID, 'dihapus_pada' => 0));
+            if (calculate($anggota)) {
                 $this->data['headerassets'] = array(
                     'css'      => array(
                         'assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css',
@@ -117,47 +117,47 @@ class Member extends Admin_Controller
                         'assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',
                     ),
                     'js'       => array(
-                        'assets/custom/js/member.js',
+                        'assets/custom/js/anggota.js',
                         'assets/custom/js/fileupload.js',
                     ),
                 );
-                $this->data['member'] = $member;
-                $this->data['roles']  = $this->role_m->get_role(array('roleID', 'role'));
+                $this->data['anggota'] = $anggota;
+                $this->data['roles']  = $this->role_m->get_role(array('id_peran', 'peran'));
                 if ($_POST) {
                     $rules = $this->rules();
                     unset($rules['12']);
                     $this->form_validation->set_rules($rules);
                     if ($this->form_validation->run() == false) {
-                        $this->data["subview"] = "member/edit";
+                        $this->data["subview"] = "anggota/edit";
                         $this->load->view('_main_layout', $this->data);
                     } else {
                         $array                 = [];
-                        $array['name']         = $this->input->post('name');
+                        $array['nama']         = $this->input->post('nama');
                         $array['dateofbirth']  = date('Y-m-d', strtotime($this->input->post('dateofbirth')));
-                        $array['gender']       = $this->input->post('gender');
-                        $array['religion']     = $this->input->post('religion');
-                        $array['email']        = $this->input->post('email');
-                        $array['phone']        = $this->input->post('phone');
+                        $array['jenis_kelamin']       = $this->input->post('jenis_kelamin');
+                        $array['agama']     = $this->input->post('agama');
+                        $array['surel']        = $this->input->post('surel');
+                        $array['telepon']        = $this->input->post('telepon');
                         $array['bloodgroup']   = $this->input->post('bloodgroup');
-                        $array['address']      = $this->input->post('address');
+                        $array['alamat']      = $this->input->post('alamat');
                         $array['joinningdate'] = date('Y-m-d', strtotime($this->input->post('joinningdate')));
-                        $array['photo']        = $this->upload_data['file']['file_name'];
-                        $array['roleID']       = $this->input->post('roleID');
+                        $array['foto']        = $this->upload_data['file']['file_name'];
+                        $array['id_peran']       = $this->input->post('id_peran');
                         $array['status']       = $this->input->post('status');
-                        $array['username']     = $this->input->post('username');
-                        if ($this->input->post('password') != '') {
-                            $array['password'] = $this->password_hash($this->input->post('password'));
+                        $array['nama_pengguna']     = $this->input->post('nama_pengguna');
+                        if ($this->input->post('kata_sandi') != '') {
+                            $array['kata_sandi'] = $this->password_hash($this->input->post('kata_sandi'));
                         }
                         $array['modify_date']     = date('Y-m-d H:i:s');
                         $array['modify_memberID'] = $this->session->userdata('loginmemberID');
-                        $array['modify_roleID']   = $this->session->userdata('roleID');
+                        $array['modify_roleID']   = $this->session->userdata('id_peran');
 
                         $this->member_m->update_member($array, $memberID);
                         $this->session->set_flashdata('success', 'Success');
-                        redirect(base_url('member/index'));
+                        redirect(base_url('anggota/index'));
                     }
                 } else {
-                    $this->data["subview"] = "member/edit";
+                    $this->data["subview"] = "anggota/edit";
                     $this->load->view('_main_layout', $this->data);
                 }
             } else {
@@ -174,17 +174,17 @@ class Member extends Admin_Controller
     {
         $memberID = htmlentities(escapeString($this->uri->segment(3)));
 		
-		$this->data['get_title'] = 'Lihat Data Anggota | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Lihat Data Anggota | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $memberID) {
-            $member = $this->member_m->get_single_member(array('memberID' => $memberID));
-            if (calculate($member)) {
-                $this->data['member']       = $member;
-                $this->data['bookcategory'] = pluck($this->bookcategory_m->get_bookcategory(), 'name', 'bookcategoryID');
-                $this->data['book']         = pluck($this->book_m->get_book(), 'name', 'bookID');
-                $this->data['bookissues']   = $this->bookissue_m->get_order_by_bookissue(['deleted_at' => 0, 'memberID' => $memberID]);
-                $this->data['role']         = $this->role_m->get_single_role(array('roleID' => $member->roleID));
-                $this->data["subview"]      = "member/view";
+            $anggota = $this->member_m->get_single_member(array('id_anggota' => $memberID));
+            if (calculate($anggota)) {
+                $this->data['anggota']       = $anggota;
+                $this->data['kategori_buku'] = pluck($this->bookcategory_m->get_bookcategory(), 'nama', 'bookcategoryID');
+                $this->data['buku']         = pluck($this->book_m->get_book(), 'nama', 'id_buku');
+                $this->data['bookissues']   = $this->bookissue_m->get_order_by_bookissue(['dihapus_pada' => 0, 'id_anggota' => $memberID]);
+                $this->data['peran']         = $this->role_m->get_single_role(array('id_peran' => $anggota->id_peran));
+                $this->data["subview"]      = "anggota/view";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $this->data["subview"] = "_not_found";
@@ -200,11 +200,11 @@ class Member extends Admin_Controller
     {
         $memberID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $memberID) {
-            $member = $this->member_m->get_single_member(array('memberID' => $memberID));
-            if (calculate($member)) {
-                $this->member_m->update_member(['deleted_at' => 1], $memberID);
+            $anggota = $this->member_m->get_single_member(array('id_anggota' => $memberID));
+            if (calculate($anggota)) {
+                $this->member_m->update_member(['dihapus_pada' => 1], $memberID);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('member/index'));
+                redirect(base_url('anggota/index'));
             } else {
                 $this->data["subview"] = "_not_found";
                 $this->load->view('_main_layout', $this->data);
@@ -219,7 +219,7 @@ class Member extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'name',
+                'field' => 'nama',
                 'label' => $this->lang->line('member_name'),
                 'rules' => 'trim|xss_clean|required|max_length[60]',
             ),
@@ -229,22 +229,22 @@ class Member extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|valid_date',
             ),
             array(
-                'field' => 'gender',
+                'field' => 'jenis_kelamin',
                 'label' => $this->lang->line('member_gender'),
                 'rules' => 'trim|xss_clean|required|required_no_zero',
             ),
             array(
-                'field' => 'religion',
+                'field' => 'agama',
                 'label' => $this->lang->line('member_religion'),
                 'rules' => 'trim|xss_clean|required|max_length[30]',
             ),
             array(
-                'field' => 'email',
+                'field' => 'surel',
                 'label' => $this->lang->line('member_email'),
                 'rules' => 'trim|xss_clean|required|max_length[60]|valid_email|callback_check_unique_email',
             ),
             array(
-                'field' => 'phone',
+                'field' => 'telepon',
                 'label' => $this->lang->line('member_phone'),
                 'rules' => 'trim|xss_clean|required|max_length[15]',
             ),
@@ -254,7 +254,7 @@ class Member extends Admin_Controller
                 'rules' => 'trim|xss_clean|max_length[15]|required_no_zero',
             ),
             array(
-                'field' => 'address',
+                'field' => 'alamat',
                 'label' => $this->lang->line('member_address'),
                 'rules' => 'trim|xss_clean|required',
             ),
@@ -264,7 +264,7 @@ class Member extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|valid_date',
             ),
             array(
-                'field' => 'photo',
+                'field' => 'foto',
                 'label' => $this->lang->line('member_photo'),
                 'rules' => 'trim|xss_clean|max_length[200]|callback_photo_upload',
             ),
@@ -274,17 +274,17 @@ class Member extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|numeric|required_no_zero',
             ),
             array(
-                'field' => 'roleID',
+                'field' => 'id_peran',
                 'label' => $this->lang->line('member_role'),
                 'rules' => 'trim|xss_clean|required|numeric|required_no_zero',
             ),
             array(
-                'field' => 'username',
+                'field' => 'nama_pengguna',
                 'label' => $this->lang->line('member_username'),
                 'rules' => 'trim|xss_clean|required|min_length[4]|max_length[60]|valid_username|callback_check_unique_username',
             ),
             array(
-                'field' => 'password',
+                'field' => 'kata_sandi',
                 'label' => $this->lang->line('member_password'),
                 'rules' => 'trim|xss_clean|max_length[128]|callback_password_required_check',
             ),
@@ -295,27 +295,27 @@ class Member extends Admin_Controller
     public function photo_upload()
     {
         $memberID = htmlentities(escapeString($this->uri->segment(3)));
-        $member   = array();
+        $anggota   = array();
         if ((int) $memberID) {
-            $member = $this->member_m->get_single_member(array('memberID' => $memberID));
+            $anggota = $this->member_m->get_single_member(array('id_anggota' => $memberID));
         }
 
         $new_file = "default.png";
-        if ($_FILES["photo"]['name'] != "") {
-            $file_name        = $_FILES["photo"]['name'];
+        if ($_FILES['foto']['nama'] != "") {
+            $file_name        = $_FILES['foto']['nama'];
             $random           = rand(1, 10000000000000000);
-            $file_name_rename = hash('sha512', $random . $this->input->post('username') . config_item("encryption_key"));
+            $file_name_rename = hash('sha512', $random . $this->input->post('nama_pengguna') . config_item("encryption_key"));
             $explode          = explode('.', $file_name);
             if (calculate($explode) >= 2) {
                 $new_file                = $file_name_rename . '.' . end($explode);
-                $config['upload_path']   = "./uploads/member";
+                $config['upload_path']   = "./uploads/anggota";
                 $config['allowed_types'] = "gif|jpg|png|jpeg";
                 $config['file_name']     = $new_file;
                 $config['max_size']      = '2048';
                 $config['max_width']     = '2000';
                 $config['max_height']    = '2000';
                 $this->load->library('upload', $config);
-                if (!$this->upload->do_upload("photo")) {
+                if (!$this->upload->do_upload('foto')) {
                     $this->form_validation->set_message("photo_upload", $this->upload->display_errors());
                     return false;
                 } else {
@@ -327,8 +327,8 @@ class Member extends Admin_Controller
                 return false;
             }
         } else {
-            if (calculate($member)) {
-                $this->upload_data['file'] = array('file_name' => $member->photo);
+            if (calculate($anggota)) {
+                $this->upload_data['file'] = array('file_name' => $anggota->foto);
                 return true;
             } else {
                 $this->upload_data['file'] = array('file_name' => $new_file);
@@ -341,15 +341,15 @@ class Member extends Admin_Controller
     {
         $memberID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $memberID) {
-            $member = $this->member_m->get_single_member(array('email' => $email, 'memberID !=' => $memberID));
-            if (calculate($member)) {
+            $anggota = $this->member_m->get_single_member(array('surel' => $email, 'memberID !=' => $memberID));
+            if (calculate($anggota)) {
                 $this->form_validation->set_message("check_unique_email", "The %s is already exits.");
                 return false;
             }
             return true;
         } else {
-            $member = $this->member_m->get_single_member(array('email' => $email));
-            if (calculate($member)) {
+            $anggota = $this->member_m->get_single_member(array('surel' => $email));
+            if (calculate($anggota)) {
                 $this->form_validation->set_message("check_unique_email", "The %s is already exits.");
                 return false;
             }
@@ -361,15 +361,15 @@ class Member extends Admin_Controller
     {
         $memberID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $memberID) {
-            $member = $this->member_m->get_single_member(array('username' => $username, 'memberID !=' => $memberID));
-            if (calculate($member)) {
+            $anggota = $this->member_m->get_single_member(array('nama_pengguna' => $username, 'memberID !=' => $memberID));
+            if (calculate($anggota)) {
                 $this->form_validation->set_message("check_unique_username", "The %s is already exits.");
                 return false;
             }
             return true;
         } else {
-            $member = $this->member_m->get_single_member(array('username' => $username));
-            if (calculate($member)) {
+            $anggota = $this->member_m->get_single_member(array('nama_pengguna' => $username));
+            if (calculate($anggota)) {
                 $this->form_validation->set_message("check_unique_username", "The %s is already exits.");
                 return false;
             }

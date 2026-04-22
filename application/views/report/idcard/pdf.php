@@ -6,15 +6,15 @@
 </head>
 <body>
 	<div class="reportheader">
-		<h2><?=$generalsetting->sitename?></h2>
-		<p><?=$generalsetting->phone?></p>
-		<p><?=$generalsetting->email?></p>
-		<p><?=$generalsetting->address?></p>
+		<h2><?=$pengaturan_umum->sitename?></h2>
+		<p><?=$pengaturan_umum->telepon?></p>
+		<p><?=$pengaturan_umum->surel?></p>
+		<p><?=$pengaturan_umum->alamat?></p>
 	</div>
 	<div>
 	<?php if(calculate($members)) { 
-		$sitenames = str_split($generalsetting->sitename);
-		foreach($members as $member) { if($type==1) { ?>
+		$sitenames = str_split($pengaturan_umum->sitename);
+		foreach($members as $anggota) { if($type==1) { ?>
 			<div class="singleidcard">
 				<div class="topbar"></div>
 				<div class="titlebar">
@@ -30,22 +30,22 @@
 						<?php if(calculate($sitenames) && calculate($sitenames) <= 7) { foreach($sitenames as $sitename) {
 							echo "<div class='titlebarletter'>".$sitename."</div> ";
 						} } else { 
-							echo "<div class='titlebarletterwidth'>".$generalsetting->sitename."</div> ";
+							echo "<div class='titlebarletterwidth'>".$pengaturan_umum->sitename."</div> ";
 						} ?>
 					</div>
 				</div>
 				<div class="infobar">
-					<img style="width: 70px;height: 75px;border: 1px solid #ddd;border-radius: 5px;" src="<?=profile_img($member->photo)?>" alt="">
-					<h3><?=$member->name?></h3>
-					<p>Nomor Anggota: <span><?=generate_memberID($member->memberID)?></span></p>
-					<p>Gol. Darah: <span><?=$member->bloodgroup?></span></p>
-					<p>No. Telp.: <span><?=$member->phone?></span></p>
-					<p>Email: <span><?=$member->email?></span></p>
+					<img style="width: 70px;height: 75px;border: 1px solid #ddd;border-radius: 5px;" src="<?=profile_img($anggota->foto)?>" alt="">
+					<h3><?=$anggota->nama?></h3>
+					<p>Nomor Anggota: <span><?=generate_memberID($anggota->id_anggota)?></span></p>
+					<p>Gol. Darah: <span><?=$anggota->bloodgroup?></span></p>
+					<p>No. Telp.: <span><?=$anggota->telepon?></span></p>
+					<p>Email: <span><?=$anggota->surel?></span></p>
 				</div>
 				<div class="bottombar">
 					<div class="bottombarborder"></div>
 					<div class="bottombaraddress">
-						<span><?=$generalsetting->web_address?></span>
+						<span><?=$pengaturan_umum->web_address?></span>
 					</div>
 				</div>
 			</div>
@@ -54,15 +54,15 @@
 				<div class="topbar"></div>
 				<div class="titlebar" style="padding-bottom: 0px;"></div>
 				<div class="infobar backinfobar">
-					<p>Kartu Anggota Milik <?=$generalsetting->sitename?></p>
+					<p>Kartu Anggota Milik <?=$pengaturan_umum->sitename?></p>
 					<p><u>Jika menemukan mohon mengembalikan ke:</u></p>
-					<p><b><?=$generalsetting->sitename?></b></p>
-					<p><i><?=$generalsetting->address?></i></p>
+					<p><b><?=$pengaturan_umum->sitename?></b></p>
+					<p><i><?=$pengaturan_umum->alamat?></i></p>
 					<p>Berlaku sampai: <span><?=date('d.m.Y', strtotime('Dec 31'))?></span></p>
 				</div>
 				<div class="signaturebar">
 					<div class="bar">
-						<img src="<?=base_url('uploads/idcard/'.generate_memberID($member->memberID).'.jpg')?>" alt="">
+						<img src="<?=base_url('uploads/idcard/'.generate_memberID($anggota->id_anggota).'.jpg')?>" alt="">
 					</div>
 					<div class="signature">
 						<span>Mengesahkan</span>
@@ -71,7 +71,7 @@
 				<div class="bottombar">
 					<div class="bottombarborder"></div>
 					<div class="bottombaraddress">
-						<span><?=$generalsetting->web_address?></span>
+						<span><?=$pengaturan_umum->web_address?></span>
 					</div>
 				</div>
 			</div>
@@ -82,8 +82,8 @@
 	<?php } ?>
 	</div>
 	<div class="reportfooter">
-		<h4><?=$generalsetting->sitename?></h4>
-		<p><?=$generalsetting->address?></p>
+		<h4><?=$pengaturan_umum->sitename?></h4>
+		<p><?=$pengaturan_umum->alamat?></p>
 	</div>
 </body>
 </html>

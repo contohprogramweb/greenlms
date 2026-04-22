@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Storebook_m extends MY_Model
 {
 
-    protected $_table_name  = 'storebook';
+    protected $_table_name  = 'buku_toko';
     protected $_primary_key = 'storebookID';
     protected $_order_by    = "storebookID desc";
 
@@ -69,9 +69,9 @@ class Storebook_m extends MY_Model
         $this->db->from($this->_table_name);
         $this->db->group_start();
         if (isset($queryArray['search'])) {
-            $this->db->like('name', $queryArray['search'], 'both');
-            $this->db->or_like('author', $queryArray['search'], 'both');
-            $this->db->or_like('description', $queryArray['search'], 'both');
+            $this->db->like('nama', $queryArray['search'], 'both');
+            $this->db->or_like('penulis', $queryArray['search'], 'both');
+            $this->db->or_like('deskripsi', $queryArray['search'], 'both');
             $this->db->or_like('notes', $queryArray['search'], 'both');
         }
         if (isset($queryArray['category'])) {
@@ -91,9 +91,9 @@ class Storebook_m extends MY_Model
         $this->db->from($this->_table_name);
         $this->db->group_start();
         if (isset($queryArray['search'])) {
-            $this->db->like('name', $queryArray['search'], 'both');
-            $this->db->or_like('author', $queryArray['search'], 'both');
-            $this->db->or_like('description', $queryArray['search'], 'both');
+            $this->db->like('nama', $queryArray['search'], 'both');
+            $this->db->or_like('penulis', $queryArray['search'], 'both');
+            $this->db->or_like('deskripsi', $queryArray['search'], 'both');
             $this->db->or_like('notes', $queryArray['search'], 'both');
         }
         if (isset($queryArray['category'])) {

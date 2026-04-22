@@ -132,20 +132,20 @@ class Install extends My_Controller
                 $this->load->view('install/setting', $this->data);
             } else {
                 $array                    = [];
-                $array['name']            = $this->input->post('adminname');
-                $array['gender']          = 'Male';
-                $array['religion']        = 'Unknown';
-                $array['email']           = $this->input->post('adminemail');
-                $array['phone']           = '';
-                $array['address']         = '';
+                $array['nama']            = $this->input->post('adminname');
+                $array['jenis_kelamin']          = 'Male';
+                $array['agama']        = 'Unknown';
+                $array['surel']           = $this->input->post('adminemail');
+                $array['telepon']           = '';
+                $array['alamat']         = '';
                 $array['dateofbirth']     = date('Y-m-d');
                 $array['joinningdate']    = date('Y-m-d');
-                $array['photo']           = '';
-                $array['roleID']          = 1;
+                $array['foto']           = '';
+                $array['id_peran']          = 1;
                 $array['status']          = 1;
-                $array['username']        = $this->input->post('adminusername');
-                $array['password']        = $this->password_hash($this->input->post('password'));
-                $array['create_date']     = date('Y-m-d H:i:s');
+                $array['nama_pengguna']        = $this->input->post('adminusername');
+                $array['kata_sandi']        = $this->password_hash($this->input->post('kata_sandi'));
+                $array['tanggal_dibuat']     = date('Y-m-d H:i:s');
                 $array['create_memberID'] = 1;
                 $array['create_roleID']   = 1;
                 $array['modify_date']     = date('Y-m-d H:i:s');
@@ -155,8 +155,8 @@ class Install extends My_Controller
                 $garray['sitename'] = $this->input->post('sitename');
                 $this->generalsetting_m->insertorupdate_generalsetting($garray);
 
-                $this->session->set_userdata('adminusername', $array['username']);
-                $this->session->set_userdata('adminpassword', $this->input->post('password'));
+                $this->session->set_userdata('adminusername', $array['nama_pengguna']);
+                $this->session->set_userdata('adminpassword', $this->input->post('kata_sandi'));
                 redirect(base_url('install/complate'));
             }
         } else {
@@ -175,8 +175,8 @@ class Install extends My_Controller
         if (strpos($this->input->post('database'), '.') === false) {
             ini_set('display_errors', 'Off');
             $config_db['hostname'] = trim($this->input->post('hostname'));
-            $config_db['username'] = trim($this->input->post('username'));
-            $config_db['password'] = trim($this->input->post('password'));
+            $config_db['nama_pengguna'] = trim($this->input->post('nama_pengguna'));
+            $config_db['kata_sandi'] = trim($this->input->post('kata_sandi'));
             $config_db['database'] = trim($this->input->post('database'));
             $config_db['dbdriver'] = 'mysqli';
             $this->config->db_config_update($config_db);
@@ -221,12 +221,12 @@ class Install extends My_Controller
                 'rules' => 'trim|xss_clean|required|max_length[50]',
             ),
             array(
-                'field' => 'username',
+                'field' => 'nama_pengguna',
                 'label' => 'User Name',
                 'rules' => 'trim|xss_clean|required|max_length[50]|callback_test_mysql_connection',
             ),
             array(
-                'field' => 'password',
+                'field' => 'kata_sandi',
                 'label' => 'Password',
                 'rules' => 'trim|xss_clean|max_length[50]',
             ),
@@ -243,7 +243,7 @@ class Install extends My_Controller
     {
         $rules = array(
             array(
-                'field' => 'username',
+                'field' => 'nama_pengguna',
                 'label' => 'Envato User Name',
                 'rules' => 'trim|xss_clean|required|max_length[50]',
             ),
@@ -275,7 +275,7 @@ class Install extends My_Controller
                 'rules' => 'trim|xss_clean|max_length[60]',
             ),
             array(
-                'field' => 'password',
+                'field' => 'kata_sandi',
                 'label' => 'Password',
                 'rules' => 'trim|xss_clean|required|max_length[128]',
             ),
@@ -297,12 +297,12 @@ class Install extends My_Controller
     {
 		return true;
         if ($_POST['purchasecode']) {
-            $username     = $this->input->post('username');
+            $username     = $this->input->post('nama_pengguna');
             $purchasecode = $this->input->post('purchasecode');
             $ipaddress    = $this->input->ip_address();
             $hostname     = base_url('/');
 
-            $array['username']     = $username;
+            $array['nama_pengguna']     = $username;
             $array['purchasecode'] = $purchasecode;
             $array['ipaddress']    = $ipaddress;
             $array['hostname']     = $hostname;

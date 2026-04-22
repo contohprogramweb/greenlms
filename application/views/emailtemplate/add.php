@@ -3,23 +3,23 @@
   		<h1>Template Email</h1>
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li><a href="<?=base_url('emailtemplate/index')?>">Template Email</a></li>
-            <li class="active">Tambah</li>
+            <li><a href="<?=base_url('templat_surel/index')?>">Template Email</a></li>
+            <li class='aktif'>Tambah</li>
         </ol>
     </section>
     <section class="content">
         <div class="box box-mytheme">
             <div class="row">
                 <div class="col-md-6">
-                    <form role="form" method="POST" enctype="multipart/form-data">
+                    <form peran="form" method="POST" enctype="multipart/form-data">
                         <div class="box-body">
-                            <div class="form-group <?=form_error('name') ? 'has-error' : ''?>">
-                                <label for="name">Nama</label> <span class="text-red">*</span>
-                                <input type="text" class="form-control" value="<?=set_value('name')?>" id="name" name="name"/>
-                                <?=form_error('name')?>
+                            <div class="form-group <?=form_error('nama') ? 'has-error' : ''?>">
+                                <label for='nama'>Nama</label> <span class="text-red">*</span>
+                                <input type="text" class="form-control" value="<?=set_value('nama')?>" id='nama' name='nama'/>
+                                <?=form_error('nama')?>
                             </div>
                             <div class="form-group">
-                                <label for="name">Atribut</label><br/>
+                                <label for='nama'>Atribut</label><br/>
                                 <div class="btn-group">
                                     <span class="btn btn-default single_email_tag" data-emailtag="[memberID]">Nomor Anggota</span>
                                     <span class="btn btn-default single_email_tag" data-emailtag="[name]">Nama</span>
@@ -36,12 +36,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="template">Template Email</label> <span class="text-red">*</span>
-                                <textarea name="template" id="template" cols="30" class="form-control"><?=set_value('template')?></textarea>
-                                <?=form_error('template','<p class="text-red">','</p>')?>
+                                <label for='templat'>Template Email</label> <span class="text-red">*</span>
+                                <textarea name='templat' id='templat' cols="30" class="form-control"><?=set_value('templat')?></textarea>
+                                <?=form_error('templat','<p class="text-red">','</p>')?>
                             </div>
-                            <div class="form-group <?=form_error('name') ? 'has-error' : ''?>">
-                                <label for="status">Status</label> <span class="text-red">*</span>
+                            <div class="form-group <?=form_error('nama') ? 'has-error' : ''?>">
+                                <label for='status'>Status</label> <span class="text-red">*</span>
                                 <?php 
                                     $statusArray['0'] = 'Silakan Pilih'; 
                                     $statusArray['1'] = 'Aktif';

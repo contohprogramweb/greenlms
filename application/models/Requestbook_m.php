@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Requestbook_m extends MY_Model
 {
 
-    protected $_table_name  = 'requestbook';
+    protected $_table_name  = 'permintaan_buku';
     protected $_primary_key = 'requestbookID';
     protected $_order_by    = "requestbookID desc";
 

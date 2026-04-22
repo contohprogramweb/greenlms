@@ -19,16 +19,16 @@
 						            <tr>
 						                <td class="product-image">
 						                    <a href="<?=base_url('frontend/single/'.$cart_content['id'])?>">
-						                    	<img src="<?=$cart_content['images']?>" alt="<?=$cart_content['name']?>"/>
+						                    	<img src="<?=$cart_content['images']?>" alt="<?=$cart_content['nama']?>"/>
 						                    </a>
 						                </td>
 						                <td class="product-name">
 						                	<a href="<?=base_url('frontend/single/'.$cart_content['id'])?>">
-						                		<?=$cart_content['name']?>
+						                		<?=$cart_content['nama']?>
 						                	</a>
 						                </td>
 						                <td class="product-price">
-						                	<?=app_amount_format($cart_content['price'])?>
+						                	<?=app_amount_format($cart_content['harga'])?>
 						                </td>
 						                <td class="product-quantity">
 						                	<input min="1" max="100" value="<?=$cart_content['qty']?>" type="number" />
@@ -57,7 +57,7 @@
 			                    <tr class="order-total">
 			                        <th>Total</th>
 			                        <th>
-			                            <span class="amount"><?=app_amount_format($this->cart->total()); ?></span>
+			                            <span class='jumlah'><?=app_amount_format($this->cart->total()); ?></span>
 			                        </th>
 			                    </tr>
 			                </tbody>

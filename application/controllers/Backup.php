@@ -14,7 +14,7 @@ class Backup extends Admin_Controller
 
     public function index()
     {
-		$this->data['get_title'] = 'Backup Database | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Backup Database | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data["subview"] = "backup/index";
         $this->load->view('_main_layout', $this->data);

@@ -10,7 +10,7 @@ class Rack extends Admin_Controller
         $this->load->model('rack_m');
 
         $lang = 'indonesia';
-        $this->lang->load('rack', $lang);
+        $this->lang->load('rak', $lang);
     }
 
     public function index()
@@ -25,40 +25,40 @@ class Rack extends Admin_Controller
                 'assets/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js',
             ),
         );
-		$this->data['get_title'] = 'Kelola Rak | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Kelola Rak | '.$this->data['pengaturan_umum']->sitename;
 
         $this->data['racks']   = $this->rack_m->get_rack();
-        $this->data["subview"] = "rack/index";
+        $this->data["subview"] = "rak/index";
         $this->load->view('_main_layout', $this->data);
     }
 
     public function add()
     {
-		$this->data['get_title'] = 'Tambah Rak | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Tambah Rak | '.$this->data['pengaturan_umum']->sitename;
 		
         if ($_POST) {
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
-                $this->data["subview"] = "rack/add";
+                $this->data["subview"] = "rak/add";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $array                    = [];
-                $array['name']            = $this->input->post('name');
-                $array['description']     = $this->input->post('description');
-                $array['create_date']     = date('Y-m-d H:i:s');
+                $array['nama']            = $this->input->post('nama');
+                $array['deskripsi']     = $this->input->post('deskripsi');
+                $array['tanggal_dibuat']     = date('Y-m-d H:i:s');
                 $array['create_memberID'] = $this->session->userdata('loginmemberID');
-                $array['create_roleID']   = $this->session->userdata('roleID');
+                $array['create_roleID']   = $this->session->userdata('id_peran');
                 $array['modify_date']     = date('Y-m-d H:i:s');
                 $array['modify_memberID'] = $this->session->userdata('loginmemberID');
-                $array['modify_roleID']   = $this->session->userdata('roleID');
+                $array['modify_roleID']   = $this->session->userdata('id_peran');
 
                 $this->rack_m->insert_rack($array);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('rack/index'));
+                redirect(base_url('rak/index'));
             }
         } else {
-            $this->data["subview"] = "rack/add";
+            $this->data["subview"] = "rak/add";
             $this->load->view('_main_layout', $this->data);
         }
     }
@@ -66,31 +66,31 @@ class Rack extends Admin_Controller
     public function edit()
     {
         $rackID = htmlentities(escapeString($this->uri->segment(3)));
-		$this->data['get_title'] = 'Edit Rak | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Edit Rak | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $rackID) {
-            $this->data['rack'] = $this->rack_m->get_single_rack(array('rackID' => $rackID));
-            if (calculate($this->data['rack'])) {
+            $this->data['rak'] = $this->rack_m->get_single_rack(array('rackID' => $rackID));
+            if (calculate($this->data['rak'])) {
                 if ($_POST) {
                     $rules = $this->rules();
                     $this->form_validation->set_rules($rules);
                     if ($this->form_validation->run() == false) {
-                        $this->data["subview"] = "rack/edit";
+                        $this->data["subview"] = "rak/edit";
                         $this->load->view('_main_layout', $this->data);
                     } else {
                         $array                    = [];
-                        $array['name']            = $this->input->post('name');
-                        $array['description']     = $this->input->post('description');
+                        $array['nama']            = $this->input->post('nama');
+                        $array['deskripsi']     = $this->input->post('deskripsi');
                         $array['modify_date']     = date('Y-m-d H:i:s');
                         $array['modify_memberID'] = $this->session->userdata('loginmemberID');
-                        $array['modify_roleID']   = $this->session->userdata('roleID');
+                        $array['modify_roleID']   = $this->session->userdata('id_peran');
 
                         $this->rack_m->update_rack($array, $rackID);
                         $this->session->set_flashdata('success', 'Success');
-                        redirect(base_url('rack/index'));
+                        redirect(base_url('rak/index'));
                     }
                 } else {
-                    $this->data["subview"] = "rack/edit";
+                    $this->data["subview"] = "rak/edit";
                     $this->load->view('_main_layout', $this->data);
                 }
             } else {
@@ -107,11 +107,11 @@ class Rack extends Admin_Controller
     {
         $rackID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $rackID) {
-            $rack = $this->rack_m->get_single_rack(array('rackID' => $rackID));
-            if (calculate($rack)) {
+            $rak = $this->rack_m->get_single_rack(array('rackID' => $rackID));
+            if (calculate($rak)) {
                 $this->rack_m->delete_rack($rackID);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('rack/index'));
+                redirect(base_url('rak/index'));
             } else {
                 $this->data["subview"] = "_not_found";
                 $this->load->view('_main_layout', $this->data);
@@ -126,12 +126,12 @@ class Rack extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'name',
+                'field' => 'nama',
                 'label' => $this->lang->line('rack_name'),
                 'rules' => 'trim|xss_clean|required|max_length[100]|callback_check_unique_rack',
             ),
             array(
-                'field' => 'description',
+                'field' => 'deskripsi',
                 'label' => $this->lang->line('rack_description'),
                 'rules' => 'trim|xss_clean|required',
             ),
@@ -143,15 +143,15 @@ class Rack extends Admin_Controller
     {
         $rackID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $rackID) {
-            $rack = $this->rack_m->get_single_rack(array('name' => $name, 'rackID !=' => $rackID));
-            if (calculate($rack)) {
+            $rak = $this->rack_m->get_single_rack(array('nama' => $name, 'rackID !=' => $rackID));
+            if (calculate($rak)) {
                 $this->form_validation->set_message("check_unique_rack", "The %s is already exits.");
                 return false;
             }
             return true;
         } else {
-            $rack = $this->rack_m->get_single_rack(array('name' => $name));
-            if (calculate($rack)) {
+            $rak = $this->rack_m->get_single_rack(array('nama' => $name));
+            if (calculate($rak)) {
                 $this->form_validation->set_message("check_unique_rack", "The %s is already exits.");
                 return false;
             }

@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Order_m extends MY_Model
 {
 
-    protected $_table_name  = 'orders';
-    protected $_primary_key = 'orderID';
+    protected $_table_name  = 'pesanan';
+    protected $_primary_key = 'id_pesanan';
     protected $_order_by    = "orderID desc";
 
     public function __construct()

@@ -24,7 +24,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="<?=base_url('assets/dist/css/AdminLTE.min.css')?>">
     <link rel="stylesheet" href="<?=base_url('assets/plugins/toastr/toastr.min.css')?>">
-    <link rel="stylesheet" href="<?=base_url('assets/dist/css/skins/skin-'.trim($generalsetting->settheme).'.css')?>">
+    <link rel="stylesheet" href="<?=base_url('assets/dist/css/skins/skin-'.trim($pengaturan_umum->settheme).'.css')?>">
     <link rel="stylesheet" href="<?=base_url('assets/custom/css/style.css')?>">
 
 
@@ -45,7 +45,7 @@
         <?php }
       }
     ?>
-    <link rel="shortcut icon" type="image/x-icon" href="<?=app_image_link($generalsetting->logo, 'uploads/images/', 'logo.jpg')?>">
+    <link rel="shortcut icon" type="image/x-icon" href="<?=app_image_link($pengaturan_umum->logo, 'uploads/images/', 'logo.jpg')?>">
     <script type="text/javascript">
         var THEME_BASE_URL = "<?=base_url('/')?>";
     </script>
@@ -61,6 +61,6 @@
 		}
 	</style>
     </head>
-    <body class="hold-transition skin-<?=$generalsetting->settheme?> sidebar-mini">
+    <body class="hold-transition skin-<?=$pengaturan_umum->settheme?> sidebar-mini">
         <div class="wrapper">
             

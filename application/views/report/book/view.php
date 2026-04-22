@@ -39,10 +39,10 @@
 	}
 </style>
 <div class="reportheader">
-	<h2><?=$generalsetting->sitename?></h2>
-	<p><?=$generalsetting->phone?></p>
-	<p><?=$generalsetting->email?></p>
-	<p><?=$generalsetting->address?></p>
+	<h2><?=$pengaturan_umum->sitename?></h2>
+	<p><?=$pengaturan_umum->telepon?></p>
+	<p><?=$pengaturan_umum->surel?></p>
+	<p><?=$pengaturan_umum->alamat?></p>
 </div>
 <?php if(calculate($books)) { ?>
 	<table class="table table-hover table-striped table-bordered reporttable">
@@ -59,16 +59,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php $i=0; foreach($books as $book) { $i++;?>
+			<?php $i=0; foreach($books as $buku) { $i++;?>
 			<tr>
 				<td><?=$i?></td>
-				<td><img src="<?=app_image_link($book->coverphoto, 'uploads/book/')?>" class="profile_img"></td>
-				<td><?=$book->name?></td>
-				<td><?=$book->author?></td>
-				<td><?=$book->codeno?></td>
-				<td><?=isset($bookcategorys[$book->bookcategoryID]) ? $bookcategorys[$book->bookcategoryID]->name : ''?></td>
-				<td><?=($book->status == 0) ? 'Tersedia' : 'Tidak Tersedia'?></td>
-				<td><?=isset($bookQuantity[$book->bookID]) ? $bookQuantity[$book->bookID] : 0?></td>
+				<td><img src="<?=app_image_link($buku->coverphoto, 'uploads/buku/')?>" class="profile_img"></td>
+				<td><?=$buku->nama?></td>
+				<td><?=$buku->penulis?></td>
+				<td><?=$buku->codeno?></td>
+				<td><?=isset($bookcategorys[$buku->bookcategoryID]) ? $bookcategorys[$buku->bookcategoryID]->nama : ''?></td>
+				<td><?=($buku->status == 0) ? 'Tersedia' : 'Tidak Tersedia'?></td>
+				<td><?=isset($bookQuantity[$buku->id_buku]) ? $bookQuantity[$buku->id_buku] : 0?></td>
 			</tr>
 			<?php } ?>
 		</tbody>
@@ -79,6 +79,6 @@
 	</div>
 <?php } ?>
 <div class="reportfooter">
-	<h4><?=$generalsetting->sitename?></h4>
-	<p><?=$generalsetting->address?></p>
+	<h4><?=$pengaturan_umum->sitename?></h4>
+	<p><?=$pengaturan_umum->alamat?></p>
 </div>

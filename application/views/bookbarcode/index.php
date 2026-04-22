@@ -3,7 +3,7 @@
         <h1>Barcode</h1>
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li class="active">Barcode</li>
+            <li class='aktif'>Barcode</li>
         </ol>
     </section>
     <section class="content">
@@ -17,8 +17,8 @@
                                 <?php 
                                     $bookcategoryArray[0]   = 'Silakan Pilih';
                                     if(calculate($bookcategorys)) {
-                                        foreach($bookcategorys as $bookcategory) {
-                                            $bookcategoryArray[$bookcategory->bookcategoryID] = $bookcategory->name;
+                                        foreach($bookcategorys as $kategori_buku) {
+                                            $bookcategoryArray[$kategori_buku->bookcategoryID] = $kategori_buku->nama;
                                         }
                                     }
                                     echo form_dropdown('bookcategoryID', $bookcategoryArray, set_value('bookcategoryID'),'id="bookcategoryID" class="form-control"');
@@ -26,16 +26,16 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="form-group <?=form_error('bookID') ? 'has-error' : ''?>">
+                            <div class="form-group <?=form_error('id_buku') ? 'has-error' : ''?>">
                                 <label>Barcode Buku</label> <span class="text-red">*</span>
                                 <?php
                                     $bookArray[0]   = 'Silakan Pilih';
                                     if(calculate($books)) {
-                                        foreach($books as $book) {
-                                            $bookArray[$book->bookID] = $book->name . ' - ' . $book->codeno;
+                                        foreach($books as $buku) {
+                                            $bookArray[$buku->id_buku] = $buku->nama . ' - ' . $buku->codeno;
                                         }
                                     } 
-                                    echo form_dropdown('bookID', $bookArray, set_value('bookID'),'id="bookID" class="form-control"');
+                                    echo form_dropdown('id_buku', $bookArray, set_value('id_buku'),'id='id_buku' class="form-control"');
                                 ?>
                             </div>
                         </div>

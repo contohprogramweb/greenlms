@@ -29,7 +29,7 @@
 	<!-- style="background: url('<?=base_url('uploads/default/loginbg.jpg')?>') no-repeat center center fixed;background-size: 100% 100%; " -->
         <div class="login-box">
             <div class="login-logo">
-                <a href="<?=base_url('/')?>"><b><?=$generalsetting->sitename?></b></a>
+                <a href="<?=base_url('/')?>"><b><?=$pengaturan_umum->sitename?></b></a>
             </div>
             <div class="login-box-body">
                 <h3 style="margin:-20 0 30 0;">LOGIN</h3>
@@ -44,9 +44,9 @@
                         <input type="text" id="membername" class="form-control" name="username_or_email" value="<?=set_value('username_or_email')?>"/>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
-                    <div class="form-group has-feedback <?=form_error('password') ? 'has-error' : ''?>">
+                    <div class="form-group has-feedback <?=form_error('kata_sandi') ? 'has-error' : ''?>">
                         <label>Password</label> <span class="text-red">*</span>
-                        <input type="password" id="password" class="form-control" name="password" value="<?=set_value('password')?>">
+                        <input type='kata_sandi' id='kata_sandi' class="form-control" name='kata_sandi' value="<?=set_value('kata_sandi')?>">
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="row">
@@ -62,10 +62,10 @@
                 </form>
                 <div class="row">
                     <p class="text-center">-- ATAU --</p>
-                    <div class="<?=$generalsetting->registration ? 'col-xs-6' : 'col-xs-12 text-center'?>">
-                        <a class="btn btn-danger btn-sm <?=$generalsetting->registration ? 'pull-left' : ''?>" href="<?=base_url('login/resetpassword')?>">Reset Password</a><br>
+                    <div class="<?=$pengaturan_umum->registration ? 'col-xs-6' : 'col-xs-12 text-center'?>">
+                        <a class="btn btn-danger btn-sm <?=$pengaturan_umum->registration ? 'pull-left' : ''?>" href="<?=base_url('login/reset_kata_sandi')?>">Reset Password</a><br>
                     </div>
-                    <?php if($generalsetting->registration) { ?>
+                    <?php if($pengaturan_umum->registration) { ?>
                         <div class="col-xs-6">
                             <a class="btn btn-success btn-sm pull-right" href="<?=base_url('login/registermember')?>" class="text-center">Register</a>
                         </div>
@@ -81,7 +81,7 @@
                     <strong>Login Panel</strong><br/>
                     <button class="btn btn-primary" id="admin">Admin</button>
                     <button class="btn btn-danger" id="librarian">Librarian</button>
-                    <button class="btn btn-warning" id="member">Anggota</button>
+                    <button class="btn btn-warning" id='anggota'>Anggota</button>
                     <button class="btn btn-success" id="guest">Guest</button>
                 </div>
             </div>
@@ -115,8 +115,8 @@
                 $('#password').attr('type','text');
             });
 
-            $('#member').click(function() {
-                $('#membername').val('member');
+            $('#anggota').click(function() {
+                $('#membername').val('anggota');
                 $('#password').val('123456');
                 $('#password').attr('type','text');
             });

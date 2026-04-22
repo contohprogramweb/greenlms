@@ -3,7 +3,7 @@
 		<h1>Izin</h1>
 		<ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-			<li class="active">Izin</li>
+			<li class='aktif'>Izin</li>
 		</ol>
     </section>
     <section class="content">
@@ -11,15 +11,15 @@
             <div class="col-md-12">
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
-                    <?php if(calculate($roles)) { $i=0; foreach($roles as $role) { $i++; ?>
-                        <li <?=($urlroleID == $role->roleID) ? 'class="active"' : (($i==1 && $urlroleID == 0) ? 'class="active"' : '')?>><a href="#role<?=$role->roleID?>" data-toggle="tab" aria-expanded="false"><?=$role->role?></a></li>
+                    <?php if(calculate($roles)) { $i=0; foreach($roles as $peran) { $i++; ?>
+                        <li <?=($urlroleID == $peran->id_peran) ? 'class='aktif'' : (($i==1 && $urlroleID == 0) ? 'class='aktif'' : '')?>><a href="#peran<?=$peran->id_peran?>" data-toggle="tab" aria-expanded="false"><?=$peran->peran?></a></li>
                     <?php } } ?>
                     </ul>
                     <div class="tab-content">
-                        <?php if(calculate($roles)) { $i=0; foreach($roles as $role) { $i++; ?>
-                            <div class="tab-pane <?=($urlroleID==$role->roleID) ? 'active' : ($i==1  && $urlroleID == 0) ? 'active' : ''?>" id="role<?=$role->roleID?>">
-                                <form method="post" action="<?=base_url('/permissions/save')?>">
-                                    <input type="hidden" name="permissionsroleID" value="<?=$role->roleID?>">
+                        <?php if(calculate($roles)) { $i=0; foreach($roles as $peran) { $i++; ?>
+                            <div class="tab-pane <?=($urlroleID==$peran->id_peran) ? 'aktif' : ($i==1  && $urlroleID == 0) ? 'aktif' : ''?>" id="peran<?=$peran->id_peran?>">
+                                <form method="post" action="<?=base_url('/izin/save')?>">
+                                    <input type="hidden" name="permissionsroleID" value="<?=$peran->id_peran?>">
                                     <div id="hide-table">
                                         <table class="table table-bordered table-striped mainpermission">
                                             <thead>
@@ -36,41 +36,41 @@
                                                 <?php $j=0; if(calculate($permissionsModuleArray)) { foreach($permissionsModuleArray as $permission) { $j++; ?>
                                                     <tr>
                                                         <td data-title="#"> 
-                                                            <input type="checkbox" id="<?=$permission->name?>_<?=$role->roleID?>" name="<?=$permission->name?>" value="<?=$permission->permissionlogID?>"  <?=isset($permissions[$role->roleID][$permission->permissionlogID]) ? 'checked' : ''?> class="mainmodule"/> 
+                                                            <input type="checkbox" id="<?=$permission->nama?>_<?=$peran->id_peran?>" name="<?=$permission->nama?>" value="<?=$permission->permissionlogID?>"  <?=isset($izin[$peran->id_peran][$permission->permissionlogID]) ? 'checked' : ''?> class="mainmodule"/> 
                                                         </td>
-                                                        <td data-title="Nama Modul"><?=ucfirst($permission->name)?></td>
+                                                        <td data-title="Nama Modul"><?=ucfirst($permission->nama)?></td>
                                                         <td data-title="Tambah">
                                                         <?php 
-                                                            $permissionadd = $permission->name.'_add';
+                                                            $permissionadd = $permission->nama.'_add';
                                                             if(isset($permissionlogsArray[$permissionadd])) { ?>
-                                                                <input type="checkbox" id="<?=$permissionadd?>_<?=$role->roleID?>" name="<?=$permissionadd?>" value="<?=$permissionlogsArray[$permissionadd]?>" <?=isset($permissions[$role->roleID][$permissionlogsArray[$permissionadd]]) ? 'checked' : ''?> />
+                                                                <input type="checkbox" id="<?=$permissionadd?>_<?=$peran->id_peran?>" name="<?=$permissionadd?>" value="<?=$permissionlogsArray[$permissionadd]?>" <?=isset($izin[$peran->id_peran][$permissionlogsArray[$permissionadd]]) ? 'checked' : ''?> />
                                                         <?php } else {
                                                             echo "&nbsp;";
                                                         } ?>
                                                         </td>
                                                         <td data-title="Edit">
                                                         <?php 
-                                                            $permissionedit = $permission->name.'_edit';
+                                                            $permissionedit = $permission->nama.'_edit';
                                                             if(isset($permissionlogsArray[$permissionedit])) { ?>
-                                                                <input type="checkbox" id="<?=$permissionedit?>_<?=$role->roleID?>" name="<?=$permissionedit?>" value="<?=$permissionlogsArray[$permissionedit]?>" <?=isset($permissions[$role->roleID][$permissionlogsArray[$permissionedit]]) ? 'checked' : ''?> />
+                                                                <input type="checkbox" id="<?=$permissionedit?>_<?=$peran->id_peran?>" name="<?=$permissionedit?>" value="<?=$permissionlogsArray[$permissionedit]?>" <?=isset($izin[$peran->id_peran][$permissionlogsArray[$permissionedit]]) ? 'checked' : ''?> />
                                                         <?php } else {
                                                             echo "&nbsp;";
                                                         } ?>
                                                         </td>
                                                         <td data-title="Delete">
                                                         <?php 
-                                                            $permissiondelete = $permission->name.'_delete';
+                                                            $permissiondelete = $permission->nama.'_delete';
                                                             if(isset($permissionlogsArray[$permissiondelete])) { ?>
-                                                                <input type="checkbox" id="<?=$permissiondelete?>_<?=$role->roleID?>" name="<?=$permissiondelete?>" value="<?=$permissionlogsArray[$permissiondelete]?>" <?=isset($permissions[$role->roleID][$permissionlogsArray[$permissiondelete]]) ? 'checked' : ''?> />
+                                                                <input type="checkbox" id="<?=$permissiondelete?>_<?=$peran->id_peran?>" name="<?=$permissiondelete?>" value="<?=$permissionlogsArray[$permissiondelete]?>" <?=isset($izin[$peran->id_peran][$permissionlogsArray[$permissiondelete]]) ? 'checked' : ''?> />
                                                         <?php } else {
                                                             echo "&nbsp;";
                                                         } ?>
                                                         </td>
                                                         <td data-title="Lihat">
                                                         <?php 
-                                                            $permissionview = $permission->name.'_view';
+                                                            $permissionview = $permission->nama.'_view';
                                                             if(isset($permissionlogsArray[$permissionview])) { ?>
-                                                                <input type="checkbox" id="<?=$permissionview?>_<?=$role->roleID?>" name="<?=$permissionview?>" value="<?=$permissionlogsArray[$permissionview]?>" <?=isset($permissions[$role->roleID][$permissionlogsArray[$permissionview]]) ? 'checked' : ''?> />
+                                                                <input type="checkbox" id="<?=$permissionview?>_<?=$peran->id_peran?>" name="<?=$permissionview?>" value="<?=$permissionlogsArray[$permissionview]?>" <?=isset($izin[$peran->id_peran][$permissionlogsArray[$permissionview]]) ? 'checked' : ''?> />
                                                         <?php } else {
                                                             echo "&nbsp;";
                                                         } ?>
@@ -90,7 +90,7 @@
                                             </tfoot>
                                         </table>
                                     </div>
-                                    <button class="btn btn-large btn-mytheme">Simpan <span class="text-bold bg-black" style="padding: 2px 5px; border-radius: 5px;"><?=$role->role?></span></button>
+                                    <button class="btn btn-large btn-mytheme">Simpan <span class="text-bold bg-black" style="padding: 2px 5px; border-radius: 5px;"><?=$peran->peran?></span></button>
                                 </form>
                             </div>
                         <?php } } ?>

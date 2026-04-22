@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Bookitem_m extends MY_Model
 {
 
-    protected $_table_name  = 'bookitem';
+    protected $_table_name  = 'item_buku';
     protected $_primary_key = 'bookitemID';
     protected $_order_by    = "bookitemID asc";
 
@@ -55,7 +55,7 @@ class Bookitem_m extends MY_Model
 
     public function update_bookitem_by_bookID($array, $bookID)
     {
-        return $this->db->update($this->_table_name, $array, array('bookID' => $bookID));
+        return $this->db->update($this->_table_name, $array, array('id_buku' => $bookID));
     }
 
     public function get_where_in_bookitem($column, $whereinarray, $wherearray = null, $array = null)

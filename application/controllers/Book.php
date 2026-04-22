@@ -13,7 +13,7 @@ class Book extends Admin_Controller
         $this->load->model('bookcategory_m');
 
         $lang = 'indonesia';
-        $this->lang->load('book', $lang);
+        $this->lang->load('buku', $lang);
     }
 
     public function index()
@@ -30,10 +30,10 @@ class Book extends Admin_Controller
         );
 		
 		
-		$this->data['get_title'] = 'Kelola Buku | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Kelola Buku | '.$this->data['pengaturan_umum']->sitename;
 		  
-        $this->data['books']   = $this->book_m->get_order_by_book(['deleted_at'=> 0]);
-        $this->data["subview"] = "book/index";
+        $this->data['books']   = $this->book_m->get_order_by_book(['dihapus_pada'=> 0]);
+        $this->data["subview"] = "buku/index";
         $this->load->view('_main_layout', $this->data);
     }
 
@@ -50,7 +50,7 @@ class Book extends Admin_Controller
                 'assets/custom/js/fileupload.js',
             ),
         );
-		$this->data['get_title'] = 'Tambah Buku | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Tambah Buku | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data['racks']         = $this->rack_m->get_rack();
         $this->data['bookcategorys'] = $this->bookcategory_m->get_order_by_bookcategory(array('status' => 1));
@@ -58,47 +58,47 @@ class Book extends Admin_Controller
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
-                $this->data["subview"] = "book/add";
+                $this->data["subview"] = "buku/add";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $array                    = [];
-                $array['name']            = $this->input->post('name');
-                $array['author']          = $this->input->post('author');
+                $array['nama']            = $this->input->post('nama');
+                $array['penulis']          = $this->input->post('penulis');
                 $array['bookcategoryID']  = $this->input->post('bookcategoryID');
-                $array['quantity']        = $this->input->post('quantity');
-                $array['price']           = $this->input->post('price');
+                $array['jumlah']        = $this->input->post('jumlah');
+                $array['harga']           = $this->input->post('harga');
                 $array['codeno']          = $this->input->post('codeno');
                 $array['coverphoto']      = $this->upload_data['coverphoto']['file_name'];
                 $array['isbnno']          = $this->input->post('isbnno');
                 $array['rackID']          = ($this->input->post('rackID')) ? $this->input->post('rackID') : null;
                 $array['editionnumber']   = $this->input->post('editionnumber');
                 $array['editiondate']     = (($this->input->post('editiondate')) ? date('Y-m-d', strtotime($this->input->post('editiondate'))) : null);
-                $array['publisher']       = $this->input->post('publisher');
+                $array['penerbit']       = $this->input->post('penerbit');
                 $array['publisheddate']   = (($this->input->post('publisheddate')) ? date('Y-m-d', strtotime($this->input->post('publisheddate'))) : null);
                 $array['notes']           = $this->input->post('notes');
-                $array['create_date']     = date('Y-m-d H:i:s');
+                $array['tanggal_dibuat']     = date('Y-m-d H:i:s');
                 $array['create_memberID'] = $this->session->userdata('loginmemberID');
-                $array['create_roleID']   = $this->session->userdata('roleID');
+                $array['create_roleID']   = $this->session->userdata('id_peran');
                 $array['modify_date']     = date('Y-m-d H:i:s');
                 $array['modify_memberID'] = $this->session->userdata('loginmemberID');
-                $array['modify_roleID']   = $this->session->userdata('roleID');
+                $array['modify_roleID']   = $this->session->userdata('id_peran');
                 $this->book_m->insert_book($array);
                 $bookID = $this->db->insert_id();
 
                 $bookitemArray = [];
-                for ($i = 1; $i <= $array['quantity']; $i++) {
-                    $bookitemArray[$i]['bookID']     = $bookID;
+                for ($i = 1; $i <= $array['jumlah']; $i++) {
+                    $bookitemArray[$i]['id_buku']     = $bookID;
                     $bookitemArray[$i]['bookno']     = $i;
                     $bookitemArray[$i]['status']     = 0;
-                    $bookitemArray[$i]['deleted_at'] = 0;
+                    $bookitemArray[$i]['dihapus_pada'] = 0;
                 }
                 $this->bookitem_m->insert_bookitem_batch($bookitemArray);
 
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('book/index'));
+                redirect(base_url('buku/index'));
             }
         } else {
-            $this->data["subview"] = "book/add";
+            $this->data["subview"] = "buku/add";
             $this->load->view('_main_layout', $this->data);
         }
     }
@@ -107,8 +107,8 @@ class Book extends Admin_Controller
     {
         $bookID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $bookID) {
-            $book = $this->book_m->get_single_book(array('bookID' => $bookID, 'deleted_at' => 0));
-            if (calculate($book)) {
+            $buku = $this->book_m->get_single_book(array('id_buku' => $bookID, 'dihapus_pada' => 0));
+            if (calculate($buku)) {
                 $this->data['headerassets'] = array(
                     'css'      => array(
                         'assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css',
@@ -121,53 +121,53 @@ class Book extends Admin_Controller
                     ),
                 );
 				
-				$this->data['get_title'] = 'Edit Buku | '.$this->data["generalsetting"]->sitename;
+				$this->data['get_title'] = 'Edit Buku | '.$this->data['pengaturan_umum']->sitename;
 				
-                $this->data['book']          = $book;
+                $this->data['buku']          = $buku;
                 $this->data['racks']         = $this->rack_m->get_rack();
                 $this->data['bookcategorys'] = $this->bookcategory_m->get_order_by_bookcategory(array('status' => 1));
                 if ($_POST) {
                     $rules = $this->rules();
                     $this->form_validation->set_rules($rules);
                     if ($this->form_validation->run() == false) {
-                        $this->data["subview"] = "book/edit";
+                        $this->data["subview"] = "buku/edit";
                         $this->load->view('_main_layout', $this->data);
                     } else {
                         $array                    = [];
-                        $array['name']            = $this->input->post('name');
-                        $array['author']          = $this->input->post('author');
+                        $array['nama']            = $this->input->post('nama');
+                        $array['penulis']          = $this->input->post('penulis');
                         $array['bookcategoryID']  = $this->input->post('bookcategoryID');
-                        $array['quantity']        = $this->input->post('quantity');
-                        $array['price']           = $this->input->post('price');
+                        $array['jumlah']        = $this->input->post('jumlah');
+                        $array['harga']           = $this->input->post('harga');
                         $array['codeno']          = $this->input->post('codeno');
                         $array['coverphoto']      = $this->upload_data['coverphoto']['file_name'];
                         $array['isbnno']          = $this->input->post('isbnno');
                         $array['rackID']          = ($this->input->post('rackID')) ? $this->input->post('rackID') : null;
                         $array['editionnumber']   = $this->input->post('editionnumber');
                         $array['editiondate']     = (($this->input->post('editiondate')) ? date('Y-m-d', strtotime($this->input->post('editiondate'))) : null);
-                        $array['publisher']       = $this->input->post('publisher');
+                        $array['penerbit']       = $this->input->post('penerbit');
                         $array['publisheddate']   = (($this->input->post('publisheddate')) ? date('Y-m-d', strtotime($this->input->post('publisheddate'))) : null);
                         $array['notes']           = $this->input->post('notes');
                         $array['modify_date']     = date('Y-m-d H:i:s');
                         $array['modify_memberID'] = $this->session->userdata('loginmemberID');
-                        $array['modify_roleID']   = $this->session->userdata('roleID');
+                        $array['modify_roleID']   = $this->session->userdata('id_peran');
 
-                        if ($array['quantity'] >= $book->quantity) {
-                            $bookitems           = pluck($this->bookitem_m->get_order_by_bookitem(['bookID' => $bookID]), 'bookitemID', 'bookno');
+                        if ($array['jumlah'] >= $buku->jumlah) {
+                            $bookitems           = pluck($this->bookitem_m->get_order_by_bookitem(['id_buku' => $bookID]), 'bookitemID', 'bookno');
                             $insertbookitemArray = [];
                             $updatebookitemArray = [];
-                            for ($i = ($book->quantity + 1); $i <= $array['quantity']; $i++) {
+                            for ($i = ($buku->jumlah + 1); $i <= $array['jumlah']; $i++) {
                                 if (isset($bookitems[$i])) {
-                                    $updatebookitemArray[$i]['bookID']     = $bookID;
+                                    $updatebookitemArray[$i]['id_buku']     = $bookID;
                                     $updatebookitemArray[$i]['bookitemID'] = $bookitems[$i];
                                     $updatebookitemArray[$i]['bookno']     = $i;
                                     $updatebookitemArray[$i]['status']     = 0;
-                                    $updatebookitemArray[$i]['deleted_at'] = 0;
+                                    $updatebookitemArray[$i]['dihapus_pada'] = 0;
                                 } else {
-                                    $insertbookitemArray[$i]['bookID']     = $bookID;
+                                    $insertbookitemArray[$i]['id_buku']     = $bookID;
                                     $insertbookitemArray[$i]['bookno']     = $i;
                                     $insertbookitemArray[$i]['status']     = 0;
-                                    $insertbookitemArray[$i]['deleted_at'] = 0;
+                                    $insertbookitemArray[$i]['dihapus_pada'] = 0;
                                 }
                             }
 
@@ -178,25 +178,25 @@ class Book extends Admin_Controller
                                 $this->bookitem_m->update_bookitem_batch($updatebookitemArray, 'bookitemID');
                             }
                         } else {
-                            $bookitems = pluck($this->bookitem_m->get_order_by_bookitem(array('bookID' => $bookID)), 'bookitemID', 'bookno');
+                            $bookitems = pluck($this->bookitem_m->get_order_by_bookitem(array('id_buku' => $bookID)), 'bookitemID', 'bookno');
 
-                            $bookno              = $array['quantity'];
+                            $bookno              = $array['jumlah'];
                             $deletebookitemArray = [];
-                            for ($i = ($bookno + 1); $i <= $book->quantity; $i++) {
+                            for ($i = ($bookno + 1); $i <= $buku->jumlah; $i++) {
                                 $deletebookitemArray[$i]['bookitemID'] = isset($bookitems[$i]) ? $bookitems[$i] : '';
-                                $deletebookitemArray[$i]['bookID']     = $bookID;
+                                $deletebookitemArray[$i]['id_buku']     = $bookID;
                                 $deletebookitemArray[$i]['bookno']     = $i;
-                                $deletebookitemArray[$i]['deleted_at'] = 1;
+                                $deletebookitemArray[$i]['dihapus_pada'] = 1;
                             }
 
                             $this->bookitem_m->update_bookitem_batch($deletebookitemArray, 'bookitemID');
                         }
                         $this->book_m->update_book($array, $bookID);
                         $this->session->set_flashdata('success', 'Success');
-                        redirect(base_url('book/index'));
+                        redirect(base_url('buku/index'));
                     }
                 } else {
-                    $this->data["subview"] = "book/edit";
+                    $this->data["subview"] = "buku/edit";
                     $this->load->view('_main_layout', $this->data);
                 }
             } else {
@@ -212,26 +212,26 @@ class Book extends Admin_Controller
     public function view()
     {
         $bookID = htmlentities(escapeString($this->uri->segment(3)));
-		$this->data['get_title'] = 'Lihat Data Buku | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Lihat Data Buku | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $bookID) {
-            $book = $this->book_m->get_single_book(array('bookID' => $bookID));
-            if (calculate($book)) {
-                $this->data['book'] = $book;
+            $buku = $this->book_m->get_single_book(array('id_buku' => $bookID));
+            if (calculate($buku)) {
+                $this->data['buku'] = $buku;
 
-                $this->data['bookcategory'] = [];
-                if ((int) $book->bookcategoryID) {
-                    $this->data['bookcategory'] = $this->bookcategory_m->get_single_bookcategory(['bookcategoryID' => $book->bookcategoryID]);
+                $this->data['kategori_buku'] = [];
+                if ((int) $buku->bookcategoryID) {
+                    $this->data['kategori_buku'] = $this->bookcategory_m->get_single_bookcategory(['bookcategoryID' => $buku->bookcategoryID]);
                 }
-                $this->data['rack'] = [];
-                if ((int) $book->rackID) {
-                    $this->data['rack'] = $this->rack_m->get_single_rack(['rackID' => $book->rackID]);
+                $this->data['rak'] = [];
+                if ((int) $buku->rackID) {
+                    $this->data['rak'] = $this->rack_m->get_single_rack(['rackID' => $buku->rackID]);
                 }
 
                 $this->data['racks']         = $this->rack_m->get_rack();
                 $this->data['bookcategorys'] = $this->bookcategory_m->get_order_by_bookcategory(array('status' => 1));
 
-                $this->data["subview"] = "book/view";
+                $this->data["subview"] = "buku/view";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $this->data["subview"] = "_not_found";
@@ -247,12 +247,12 @@ class Book extends Admin_Controller
     {
         $bookID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $bookID) {
-            $book = $this->book_m->get_single_book(array('bookID' => $bookID, 'deleted_at !=' => 1));
-            if (calculate($book)) {
-                $this->book_m->update_book(['deleted_at' => 1], $bookID);
-                $this->bookitem_m->update_bookitem_by_bookID(['deleted_at' => 1], $bookID);
+            $buku = $this->book_m->get_single_book(array('id_buku' => $bookID, 'deleted_at !=' => 1));
+            if (calculate($buku)) {
+                $this->book_m->update_book(['dihapus_pada' => 1], $bookID);
+                $this->bookitem_m->update_bookitem_by_bookID(['dihapus_pada' => 1], $bookID);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('book/index'));
+                redirect(base_url('buku/index'));
             } else {
                 $this->data["subview"] = "_not_found";
                 $this->load->view('_main_layout', $this->data);
@@ -267,22 +267,22 @@ class Book extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'name',
+                'field' => 'nama',
                 'label' => $this->lang->line('book_name'),
                 'rules' => 'trim|xss_clean|required|max_length[100]',
             ),
             array(
-                'field' => 'author',
+                'field' => 'penulis',
                 'label' => $this->lang->line('book_author'),
                 'rules' => 'trim|xss_clean|required|max_length[100]',
             ),
             array(
-                'field' => 'quantity',
+                'field' => 'jumlah',
                 'label' => $this->lang->line('book_quantity'),
                 'rules' => 'trim|xss_clean|required|numeric',
             ),
             array(
-                'field' => 'price',
+                'field' => 'harga',
                 'label' => $this->lang->line('book_price'),
                 'rules' => 'trim|xss_clean|required|max_length[100]|numeric',
             ),
@@ -322,7 +322,7 @@ class Book extends Admin_Controller
                 'rules' => 'trim|xss_clean|valid_date',
             ),
             array(
-                'field' => 'publisher',
+                'field' => 'penerbit',
                 'label' => $this->lang->line('book_publisher'),
                 'rules' => 'trim|xss_clean|max_length[200]',
             ),
@@ -343,20 +343,20 @@ class Book extends Admin_Controller
     public function coverphoto_upload()
     {
         $bookID = htmlentities(escapeString($this->uri->segment(3)));
-        $book   = array();
+        $buku   = array();
         if ((int) $bookID) {
-            $book = $this->book_m->get_single_book(array('bookID' => $bookID));
+            $buku = $this->book_m->get_single_book(array('id_buku' => $bookID));
         }
 
         $new_file = "";
-        if ($_FILES["coverphoto"]['name'] != "") {
-            $file_name        = $_FILES["coverphoto"]['name'];
+        if ($_FILES["coverphoto"]['nama'] != "") {
+            $file_name        = $_FILES["coverphoto"]['nama'];
             $random           = rand(1, 10000000000000000);
             $file_name_rename = hash('sha512', $random . config_item("encryption_key"));
             $explode          = explode('.', $file_name);
             if (calculate($explode) >= 2) {
                 $new_file                = $file_name_rename . '.' . end($explode);
-                $config['upload_path']   = "./uploads/book";
+                $config['upload_path']   = "./uploads/buku";
                 $config['allowed_types'] = "gif|jpg|png|jpeg";
                 $config['file_name']     = $new_file;
                 $config['max_size']      = "2048";
@@ -375,8 +375,8 @@ class Book extends Admin_Controller
                 return false;
             }
         } else {
-            if (calculate($book)) {
-                $this->upload_data['coverphoto'] = array('file_name' => $book->coverphoto);
+            if (calculate($buku)) {
+                $this->upload_data['coverphoto'] = array('file_name' => $buku->coverphoto);
                 return true;
             } else {
                 $this->form_validation->set_message("coverphoto_upload", "The %s field is required.");

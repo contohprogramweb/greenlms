@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Permissionlog_m extends MY_Model
 {
 
-    protected $_table_name  = 'permissionlog';
+    protected $_table_name  = 'catatan_izin';
     protected $_primary_key = 'permissionlogID';
     protected $_order_by    = "permissionlogID asc";
 

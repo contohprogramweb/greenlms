@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Newsletter_m extends MY_Model
 {
 
-    protected $_table_name  = 'newsletter';
-    protected $_primary_key = 'newsletterID';
+    protected $_table_name  = 'buletin';
+    protected $_primary_key = 'id_buletin';
     protected $_order_by    = "newsletterID desc";
 
     public function __construct()

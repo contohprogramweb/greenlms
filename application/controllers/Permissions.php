@@ -12,7 +12,7 @@ class Permissions extends Admin_Controller
         $this->load->model('permissionlog_m');
 
         $lang = 'indonesia';
-        $this->lang->load('permissions', $lang);
+        $this->lang->load('izin', $lang);
     }
 
     protected function rules()
@@ -30,7 +30,7 @@ class Permissions extends Admin_Controller
     public function index()
     {
         $roleID = escapeString($this->uri->segment('3'));
-		$this->data['get_title'] = 'Izin | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Izin | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $roleID) {
             $this->data['urlroleID'] = $roleID;
@@ -46,29 +46,29 @@ class Permissions extends Admin_Controller
             'js'  => array(
                 'assets/plugins/datatables.net/js/jquery.dataTables.min.js',
                 'assets/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js',
-                'assets/custom/js/permissions.js',
+                'assets/custom/js/izin.js',
             ),
         );
 
-        $permissionlogs = $this->permissionlog_m->get_order_by_permissionlog(array('active' => 'yes'));
+        $permissionlogs = $this->permissionlog_m->get_order_by_permissionlog(array('aktif' => 'yes'));
 
         $permissionlogsArray    = [];
         $permissionsModuleArray = [];
         if (calculate($permissionlogs)) {
-            foreach ($permissionlogs as $permissionlog) {
-                if ((strpos($permissionlog->name, '_add') == false) && (strpos($permissionlog->name, '_edit') == false) && (strpos($permissionlog->name, '_view') == false) && (strpos($permissionlog->name, '_delete') == false)) {
-                    $permissionsModuleArray[$permissionlog->permissionlogID] = $permissionlog;
+            foreach ($permissionlogs as $catatan_izin) {
+                if ((strpos($catatan_izin->nama, '_add') == false) && (strpos($catatan_izin->nama, '_edit') == false) && (strpos($catatan_izin->nama, '_view') == false) && (strpos($catatan_izin->nama, '_delete') == false)) {
+                    $permissionsModuleArray[$catatan_izin->permissionlogID] = $catatan_izin;
                 }
-                $permissionlogsArray[$permissionlog->name] = $permissionlog->permissionlogID;
+                $permissionlogsArray[$catatan_izin->nama] = $catatan_izin->permissionlogID;
             }
         }
 
-        $this->data['permissions'] = pluck_multi_array_key($this->permissions_m->get_permissions(), 'permissionlogID', 'roleID', 'permissionlogID');
+        $this->data['izin'] = pluck_multi_array_key($this->permissions_m->get_permissions(), 'permissionlogID', 'id_peran', 'permissionlogID');
 
         $this->data['permissionlogsArray']    = $permissionlogsArray;
         $this->data['permissionsModuleArray'] = $permissionsModuleArray;
         $this->data['roles']                  = $this->role_m->get_role();
-        $this->data["subview"]                = "permissions/index";
+        $this->data["subview"]                = "izin/index";
         $this->load->view('_main_layout', $this->data);
     }
 
@@ -79,7 +79,7 @@ class Permissions extends Admin_Controller
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
                 $this->session->set_flashdata('error', trim(validation_errors()));
-                redirect(base_url("permissions/index"));
+                redirect(base_url("izin/index"));
             } else {
                 $permissionsroleID = $_POST['permissionsroleID'];
                 unset($_POST['permissionsroleID']);
@@ -88,7 +88,7 @@ class Permissions extends Admin_Controller
                 if (calculate($_POST)) {
                     $i = 0;
                     foreach ($_POST as $permissionname => $permissionlogID) {
-                        $permissionArray[$i]['roleID']          = $permissionsroleID;
+                        $permissionArray[$i]['id_peran']          = $permissionsroleID;
                         $permissionArray[$i]['permissionlogID'] = $permissionlogID;
                         $i++;
                     }
@@ -99,10 +99,10 @@ class Permissions extends Admin_Controller
                     $this->permissions_m->insert_batch_permissions($permissionArray);
                 }
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url("permissions/index/$permissionsroleID"));
+                redirect(base_url("izin/index/$permissionsroleID"));
             }
         } else {
-            redirect(base_url('permissions/index'));
+            redirect(base_url('izin/index'));
         }
     }
 

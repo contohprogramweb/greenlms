@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Bookcategory_m extends MY_Model
 {
 
-    protected $_table_name  = 'bookcategory';
+    protected $_table_name  = 'kategori_buku';
     protected $_primary_key = 'bookcategoryID';
     protected $_order_by    = "bookcategoryID desc";
 

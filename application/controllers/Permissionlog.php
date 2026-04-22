@@ -10,24 +10,24 @@ class Permissionlog extends Admin_Controller
         $this->load->model('permissionlog_m');
 
         $lang = 'indonesia';
-        $this->lang->load('permissionlog', $lang);
+        $this->lang->load('catatan_izin', $lang);
     }
 
     protected function rules()
     {
         $rules = array(
             array(
-                'field' => 'name',
+                'field' => 'nama',
                 'label' => $this->lang->line('permissionlog_name'),
                 'rules' => 'trim|xss_clean|required|max_length[60]|callback_check_unique_name',
             ),
             array(
-                'field' => 'description',
+                'field' => 'deskripsi',
                 'label' => $this->lang->line('permissionlog_description'),
                 'rules' => 'trim|xss_clean|required|max_length[255]',
             ),
             array(
-                'field' => 'active',
+                'field' => 'aktif',
                 'label' => $this->lang->line('permissionlog_active'),
                 'rules' => 'trim|xss_clean|required|callback_check_active_value',
             ),
@@ -47,36 +47,36 @@ class Permissionlog extends Admin_Controller
                 'assets/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js',
             ),
         );
-		$this->data['get_title'] = 'Kelola Log Izin | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Kelola Log Izin | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data['permissionlogs'] = $this->permissionlog_m->get_permissionlog();
 
-        $this->data["subview"] = "permissionlog/index";
+        $this->data["subview"] = "catatan_izin/index";
         $this->load->view('_main_layout', $this->data);
     }
 
     public function add()
     {
-		$this->data['get_title'] = 'Tambah Log Izin | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Tambah Log Izin | '.$this->data['pengaturan_umum']->sitename;
 		
         if ($_POST) {
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
-                $this->data["subview"] = "permissionlog/add";
+                $this->data["subview"] = "catatan_izin/add";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $array                = [];
-                $array['name']        = $this->input->post('name');
-                $array['description'] = $this->input->post('description');
-                $array['active']      = $this->input->post('active');
+                $array['nama']        = $this->input->post('nama');
+                $array['deskripsi'] = $this->input->post('deskripsi');
+                $array['aktif']      = $this->input->post('aktif');
 
                 $this->permissionlog_m->insert_permissionlog($array);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('permissionlog/index'));
+                redirect(base_url('catatan_izin/index'));
             }
         } else {
-            $this->data["subview"] = "permissionlog/add";
+            $this->data["subview"] = "catatan_izin/add";
             $this->load->view('_main_layout', $this->data);
         }
     }
@@ -84,28 +84,28 @@ class Permissionlog extends Admin_Controller
     public function edit()
     {
         $permissionlogID = escapeString($this->uri->segment('3'));
-		$this->data['get_title'] = 'Tambah Log Izin | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Tambah Log Izin | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $permissionlogID) {
-            $this->data['permissionlog'] = $this->permissionlog_m->get_single_permissionlog($permissionlogID);
-            if (calculate($this->data['permissionlog'])) {
+            $this->data['catatan_izin'] = $this->permissionlog_m->get_single_permissionlog($permissionlogID);
+            if (calculate($this->data['catatan_izin'])) {
                 if ($_POST) {
                     $rules = $this->rules();
                     $this->form_validation->set_rules($rules);
                     if ($this->form_validation->run() == false) {
-                        $this->data["subview"] = "permissionlog/edit";
+                        $this->data["subview"] = "catatan_izin/edit";
                         $this->load->view('_main_layout', $this->data);
                     } else {
-                        $array['name']        = $this->input->post('name');
-                        $array['description'] = $this->input->post('description');
-                        $array['active']      = $this->input->post('active');
+                        $array['nama']        = $this->input->post('nama');
+                        $array['deskripsi'] = $this->input->post('deskripsi');
+                        $array['aktif']      = $this->input->post('aktif');
 
                         $this->permissionlog_m->update_permissionlog($array, $permissionlogID);
                         $this->session->set_flashdata('success', 'Success');
-                        redirect(base_url('permissionlog/index'));
+                        redirect(base_url('catatan_izin/index'));
                     }
                 } else {
-                    $this->data["subview"] = "permissionlog/edit";
+                    $this->data["subview"] = "catatan_izin/edit";
                     $this->load->view('_main_layout', $this->data);
                 }
             } else {
@@ -122,11 +122,11 @@ class Permissionlog extends Admin_Controller
     {
         $permissionlogID = escapeString($this->uri->segment('3'));
         if ((int) $permissionlogID) {
-            $permissionlog = $this->permissionlog_m->get_single_permissionlog($permissionlogID);
-            if (calculate($permissionlog)) {
+            $catatan_izin = $this->permissionlog_m->get_single_permissionlog($permissionlogID);
+            if (calculate($catatan_izin)) {
                 $this->permissionlog_m->delete_permissionlog($permissionlogID);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('permissionlog/index'));
+                redirect(base_url('catatan_izin/index'));
             } else {
                 $this->data["subview"] = "_not_found";
                 $this->load->view('_main_layout', $this->data);
@@ -141,15 +141,15 @@ class Permissionlog extends Admin_Controller
     {
         $permissionlogID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $permissionlogID) {
-            $member = $this->permissionlog_m->get_single_permissionlog(array('name' => $name, 'permissionlogID !=' => $permissionlogID));
-            if (calculate($member)) {
+            $anggota = $this->permissionlog_m->get_single_permissionlog(array('nama' => $name, 'permissionlogID !=' => $permissionlogID));
+            if (calculate($anggota)) {
                 $this->form_validation->set_message("check_unique_name", "The %s is already exits.");
                 return false;
             }
             return true;
         } else {
-            $member = $this->permissionlog_m->get_single_permissionlog(array('name' => $name));
-            if (calculate($member)) {
+            $anggota = $this->permissionlog_m->get_single_permissionlog(array('nama' => $name));
+            if (calculate($anggota)) {
                 $this->form_validation->set_message("check_unique_name", "The %s is already exits.");
                 return false;
             }

@@ -25,24 +25,24 @@ class Bookbarcodereport extends Admin_Controller
             ),
         );
 
-		$this->data['get_title'] = 'Laporan Barcode Buku | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Laporan Barcode Buku | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data['flag']           = 0;
         $this->data['bookcategoryID'] = 0;
-        $this->data['bookID']         = 0;
+        $this->data['id_buku']         = 0;
 
         $this->data['books']         = [];
         $this->data['bookcategorys'] = pluck($this->bookcategory_m->get_bookcategory(), 'obj', 'bookcategoryID');
         unset($_SESSION['error']);
         if ($_POST) {
             $bookcategoryID = $this->input->post('bookcategoryID');
-            $bookID         = $this->input->post('bookID');
+            $bookID         = $this->input->post('id_buku');
 
             $array['status']         = 0;
-            $array['deleted_at']     = 0;
+            $array['dihapus_pada']     = 0;
             $array['bookcategoryID'] = $bookcategoryID;
             if ((int) $bookcategoryID) {
-                $this->data['books'] = $this->book_m->get_order_by_book($array, array('bookID', 'name', 'codeno'));
+                $this->data['books'] = $this->book_m->get_order_by_book($array, array('id_buku', 'nama', 'codeno'));
             }
 
             $rules = $this->rules();
@@ -53,7 +53,7 @@ class Bookbarcodereport extends Admin_Controller
                 $this->data["subview"] = "report/bookbarcode/index";
             } else {
 
-                $this->_queryArray(['bookcategoryID' => $bookcategoryID, 'bookID' => $bookID]);
+                $this->_queryArray(['bookcategoryID' => $bookcategoryID, 'id_buku' => $bookID]);
 
                 $this->data["subview"] = "report/bookbarcode/index";
             }
@@ -70,7 +70,7 @@ class Bookbarcodereport extends Admin_Controller
 
         if (((int) $bookcategoryID || $bookcategoryID == 0) && ((int) $bookID || $bookID == 0)) {
 
-            $this->_queryArray(['bookcategoryID' => $bookcategoryID, 'bookID' => $bookID]);
+            $this->_queryArray(['bookcategoryID' => $bookcategoryID, 'id_buku' => $bookID]);
 
             $this->pdf->create(['stylesheet' => 'bookbarcodereport.css', 'view' => 'report/bookbarcode/pdf.php', 'data' => $this->data]);
         } else {
@@ -85,20 +85,20 @@ class Bookbarcodereport extends Admin_Controller
 
         $queryArray = [];
         if ((int) $bookID) {
-            $queryArray['bookID'] = $bookID;
+            $queryArray['id_buku'] = $bookID;
         }
         $queryArray['status !=']  = 2;
-        $queryArray['deleted_at'] = 0;
+        $queryArray['dihapus_pada'] = 0;
 
-        $book      = $this->book_m->get_single_book(['bookID' => $bookID]);
+        $buku      = $this->book_m->get_single_book(['id_buku' => $bookID]);
         $bookitems = $this->bookitem_m->get_order_by_bookitem($queryArray);
 
-        $this->generatebarcode($book, $bookitems);
+        $this->generatebarcode($buku, $bookitems);
 
         $this->data['flag']           = 1;
         $this->data['bookcategoryID'] = $bookcategoryID;
-        $this->data['bookID']         = $bookID;
-        $this->data['book']           = $book;
+        $this->data['id_buku']         = $bookID;
+        $this->data['buku']           = $buku;
         $this->data['bookitems']      = $bookitems;
     }
 
@@ -108,14 +108,14 @@ class Bookbarcodereport extends Admin_Controller
         if ($_POST && permissionChecker('bookbarcodereport')) {
             $bookcategoryID          = $this->input->post('bookcategoryID');
             $array['status']         = 0;
-            $array['deleted_at']     = 0;
+            $array['dihapus_pada']     = 0;
             $array['bookcategoryID'] = $bookcategoryID;
 
             if ((int) $bookcategoryID) {
-                $books = $this->book_m->get_order_by_book($array, array('bookID', 'name', 'codeno'));
+                $books = $this->book_m->get_order_by_book($array, array('id_buku', 'nama', 'codeno'));
                 if (calculate($books)) {
-                    foreach ($books as $book) {
-                        echo "<option value='" . $book->bookID . "'>" . $book->name . ' - ' . $book->codeno . "</option>";
+                    foreach ($books as $buku) {
+                        echo "<option value='" . $buku->id_buku . "'>" . $buku->nama . ' - ' . $buku->codeno . "</option>";
                     }
                 }
             }
@@ -131,7 +131,7 @@ class Bookbarcodereport extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|numeric|required_no_zero',
             ),
             array(
-                'field' => 'bookID',
+                'field' => 'id_buku',
                 'label' => $this->lang->line('bookbarcodereport_book'),
                 'rules' => 'trim|xss_clean|required|numeric|required_no_zero',
             ),
@@ -139,16 +139,16 @@ class Bookbarcodereport extends Admin_Controller
         return $rules;
     }
 
-    private function generatebarcode($book, $bookitems)
+    private function generatebarcode($buku, $bookitems)
     {
-        if(!calculate($book)) {
+        if(!calculate($buku)) {
             $this->session->set_flashdata('error', 'Some Thing Wrong');
             redirect(base_url('bookbarcodereport/index'));
         }
 
         if (calculate($bookitems)) {
-            foreach ($bookitems as $bookitem) {
-                $bookitembarcode = $book->codeno.'-'.$bookitem->bookno;
+            foreach ($bookitems as $item_buku) {
+                $bookitembarcode = $buku->codeno.'-'.$item_buku->bookno;
                 $this->barcode->generate($bookitembarcode, $bookitembarcode, 'uploads/bookbarcode/');
             }
         }

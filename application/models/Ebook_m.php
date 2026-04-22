@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Ebook_m extends MY_Model
 {
 
-    protected $_table_name  = 'ebook';
-    protected $_primary_key = 'ebookID';
+    protected $_table_name  = 'buku_elektronik';
+    protected $_primary_key = 'id_buku_elektronik';
     protected $_order_by    = "ebookID desc";
 
     public function __construct()
@@ -58,8 +58,8 @@ class Ebook_m extends MY_Model
         $this->db->select('*');
         $this->db->from($this->_table_name);
         $this->db->group_start();
-        $this->db->like('name', $search, 'both');
-        $this->db->or_like('author', $search, 'both');
+        $this->db->like('nama', $search, 'both');
+        $this->db->or_like('penulis', $search, 'both');
         $this->db->or_like('notes', $search, 'both');
         $this->db->group_end();
         if (!empty($this->_order_by)) {
@@ -74,8 +74,8 @@ class Ebook_m extends MY_Model
         $this->db->select('*');
         $this->db->from($this->_table_name);
         $this->db->group_start();
-        $this->db->like('name', $search, 'both');
-        $this->db->or_like('author', $search, 'both');
+        $this->db->like('nama', $search, 'both');
+        $this->db->or_like('penulis', $search, 'both');
         $this->db->or_like('notes', $search, 'both');
         $this->db->group_end();
         return $this->db->get()->result();

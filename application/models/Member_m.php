@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Member_m extends MY_Model
 {
 
-    protected $_table_name  = 'member';
-    protected $_primary_key = 'memberID';
+    protected $_table_name  = 'anggota';
+    protected $_primary_key = 'id_anggota';
     protected $_order_by    = "memberID asc";
 
     public function __construct()

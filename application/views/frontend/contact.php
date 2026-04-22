@@ -7,19 +7,19 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name="name" class="form-control <?=form_error('name') ? 'is-invalid' : ''?>" placeholder="Nama *" value="<?=set_value('name')?>" />
+                            <input type="text" name='nama' class="form-control <?=form_error('nama') ? 'is-invalid' : ''?>" placeholder="Nama *" value="<?=set_value('nama')?>" />
                         </div>
                         <div class="form-group">
-                            <input type="text" name="email" class="form-control <?=form_error('email') ? 'is-invalid' : ''?>" placeholder="Email *" value="<?=set_value('email')?>" />
+                            <input type="text" name='surel' class="form-control <?=form_error('surel') ? 'is-invalid' : ''?>" placeholder="Email *" value="<?=set_value('surel')?>" />
                         </div>
                         <div class="form-group">
-                            <input type="text" name="subject" class="form-control <?=form_error('subject') ? 'is-invalid' : ''?>" placeholder="Judul Pesan *" value="<?=set_value('subject')?>" />
+                            <input type="text" name='subjek' class="form-control <?=form_error('subjek') ? 'is-invalid' : ''?>" placeholder="Judul Pesan *" value="<?=set_value('subjek')?>" />
                         </div>
                         
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <textarea name="message" class="form-control <?=form_error('message') ? 'is-invalid' : ''?>" rows="6" placeholder="Isi Pesan *"><?=set_value('message')?></textarea>
+                            <textarea name='pesan' class="form-control <?=form_error('pesan') ? 'is-invalid' : ''?>" rows="6" placeholder="Isi Pesan *"><?=set_value('pesan')?></textarea>
                         </div>
                     </div>
 					<div class="col-md-12">

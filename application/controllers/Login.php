@@ -19,7 +19,7 @@ class Login extends Admin_Controller
 
     public function index()
     {
-		$this->data['get_title'] = 'Login | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Login | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->loggedCheck();
         if ($_POST) {
@@ -30,34 +30,34 @@ class Login extends Admin_Controller
                 $this->load->view('login/index', $this->data);
             } else {
                 $array['username_or_email'] = $this->input->post('username_or_email');
-                $array['password']          = $this->password_hash($this->input->post('password'));
+                $array['kata_sandi']          = $this->password_hash($this->input->post('kata_sandi'));
 
-                $member = $this->login_m->get_single_login_by_username_or_email_and_password($array);
-                if (calculate($member) && $member->status == 1 && $member->roleID != 4) {
-                    $role                          = $this->role_m->get_single_role(array('roleID' => $member->roleID));
+                $anggota = $this->login_m->get_single_login_by_username_or_email_and_password($array);
+                if (calculate($anggota) && $anggota->status == 1 && $anggota->id_peran != 4) {
+                    $peran                          = $this->role_m->get_single_role(array('id_peran' => $anggota->id_peran));
                     $sessionArray                  = [];
-                    $sessionArray['name']          = $member->name;
-                    $sessionArray['username']      = $member->username;
-                    $sessionArray['roleID']        = $member->roleID;
-                    $sessionArray['role']          = calculate($role) ? $role->role : '';
-                    $sessionArray['loginmemberID'] = $member->memberID;
-                    $sessionArray['email']         = $member->email;
-                    $sessionArray['photo']         = $member->photo;
-                    $sessionArray['joinningdate']  = $member->joinningdate;
+                    $sessionArray['nama']          = $anggota->nama;
+                    $sessionArray['nama_pengguna']      = $anggota->nama_pengguna;
+                    $sessionArray['id_peran']        = $anggota->id_peran;
+                    $sessionArray['peran']          = calculate($peran) ? $peran->peran : '';
+                    $sessionArray['loginmemberID'] = $anggota->id_anggota;
+                    $sessionArray['surel']         = $anggota->surel;
+                    $sessionArray['foto']         = $anggota->foto;
+                    $sessionArray['joinningdate']  = $anggota->joinningdate;
                     $sessionArray['language']      = 'indonesia';
                     $sessionArray['loggedin']      = true;
 					
                     $this->session->set_userdata($sessionArray);
                     redirect(base_url('dashboard/index'));
 					
-                } elseif (calculate($member) && $member->status == 2) {
-                    $this->data['errors'] = ['message' => "You are now blocked. Please contact our admin. Thank You"];
-                } elseif (calculate($member) && $member->status == 0) {
-                    $this->data['errors'] = ['message' => "You are a new member. Please wait until to approved our admin. Thank You"];
-                } elseif (calculate($member) && $member->roleID == 4) {
-                    $this->data['errors'] = ['message' => "Customer cann't be login admin panel. Thank You"];
+                } elseif (calculate($anggota) && $anggota->status == 2) {
+                    $this->data['errors'] = ['pesan' => "You are now blocked. Please contact our admin. Thank You"];
+                } elseif (calculate($anggota) && $anggota->status == 0) {
+                    $this->data['errors'] = ['pesan' => "You are a new anggota. Please wait until to approved our admin. Thank You"];
+                } elseif (calculate($anggota) && $anggota->id_peran == 4) {
+                    $this->data['errors'] = ['pesan' => "Customer cann't be login admin panel. Thank You"];
                 } else {
-                    $this->data['errors'] = ['message' => "You provide invalid username/email or password."];
+                    $this->data['errors'] = ['pesan' => "You provide invalid username/email or password."];
                 }
                 $this->load->view('login/index', $this->data);
             }
@@ -66,54 +66,54 @@ class Login extends Admin_Controller
         }
     }
 
-    public function resetpassword()
+    public function reset_kata_sandi()
     {
-		$this->data['get_title'] = 'Reset Password | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Reset Password | '.$this->data['pengaturan_umum']->sitename;
 		
         if ($_POST) {
             $rules = $this->rules_resetpassword();
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
                 $this->data['errors'] = $this->form_validation->error_array();
-                $this->load->view('login/resetpassword', $this->data);
+                $this->load->view('login/reset_kata_sandi', $this->data);
             } else {
                 $username_or_email = $this->input->post('username_or_email');
-                $member            = $this->login_m->get_single_login_check_by_username_or_email($username_or_email);
-                if (calculate($member)) {
-                    $resetArray['username']    = $member->username;
-                    $resetArray['email']       = $member->email;
-                    $resetArray['code']        = mt_rand(100000, 999999);
-                    $resetArray['roleID']      = $member->roleID;
-                    $resetArray['memberID']    = $member->memberID;
-                    $resetArray['create_date'] = date('Y-m-d H:i:s');
+                $anggota            = $this->login_m->get_single_login_check_by_username_or_email($username_or_email);
+                if (calculate($anggota)) {
+                    $resetArray['nama_pengguna']    = $anggota->nama_pengguna;
+                    $resetArray['surel']       = $anggota->surel;
+                    $resetArray['kode']        = mt_rand(100000, 999999);
+                    $resetArray['id_peran']      = $anggota->id_peran;
+                    $resetArray['id_anggota']    = $anggota->id_anggota;
+                    $resetArray['tanggal_dibuat'] = date('Y-m-d H:i:s');
                     $resetArray['modify_date'] = date('Y-m-d H:i:s');
                     $this->resetpassword_m->insert_resetpassword($resetArray);
 
                     $passArray                      = $resetArray;
-                    $passArray['member']            = $member;
+                    $passArray['anggota']            = $anggota;
                     $passArray['username_or_email'] = $username_or_email;
 
-                    $message = $this->load->view('_template/resetpassword', $passArray, true);
-                    $this->applications->sendmail($member->email, $message, 'Reset Password', $member->name);
+                    $message = $this->load->view('_template/reset_kata_sandi', $passArray, true);
+                    $this->applications->sendmail($anggota->surel, $message, 'Reset Password', $anggota->nama);
                     $this->session->set_flashdata('success', $this->lang->line('login_reset_your_password_checking'));
                     redirect(base_url('login/index'));
                 } else {
-                    $this->data['errors'] = array('message' => $this->lang->line('login_username_or_email_not_found'));
-                    $this->load->view('login/resetpassword', $this->data);
+                    $this->data['errors'] = array('pesan' => $this->lang->line('login_username_or_email_not_found'));
+                    $this->load->view('login/reset_kata_sandi', $this->data);
                 }
             }
         } else {
-            $this->load->view('login/resetpassword', $this->data);
+            $this->load->view('login/reset_kata_sandi', $this->data);
         }
     }
 
     public function registermember()
     {
-		$this->data['get_title'] = 'Register | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Register | '.$this->data['pengaturan_umum']->sitename;
 		
 		
-        if(!$this->data["generalsetting"]->registration) {
-            $this->session->set_flashdata('error', 'The new member registration is currently not allowed.');
+        if(!$this->data['pengaturan_umum']->registration) {
+            $this->session->set_flashdata('error', 'The new anggota registration is currently not allowed.');
             redirect('/');
         }
         if ($_POST) {
@@ -124,15 +124,15 @@ class Login extends Admin_Controller
                 $this->load->view('login/registermember', $this->data);
             } else {
                 $array                = [];
-                $array['name']        = $this->input->post('name');
-                $array['email']       = $this->input->post('email');
-                $array['phone']       = $this->input->post('phone');
-                $array['photo']       = $this->upload_data['file']['file_name'];
-                $array['roleID']      = 3;
+                $array['nama']        = $this->input->post('nama');
+                $array['surel']       = $this->input->post('surel');
+                $array['telepon']       = $this->input->post('telepon');
+                $array['foto']       = $this->upload_data['file']['file_name'];
+                $array['id_peran']      = 3;
                 $array['status']      = 0;
-                $array['username']    = $this->input->post('username');
-                $array['password']    = $this->password_hash($this->input->post('password'));
-                $array['create_date'] = date('Y-m-d H:i:s');
+                $array['nama_pengguna']    = $this->input->post('nama_pengguna');
+                $array['kata_sandi']    = $this->password_hash($this->input->post('kata_sandi'));
+                $array['tanggal_dibuat'] = date('Y-m-d H:i:s');
                 $array['modify_date'] = date('Y-m-d H:i:s');
 
                 $this->login_m->insert_login($array);
@@ -146,7 +146,7 @@ class Login extends Admin_Controller
 
     public function resetpasswordconfirm()
     {
-		$this->data['get_title'] = 'Reset Password | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Reset Password | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data['username_or_email'] = $_SERVER['QUERY_STRING'];
         if ($_POST) {
@@ -156,22 +156,22 @@ class Login extends Admin_Controller
                 $this->data['errors'] = $this->form_validation->error_array();
                 $this->load->view('login/resetpasswordconfirm', $this->data);
             } else {
-                $member = $this->login_m->get_single_login_check_by_username_or_email($this->input->post('username_or_email'));
-                if (calculate($member)) {
+                $anggota = $this->login_m->get_single_login_check_by_username_or_email($this->input->post('username_or_email'));
+                if (calculate($anggota)) {
                     $resetArray                      = [];
                     $resetArray['username_or_email'] = $this->input->post('username_or_email');
-                    $resetArray['code']              = $this->input->post('verification_code');
+                    $resetArray['kode']              = $this->input->post('verification_code');
 
                     $valid_members = $this->resetpassword_m->get_single_resetpassword_by_username_or_email_and_code($resetArray);
                     if (calculate($valid_members)) {
-                        $password         = $this->input->post('password');
+                        $password         = $this->input->post('kata_sandi');
                         $confirm_password = $this->input->post('confirm_password');
 
                         if ($password == $confirm_password) {
-                            $array['password']    = $this->password_hash($this->input->post('password'));
+                            $array['kata_sandi']    = $this->password_hash($this->input->post('kata_sandi'));
                             $array['modify_date'] = date('Y-m-d H:i:s');
 
-                            $this->member_m->update_member($array, $member->memberID);
+                            $this->member_m->update_member($array, $anggota->id_anggota);
                             $this->session->set_flashdata('success', 'Your Password Successfully updated.');
                             redirect(base_url('login/index'));
                         } else {
@@ -208,7 +208,7 @@ class Login extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|min_length[4]|max_length[60]|callback_valid_username_or_email_check',
             ),
             array(
-                'field' => 'password',
+                'field' => 'kata_sandi',
                 'label' => $this->lang->line('login_password'),
                 'rules' => 'trim|xss_clean|required|min_length[6]|max_length[128]',
             ),
@@ -232,32 +232,32 @@ class Login extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'name',
+                'field' => 'nama',
                 'label' => $this->lang->line('login_name'),
                 'rules' => 'trim|xss_clean|required|max_length[60]',
             ),
             array(
-                'field' => 'email',
+                'field' => 'surel',
                 'label' => $this->lang->line('login_email'),
                 'rules' => 'trim|xss_clean|required|max_length[60]|valid_email|callback_check_unique_email',
             ),
             array(
-                'field' => 'phone',
+                'field' => 'telepon',
                 'label' => $this->lang->line('login_phone'),
                 'rules' => 'trim|xss_clean|required|max_length[15]',
             ),
             array(
-                'field' => 'photo',
+                'field' => 'foto',
                 'label' => $this->lang->line('login_photo'),
                 'rules' => 'trim|xss_clean|max_length[200]|callback_photo_upload',
             ),
             array(
-                'field' => 'username',
+                'field' => 'nama_pengguna',
                 'label' => $this->lang->line('login_username'),
                 'rules' => 'trim|xss_clean|required|min_length[4]|max_length[60]',
             ),
             array(
-                'field' => 'password',
+                'field' => 'kata_sandi',
                 'label' => $this->lang->line('login_password'),
                 'rules' => 'trim|xss_clean|required|min_length[6]|max_length[128]',
             ),
@@ -279,7 +279,7 @@ class Login extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|min_length[4]|max_length[11]',
             ),
             array(
-                'field' => 'password',
+                'field' => 'kata_sandi',
                 'label' => $this->lang->line('login_password'),
                 'rules' => 'trim|xss_clean|required|min_length[6]|max_length[128]',
             ),
@@ -326,21 +326,21 @@ class Login extends Admin_Controller
     public function photo_upload()
     {
         $new_file = "default.png";
-        if ($_FILES["photo"]['name'] != "") {
-            $file_name   = $_FILES["photo"]['name'];
+        if ($_FILES['foto']['nama'] != "") {
+            $file_name   = $_FILES['foto']['nama'];
             $random      = rand(1, 10000000000000000);
-            $file_rename = hash('sha512', $random . $this->input->post('username') . config_item("encryption_key"));
+            $file_rename = hash('sha512', $random . $this->input->post('nama_pengguna') . config_item("encryption_key"));
             $explode     = explode('.', $file_name);
             if (calculate($explode) >= 2) {
                 $new_file                = $file_rename . '.' . end($explode);
-                $config['upload_path']   = "./uploads/member";
+                $config['upload_path']   = "./uploads/anggota";
                 $config['allowed_types'] = "gif|jpg|png|jpeg|jpeg";
                 $config['file_name']     = $new_file;
                 $config['max_size']      = '2048';
                 $config['max_width']     = '2000';
                 $config['max_height']    = '2000';
                 $this->load->library('upload', $config);
-                if (!$this->upload->do_upload("photo")) {
+                if (!$this->upload->do_upload('foto')) {
                     $this->form_validation->set_message("photo_upload", $this->upload->display_errors());
                     return false;
                 } else {
@@ -359,8 +359,8 @@ class Login extends Admin_Controller
 
     public function check_unique_email($email)
     {
-        $member = $this->login_m->get_single_login(array('email' => $email));
-        if (calculate($member)) {
+        $anggota = $this->login_m->get_single_login(array('surel' => $email));
+        if (calculate($anggota)) {
             $this->form_validation->set_message("check_unique_email", $this->lang->line('login_unique_email_activate'));
             return false;
         }

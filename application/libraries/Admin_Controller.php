@@ -18,7 +18,7 @@ class Admin_Controller extends MY_Controller
         }
         $this->load->database();
 
-        $this->data["generalsetting"] = (object) pluck($this->generalsetting_m->get_generalsetting(), 'optionvalue', 'optionkey');
+        $this->data['pengaturan_umum'] = (object) pluck($this->generalsetting_m->get_generalsetting(), 'optionvalue', 'optionkey');
         $this->data['bloodgroups']    = $this->_bloodgroup();
 
         $lang = $this->session->userdata('language');
@@ -29,7 +29,7 @@ class Admin_Controller extends MY_Controller
         $exception_uris           = array(
             'login/index',
             'login/logout',
-            'login/resetpassword',
+            'login/reset_kata_sandi',
             'login/registermember',
             'login/resetpasswordconfirm',
         );
@@ -53,29 +53,29 @@ class Admin_Controller extends MY_Controller
         $modulepermission_set = $this->session->userdata('modulepermission_set');
         $loggedin             = $this->session->userdata('loggedin');
         if (!calculate($modulepermission_set) && $loggedin) {
-            $roleID        = $this->session->userdata('roleID');
+            $roleID        = $this->session->userdata('id_peran');
             $loginmemberID = $this->session->userdata('loginmemberID');
 
             $permissionlogs   = $this->permissionlog_m->get_permissionlog();
             $permissionsArray = [];
             if ($roleID == 1 && $loginmemberID == 1) {
                 if (calculate($permissionlogs)) {
-                    foreach ($permissionlogs as $permissionlog) {
-                        $permissionsArray['modulepermission_set'][$permissionlog->name] = $permissionlog->active;
+                    foreach ($permissionlogs as $catatan_izin) {
+                        $permissionsArray['modulepermission_set'][$catatan_izin->nama] = $catatan_izin->aktif;
                     }
                 }
             } else {
-                $permissions = $this->permissions_m->get_permissions_with_permissionlog_by_roleID($roleID);
-                if (calculate($permissions)) {
-                    foreach ($permissions as $permission) {
-                        $permissionsArray['modulepermission_set'][$permission->name] = $permission->active;
+                $izin = $this->permissions_m->get_permissions_with_permissionlog_by_roleID($roleID);
+                if (calculate($izin)) {
+                    foreach ($izin as $permission) {
+                        $permissionsArray['modulepermission_set'][$permission->nama] = $permission->aktif;
                     }
                 }
 
                 if (calculate($permissionlogs)) {
-                    foreach ($permissionlogs as $permissionlog) {
-                        if (!isset($permissionsArray['modulepermission_set'][$permissionlog->name])) {
-                            $permissionsArray['modulepermission_set'][$permissionlog->name] = 'no';
+                    foreach ($permissionlogs as $catatan_izin) {
+                        if (!isset($permissionsArray['modulepermission_set'][$catatan_izin->nama])) {
+                            $permissionsArray['modulepermission_set'][$catatan_izin->nama] = 'no';
                         }
                     }
                 }
@@ -114,14 +114,14 @@ class Admin_Controller extends MY_Controller
             foreach ($menus as $menu) {
                 if (visibleButtonMenu($menu->menulink) || ($menu->menulink == '#')) {
                     if ($menu->parentmenuID == 0) {
-                        if (!isset($menuArray[$menu->menuID])) {
-                            $menuArray[$menu->menuID] = (array) $menu;
+                        if (!isset($menuArray[$menu->id_menu])) {
+                            $menuArray[$menu->id_menu] = (array) $menu;
                         }
                     } else {
                         if (!isset($menuArray[$menu->parentmenuID]['child'])) {
                             $menuArray[$menu->parentmenuID]['child'] = [];
                         }
-                        $menuArray[$menu->parentmenuID]['child'][$menu->menuID] = (array) $menu;
+                        $menuArray[$menu->parentmenuID]['child'][$menu->id_menu] = (array) $menu;
                     }
                 }
             }
@@ -133,10 +133,10 @@ class Admin_Controller extends MY_Controller
     {
         $get_title = '';
         if ($title) {
-            $get_title = ucfirst($title) . " | " . $this->data["generalsetting"]->sitename;
+            $get_title = ucfirst($title) . " | " . $this->data['pengaturan_umum']->sitename;
         } else {
             $title     = empty($this->data['activemenu']) ? 'Dashboard' : $this->data['activemenu'];
-            $get_title = ucfirst($title) . " | " . $this->data["generalsetting"]->sitename;
+            $get_title = ucfirst($title) . " | " . $this->data['pengaturan_umum']->sitename;
         }
         return $get_title;
     }
@@ -162,7 +162,7 @@ class Admin_Controller extends MY_Controller
 
     public function checkAdminLibrarianPermission()
     {
-        $roleID = $this->session->userdata('roleID');
+        $roleID = $this->session->userdata('id_peran');
         if ($roleID == 1 || $roleID == 2) {
             return false;
         }

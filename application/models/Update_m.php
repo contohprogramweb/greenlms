@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Update_m extends MY_Model
 {
 
-    protected $_table_name  = 'updates';
-    protected $_primary_key = 'updateID';
+    protected $_table_name  = 'pembaruan';
+    protected $_primary_key = 'id_pembaruan';
     protected $_order_by    = "updateID desc";
 
     public function __construct()

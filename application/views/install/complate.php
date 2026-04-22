@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="tab-content wizard-tabcontent">
-                                <div class="tab-pane active" role="tabpanel" id="complete">
+                                <div class="tab-pane active" peran="tabpanel" id="complete">
                                     <h3>Complete</h3>
                                     <p>You have successfully completed all steps.</p>
                                     <p>You login user name is <b><?=$this->session->userdata('adminusername')?></b> and login password is <b><?=$this->session->userdata('adminpassword');?></b></p>

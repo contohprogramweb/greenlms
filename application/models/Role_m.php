@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Role_m extends MY_Model
 {
 
-    protected $_table_name  = 'role';
-    protected $_primary_key = 'roleID';
+    protected $_table_name  = 'peran';
+    protected $_primary_key = 'id_peran';
     protected $_order_by    = "roleID asc";
 
     public function __construct()

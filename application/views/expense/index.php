@@ -3,14 +3,14 @@
         <h1>Pengeluaran</h1>
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li class="active">Pengeluaran</li>
+            <li class='aktif'>Pengeluaran</li>
         </ol>
     </section>
     <section class="content">
         <div class="box box-mytheme">
             <?php if(permissionChecker('expense_add')) { ?>
             <div class="box-header">
-                <a href="<?=base_url('expense/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i> Tambah Pengeluaran</a>
+                <a href="<?=base_url('pengeluaran/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i> Tambah Pengeluaran</a>
             </div>
             <?php } ?>
             <div class="box-body">
@@ -30,25 +30,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(calculate($expenses)) { $i=0; foreach($expenses as $expense) { $i++; ?>
+                            <?php if(calculate($expenses)) { $i=0; foreach($expenses as $pengeluaran) { $i++; ?>
                                 <tr>
                                     <td data-title="#"><?=$i?></td>
-                                    <td data-title="Nama Pengeluaran"><?=$expense->name?></td>
-                                    <td data-title="Tanggal"><?=app_date($expense->date)?></td>
-                                    <td data-title="Jumlah"><?=number_format($expense->amount, 2)?></td>
+                                    <td data-title="Nama Pengeluaran"><?=$pengeluaran->nama?></td>
+                                    <td data-title="Tanggal"><?=app_date($pengeluaran->tanggal)?></td>
+                                    <td data-title="Jumlah"><?=number_format($pengeluaran->jumlah, 2)?></td>
                                     <td data-title="File">
                                         <?php 
-                                            if($expense->file != '') {
-                                                echo btn_download('expense/download/'.$expense->expenseID, $expense->fileoriginalname);
+                                            if($pengeluaran->file != '') {
+                                                echo btn_download('pengeluaran/download/'.$pengeluaran->id_pengeluaran, $pengeluaran->fileoriginalname);
                                             }
                                         ?>
                                     </td>
-                                    <td data-title="Catatan"><?=$expense->note?></td>
+                                    <td data-title="Catatan"><?=$pengeluaran->catatan?></td>
                                     <?php if(permissionChecker('expense_view') || permissionChecker('expense_edit') || permissionChecker('expense_delete')) { ?>
                                         <td data-title="Aksi">
-                                            <?=btn_view('expense/view/'.$expense->expenseID,'Lihat'); ?>
-                                            <?=btn_edit('expense/edit/'.$expense->expenseID,'Edit'); ?>
-                                            <?=btn_delete('expense/delete/'.$expense->expenseID,'Delete'); ?>
+                                            <?=btn_view('pengeluaran/view/'.$pengeluaran->id_pengeluaran,'Lihat'); ?>
+                                            <?=btn_edit('pengeluaran/edit/'.$pengeluaran->id_pengeluaran,'Edit'); ?>
+                                            <?=btn_delete('pengeluaran/delete/'.$pengeluaran->id_pengeluaran,'Delete'); ?>
                                         </td>
                                     <?php } ?>
                                 </tr>

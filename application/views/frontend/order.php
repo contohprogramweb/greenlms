@@ -7,7 +7,7 @@
 			<div class="col-sm-9">
 				<div class="card">
 					<div class="card-body p-0">
-						<?php if(calculate($orders)) { ?>
+						<?php if(calculate($pesanan)) { ?>
 							<table class="table table-bordered table-hover">
 							  <thead>
 							    	<tr>
@@ -21,16 +21,16 @@
 							    	</tr>
 							  	</thead>
 							  	<tbody>
-							  		<?php $i = 0; foreach($orders as $order) { $i++; ?>
+							  		<?php $i = 0; foreach($pesanan as $order) { $i++; ?>
 								    	<tr>
-								      		<td><?=sprintf("%08d", $order->orderID);?></td>
-								      		<td><?=$order->name?></td>
-								      		<td><?=app_date($order->create_date)?></td>
+								      		<td><?=sprintf("%08d", $order->id_pesanan);?></td>
+								      		<td><?=$order->nama?></td>
+								      		<td><?=app_date($order->tanggal_dibuat)?></td>
 								      		<td><?=orderPamentStatus($order->payment_status)?></td>
 								      		<td><?=orderStatus($order->status)?></td>
 								      		<td><?=$order->total?></td>
 								      		<td>
-												<a href="<?=base_url('myaccount/orderview/'.$order->orderID)?>" class="btn btn-success btn-sm">
+												<a href="<?=base_url('myaccount/orderview/'.$order->id_pesanan)?>" class="btn btn-success btn-sm">
 													<i class="fa fa-check-square-o"></i>
 												</a>
 								      		</td>

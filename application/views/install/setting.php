@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="tab-content wizard-tabcontent">
-                                <div class="tab-pane active" role="tabpanel" id="setting">
+                                <div class="tab-pane active" peran="tabpanel" id="setting">
                                     <form action="<?=base_url('install/setting')?>" method="POST">
                                         <div class="form-group <?=form_error('sitename') ? 'has-error' : ''?>">
                                             <label for="sitename">Site Name</label>
@@ -61,10 +61,10 @@
                                             <input type="text" class="form-control" name="adminusername" placeholder="Admin Username">
                                             <span class="help-block"><?=form_error('adminusername')?></span>
                                         </div>
-                                        <div class="form-group <?=form_error('password') ? 'has-error' : ''?>">
-                                            <label for="password">Password</label>
-                                            <input type="password" class="form-control" name="password" placeholder="Password">
-                                            <span class="help-block"><?=form_error('password')?></span>
+                                        <div class="form-group <?=form_error('kata_sandi') ? 'has-error' : ''?>">
+                                            <label for='kata_sandi'>Password</label>
+                                            <input type='kata_sandi' class="form-control" name='kata_sandi' placeholder="Password">
+                                            <span class="help-block"><?=form_error('kata_sandi')?></span>
                                         </div>
                                         <div class="form-group <?=form_error('adminemail') ? 'has-error' : ''?>">
                                             <label for="adminemail">Admin Email</label>

@@ -3,7 +3,7 @@
         <h1>Laporan Data Buku</h1>
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li class="active">Laporan Data Buku</li>
+            <li class='aktif'>Laporan Data Buku</li>
         </ol>
     </section>
     <section class="content">
@@ -17,8 +17,8 @@
                                 <?php 
                                     $bookcategoryArray[0]   = 'Silakan Pilih';
                                     if(calculate($bookcategorys)) {
-                                        foreach($bookcategorys as $bookcategory) {
-                                            $bookcategoryArray[$bookcategory->bookcategoryID] = $bookcategory->name;
+                                        foreach($bookcategorys as $kategori_buku) {
+                                            $bookcategoryArray[$kategori_buku->bookcategoryID] = $kategori_buku->nama;
                                         }
                                     }
                                     echo form_dropdown('bookcategoryID', $bookcategoryArray, set_value('bookcategoryID'),'id="bookcategoryID" class="form-control"');
@@ -26,11 +26,11 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="form-group <?=form_error('bookID') ? 'has-error' : ''?>">
+                            <div class="form-group <?=form_error('id_buku') ? 'has-error' : ''?>">
                                 <label>Buku</label>
                                 <?php 
                                     $bookArray[0]   = 'Silakan Pilih';
-                                    echo form_dropdown('bookID', $bookArray, set_value('bookID'),'id="bookID" class="form-control"');
+                                    echo form_dropdown('id_buku', $bookArray, set_value('id_buku'),'id='id_buku' class="form-control"');
                                 ?>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                                     $statusArray[0]   = 'Silakan Pilih';
                                     $statusArray[1]   = 'Tersedia';
                                     $statusArray[2]   = 'Tidak Tersedia';
-                                    echo form_dropdown('status', $statusArray, set_value('status'),'id="status" class="form-control"');
+                                    echo form_dropdown('status', $statusArray, set_value('status'),'id='status' class="form-control"');
                                 ?>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-sm-12" id="printDiv">
-                            <?php $this->load->view('report/book/view')?>
+                            <?php $this->load->view('report/buku/view')?>
                         </div>
                     </div>
                 </div>

@@ -88,7 +88,7 @@ class paypal_lib {
 		$this->add_field('cmd','_xclick');
 		
 		$this->add_field('currency_code', $this->CI->config->item('paypal_lib_currency_code'));
-	    	$this->add_field('quantity', '1');
+	    	$this->add_field('jumlah', '1');
 		$this->button('Pay Now!');
 	}
 

@@ -26,29 +26,29 @@
 	<!-- style="background: url('<?=base_url('uploads/default/loginbg.jpg')?>') no-repeat center center fixed;background-size: 100% 100%; " -->
         <div class="login-box">
             <div class="login-logo">
-                 <a href="<?=base_url('/')?>"><b><?=$generalsetting->sitename?></b></a>
+                 <a href="<?=base_url('/')?>"><b><?=$pengaturan_umum->sitename?></b></a>
             </div>
             <div class="login-box-body">
                 <h3 style="margin:-20 0 30 0;">REGISTER</h3>
                 <form action="<?=base_url('login/registermember')?>" method="post" enctype="multipart/form-data">
                     
-					<div class="form-group <?=form_error('name') ? 'has-error' : ''?>">
+					<div class="form-group <?=form_error('nama') ? 'has-error' : ''?>">
                         <label>Nama Lengkap</label> <span class="text-red">*</span>
-                        <input type="text" class="form-control" name="name" value="<?=set_value('name')?>"/>
-                        <?=form_error('name')?>
+                        <input type="text" class="form-control" name='nama' value="<?=set_value('nama')?>"/>
+                        <?=form_error('nama')?>
                     </div>
-                    <div class="form-group <?=form_error('email') ? 'has-error' : ''?>">
+                    <div class="form-group <?=form_error('surel') ? 'has-error' : ''?>">
                         <label>Email</label> <span class="text-red">*</span>
-                        <input type="text" class="form-control" name="email" value="<?=set_value('email')?>"/>
-                        <?=form_error('email')?>
+                        <input type="text" class="form-control" name='surel' value="<?=set_value('surel')?>"/>
+                        <?=form_error('surel')?>
                     </div>
-                    <div class="form-group <?=form_error('phone') ? 'has-error' : ''?>">
+                    <div class="form-group <?=form_error('telepon') ? 'has-error' : ''?>">
                         <label>Nomor Telp.</label> <span class="text-red">*</span>
-                        <input type="text" class="form-control" name="phone" value="<?=set_value('phone')?>"/>
-                        <?=form_error('phone')?>
+                        <input type="text" class="form-control" name='telepon' value="<?=set_value('telepon')?>"/>
+                        <?=form_error('telepon')?>
                     </div>
-                    <div class="form-group <?=form_error('photo') ? 'has-error' : ''?>">
-                        <label for="photo">Foto</label> <span class="text-red">*</span>
+                    <div class="form-group <?=form_error('foto') ? 'has-error' : ''?>">
+                        <label for='foto'>Foto</label> <span class="text-red">*</span>
                         <div class="input-group image-preview">
                             <input type="text" class="form-control image-preview-filename" disabled="disabled">
                             <span class="input-group-btn">
@@ -58,21 +58,21 @@
                                 <div class="btn btn-success image-preview-input">
                                     <span class="fa fa-repeat"></span>
                                     <span class="image-preview-input-title">Browse</span>
-                                    <input type="file" accept="image/png, image/jpeg, image/gif" name="photo"/>
+                                    <input type='file' accept="image/png, image/jpeg, image/gif" name='foto'/>
                                 </div>
                             </span>
                         </div>
-                        <?=form_error('photo')?>
+                        <?=form_error('foto')?>
                     </div>
-                    <div class="form-group <?=form_error('username') ? 'has-error' : ''?>">
+                    <div class="form-group <?=form_error('nama_pengguna') ? 'has-error' : ''?>">
                         <label>Username</label> <span class="text-red">*</span>
-                        <input type="text" class="form-control" name="username" value="<?=set_value('username')?>"/>
-                        <?=form_error('username')?>
+                        <input type="text" class="form-control" name='nama_pengguna' value="<?=set_value('nama_pengguna')?>"/>
+                        <?=form_error('nama_pengguna')?>
                     </div>
-                    <div class="form-group <?=form_error('password') ? 'has-error' : ''?>">
+                    <div class="form-group <?=form_error('kata_sandi') ? 'has-error' : ''?>">
                         <label>Password</label> <span class="text-red">*</span>
-                        <input type="text" class="form-control" name="password" value="<?=set_value('password')?>"/>
-                        <?=form_error('password')?>
+                        <input type="text" class="form-control" name='kata_sandi' value="<?=set_value('kata_sandi')?>"/>
+                        <?=form_error('kata_sandi')?>
                     </div>
                     <div class="row">
                         <div class="col-xs-6">

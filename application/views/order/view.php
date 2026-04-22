@@ -4,7 +4,7 @@
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
             <li><a href="<?=base_url('order/index')?>">Pesanan</a></li>
-            <li class="active">Lihat</li>
+            <li class='aktif'>Lihat</li>
         </ol>
     </section>
     <section class="content">
@@ -18,7 +18,7 @@
                                 <header>
                                     <div class="row align-items-center">
                                         <div class="col-sm-7 pull-left">
-                                            <img class="orderlogo" src="<?=app_image_link($generalsetting->logo, 'uploads/images/', 'logo.jpg')?>" alt="<?=$generalsetting->sitename?>" />
+                                            <img class="orderlogo" src="<?=app_image_link($pengaturan_umum->logo, 'uploads/images/', 'logo.jpg')?>" alt="<?=$pengaturan_umum->sitename?>" />
                                         </div>
                                         <div class="col-sm-5 pull-right text-right">
                                             <h3><b>Invoice Pesanan</b></h3>
@@ -30,15 +30,15 @@
                                 <!-- Main Content -->
                                 <main>
                                     <div class="row">
-                                        <div class="col-sm-6 pull-left"><strong>Tanggal Buat:</strong> <?=app_date($order->create_date)?></div>
-                                        <div class="col-sm-6 pull-right text-right"><strong>Nomo Invoice :</strong> <?=sprintf("%08d", $order->orderID);?></div>
+                                        <div class="col-sm-6 pull-left"><strong>Tanggal Buat:</strong> <?=app_date($order->tanggal_dibuat)?></div>
+                                        <div class="col-sm-6 pull-right text-right"><strong>Nomo Invoice :</strong> <?=sprintf("%08d", $order->id_pesanan);?></div>
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-6 pull-left">
                                             <strong>Pesanan Dari</strong>,
                                             <address>
-                                                <?=site_address($generalsetting)?>
+                                                <?=site_address($pengaturan_umum)?>
                                             </address>
                                         </div>
                                         <div class="col-sm-6 pull-right text-right">
@@ -59,14 +59,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (calculate($orderitems)) {foreach ($orderitems as $orderitem) { ?>
+                                            <?php if (calculate($item_pesanan)) {foreach ($item_pesanan as $orderitem) { ?>
                                                 <tr>
                                                     <td class="p-1">
-                                                        <img class="checkoutimage rounded mx-auto d-block" src="<?=app_image_link($orderitem->coverphoto,'uploads/storebook/','storebook.jpg')?>">
+                                                        <img class="checkoutimage rounded mx-auto d-block" src="<?=app_image_link($orderitem->coverphoto,'uploads/buku_toko/','buku_toko.jpg')?>">
                                                     </td>
-                                                    <td><?=$orderitem->name?></td>
+                                                    <td><?=$orderitem->nama?></td>
                                                     <td><?=$orderitem->unit_price?></td>
-                                                    <td><?=$orderitem->quantity?></td>
+                                                    <td><?=$orderitem->jumlah?></td>
                                                     <td class="text-bold"><?=$orderitem->subtotal?></td>
                                                 </tr>
                                             <?php } } ?>

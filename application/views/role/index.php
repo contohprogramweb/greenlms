@@ -3,14 +3,14 @@
 		<h1>Hak Akses</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li class="active">Hak Akses</li>
+            <li class='aktif'>Hak Akses</li>
 		</ol>
     </section>
     <section class="content">
         <div class="box box-mytheme">
             <?php if(permissionChecker('role_add')) { ?>
             <div class="box-header">
-                <a href="<?=base_url('role/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i>Tambah Hak Akses</a>
+                <a href="<?=base_url('peran/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i>Tambah Hak Akses</a>
             </div>
             <?php } ?>
             <div class="box-body">
@@ -27,15 +27,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <?php if(calculate($roles)) { $i=0; foreach($roles as $role) { $i++; ?>
+                        <?php if(calculate($roles)) { $i=0; foreach($roles as $peran) { $i++; ?>
                             <tr>
                                 <td data-title="#"><?=$i?></td>
-                                <td data-title="Hak Akses"><?=$role->role?></td>
-                                <td data-title="Tanggal Buat"><?=app_date($role->create_date)?></td>
+                                <td data-title="Hak Akses"><?=$peran->peran?></td>
+                                <td data-title="Tanggal Buat"><?=app_date($peran->tanggal_dibuat)?></td>
                                 <?php if(permissionChecker('role_edit') || permissionChecker('role_delete')) { ?>
                                     <td data-title="Aksi">
-                                        <?=btn_edit('role/edit/'.$role->roleID, 'Edit')?>
-                                        <?=btn_delete('role/delete/'.$role->roleID, 'Delete')?>
+                                        <?=btn_edit('peran/edit/'.$peran->id_peran, 'Edit')?>
+                                        <?=btn_delete('peran/delete/'.$peran->id_peran, 'Delete')?>
                                     </td>
                                 <?php } ?>
                             </tr>

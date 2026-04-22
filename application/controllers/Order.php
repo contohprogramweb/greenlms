@@ -27,8 +27,8 @@ class Order extends Admin_Controller
                 'assets/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js',
             ),
         );
-		$this->data['get_title'] = 'Kelola Pesanan | '.$this->data["generalsetting"]->sitename;
-        $this->data['orders']  = $this->order_m->get_order_by_order();
+		$this->data['get_title'] = 'Kelola Pesanan | '.$this->data['pengaturan_umum']->sitename;
+        $this->data['pesanan']  = $this->order_m->get_order_by_order();
         $this->data["subview"] = "order/index";
         $this->load->view('_main_layout', $this->data);
     }
@@ -36,14 +36,14 @@ class Order extends Admin_Controller
     public function view()
     {
         $orderID = htmlentities(escapeString($this->uri->segment(3)));
-		$this->data['get_title'] = 'Lihat Data Pesanan | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Lihat Data Pesanan | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $orderID) {
-            $order = $this->order_m->get_single_order(array('orderID' => $orderID));
+            $order = $this->order_m->get_single_order(array('id_pesanan' => $orderID));
             if (calculate($order)) {
                 $this->data['order']      = $order;
-                $this->data['member']     = $this->member_m->get_single_member(['memberID' => $order->memberID]);
-                $this->data['orderitems'] = $this->orderitem_m->get_order_by_orderitem_with_storebook(['orderID' => $orderID]);
+                $this->data['anggota']     = $this->member_m->get_single_member(['id_anggota' => $order->id_anggota]);
+                $this->data['item_pesanan'] = $this->orderitem_m->get_order_by_orderitem_with_storebook(['id_pesanan' => $orderID]);
                 $this->data["subview"]    = "order/view";
                 $this->load->view('_main_layout', $this->data);
             } else {
@@ -59,14 +59,14 @@ class Order extends Admin_Controller
     public function edit()
     {
         $orderID = htmlentities(escapeString($this->uri->segment(3)));
-		$this->data['get_title'] = 'Edit Pesanan | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Edit Pesanan | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $orderID) {
-            $order = $this->order_m->get_single_order(array('orderID' => $orderID));
+            $order = $this->order_m->get_single_order(array('id_pesanan' => $orderID));
             if (calculate($order)) {
                 $this->data['order']      = $order;
-                $this->data['member']     = $this->member_m->get_single_member(['memberID' => $order->memberID]);
-                $this->data['orderitems'] = $this->orderitem_m->get_order_by_orderitem_with_storebook(['orderID' => $orderID]);
+                $this->data['anggota']     = $this->member_m->get_single_member(['id_anggota' => $order->id_anggota]);
+                $this->data['item_pesanan'] = $this->orderitem_m->get_order_by_orderitem_with_storebook(['id_pesanan' => $orderID]);
                 if ($_POST) {
                     $rules = $this->rules();
                     $this->form_validation->set_rules($rules);
@@ -75,9 +75,9 @@ class Order extends Admin_Controller
                         $this->load->view('_main_layout', $this->data);
                     } else {
                         $array['status'] = $this->input->post('status');
-                        $this->order_m->update_order($array, $order->orderID);
+                        $this->order_m->update_order($array, $order->id_pesanan);
                         $this->session->set_flashdata('success', 'Success');
-                        redirect(base_url('order/view/' . $order->orderID));
+                        redirect(base_url('order/view/' . $order->id_pesanan));
                     }
                 } else {
                     $this->data["subview"] = "order/edit";
@@ -108,14 +108,14 @@ class Order extends Admin_Controller
     public function payment()
     {
         $orderID = htmlentities(escapeString($this->uri->segment(3)));
-		$this->data['get_title'] = 'Pembayaran Pesanan | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Pembayaran Pesanan | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $orderID) {
-            $order = $this->order_m->get_single_order(array('orderID' => $orderID));
+            $order = $this->order_m->get_single_order(array('id_pesanan' => $orderID));
             if (calculate($order)) {
                 $this->data['order']      = $order;
-                $this->data['member']     = $this->member_m->get_single_member(['memberID' => $order->memberID]);
-                $this->data['orderitems'] = $this->orderitem_m->get_order_by_orderitem_with_storebook(['orderID' => $orderID]);
+                $this->data['anggota']     = $this->member_m->get_single_member(['id_anggota' => $order->id_anggota]);
+                $this->data['item_pesanan'] = $this->orderitem_m->get_order_by_orderitem_with_storebook(['id_pesanan' => $orderID]);
                 if ($_POST) {
                     $rules = $this->payment_rules();
                     $this->form_validation->set_rules($rules);
@@ -157,15 +157,15 @@ class Order extends Admin_Controller
 
     public function payments($orderID)
     {
-        $order          = $this->order_m->get_single_order(['orderID' => $orderID]);
+        $order          = $this->order_m->get_single_order(['id_pesanan' => $orderID]);
         $payment_method = $order->payment_method;
 
         if ($payment_method == 5) {
             $updateArray['payment_status'] = 15;
             $updateArray['paid_amount']    = $order->total;
-            $this->order_m->update_order($updateArray, $order->orderID);
+            $this->order_m->update_order($updateArray, $order->id_pesanan);
             $this->session->set_flashdata('success', 'Your order payment successfully paid.');
-            redirect(base_url('order/view/' . $order->orderID));
+            redirect(base_url('order/view/' . $order->id_pesanan));
         } else if ($payment_method == 10) {
             $this->paypal($order);
         } else if ($payment_method == 15) {
@@ -184,17 +184,17 @@ class Order extends Admin_Controller
         $notifyURL = base_url('order/paypalipn'); //ipn url
 
         //get particular product data
-        $this->session->set_userdata('orderID', $order->orderID);
+        $this->session->set_userdata('id_pesanan', $order->id_pesanan);
         $userID = $this->session->userdata('loginmemberID'); //current user id
-        $logo   = app_image_link($this->data['generalsetting']->logo, 'uploads/images/', 'logo.jpg');
+        $logo   = app_image_link($this->data['pengaturan_umum']->logo, 'uploads/images/', 'logo.jpg');
 
         $this->paypal_lib->add_field('return', $returnURL);
         $this->paypal_lib->add_field('fail_return', $failURL);
         $this->paypal_lib->add_field('notify_url', $notifyURL);
 
         $this->paypal_lib->add_field('item_name', 'Order Item');
-        $this->paypal_lib->add_field('amount', $order->total);
-        $this->paypal_lib->add_field('item_number', $order->orderID);
+        $this->paypal_lib->add_field('jumlah', $order->total);
+        $this->paypal_lib->add_field('item_number', $order->id_pesanan);
         $this->paypal_lib->add_field('custom', $userID);
         $this->paypal_lib->image($logo);
 
@@ -209,7 +209,7 @@ class Order extends Admin_Controller
             redirect(base_url('order/index'));
         }
 
-        $orderID = $this->session->userdata('orderID');
+        $orderID = $this->session->userdata('id_pesanan');
 
         $miscArray['item_number']   = $orderID;
         $miscArray['txn_id']        = $paypalInfo["tx"];
@@ -217,7 +217,7 @@ class Order extends Admin_Controller
         $miscArray['currency_code'] = $paypalInfo["cc"];
         $miscArray['status']        = $paypalInfo["st"];
 
-        $order = $this->order_m->get_single_order(['orderID' => $orderID]);
+        $order = $this->order_m->get_single_order(['id_pesanan' => $orderID]);
         if (calculate($order)) {
             $updateArray['misc']           = json_encode($miscArray);
             $updateArray['paid_amount']    = $paypalInfo["amt"];
@@ -228,7 +228,7 @@ class Order extends Admin_Controller
             $this->order_m->update_order($updateArray, $orderID);
         }
         $this->session->set_flashdata('success', 'Your order payment successfully paid.');
-        redirect(base_url('order/view/' . $order->orderID));
+        redirect(base_url('order/view/' . $order->id_pesanan));
     }
 
     public function paypalfail()
@@ -253,26 +253,26 @@ class Order extends Admin_Controller
 
             \Stripe\Stripe::setApiKey($stripeSecret);
             $charge = \Stripe\Charge::create([
-                "amount"      => (int) $order->total,
+                'jumlah'      => (int) $order->total,
                 "currency"    => "usd",
                 "source"      => $this->session->userdata('stripeToken'),
-                "description" => $order->notes,
+                'deskripsi' => $order->notes,
             ]);
 
             if (!empty($charge) && $charge['amount_refunded'] == 0 && empty($charge['failure_code']) && $charge['paid'] == 1 && $charge['captured'] == 1) {
-                $paidAmount                    = $charge['amount'];
+                $paidAmount                    = $charge['jumlah'];
                 $updateArray['paid_amount']    = $paidAmount;
                 $updateArray['payment_status'] = 10;
                 if ($order->total == $updateArray['paid_amount']) {
                     $updateArray['payment_status'] = 15;
                 }
-                $this->order_m->update_order($updateArray, $order->orderID);
+                $this->order_m->update_order($updateArray, $order->id_pesanan);
             }
             $this->session->set_flashdata('success', 'Your order payment successfully paid.');
-            redirect(base_url('order/view/' . $order->orderID));
+            redirect(base_url('order/view/' . $order->id_pesanan));
         } catch (Exception $e) {
             $this->session->set_flashdata('error', $e->getMessage());
-            redirect(base_url('order/view/' . $order->orderID));
+            redirect(base_url('order/view/' . $order->id_pesanan));
         }
     }
 

@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Emailtemplate_m extends MY_Model
 {
 
-    protected $_table_name  = 'emailtemplate';
+    protected $_table_name  = 'templat_surel';
     protected $_primary_key = 'emailtemplateID';
     protected $_order_by    = "emailtemplateID asc";
 

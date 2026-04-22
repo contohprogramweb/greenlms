@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Orderitem_m extends MY_Model
 {
 
-    protected $_table_name   = 'orderitems';
+    protected $_table_name   = 'item_pesanan';
     protected $_primary_key  = 'orderitemID';
     protected $_orderitem_by = "priority desc";
 
@@ -45,20 +45,20 @@ class Orderitem_m extends MY_Model
 
     public function get_order_by_orderitem_with_storebook($array)
     {
-        $this->db->select('orderitems.*, storebook.name, storebook.coverphoto');
+        $this->db->select('item_pesanan.*, buku_toko.name, buku_toko.coverphoto');
         $this->db->from($this->_table_name);
-        $this->db->join('storebook', 'orderitems.storebookID=storebook.storebookID');
-        if (isset($array['orderID'])) {
-            $this->db->where('orderitems.orderID', $array['orderID']);
+        $this->db->join('buku_toko', 'item_pesanan.storebookID=buku_toko.storebookID');
+        if (isset($array['id_pesanan'])) {
+            $this->db->where('item_pesanan.orderID', $array['id_pesanan']);
         }
         return $this->db->get()->result();
     }
 
     public function get_order_by_orderitem_with_sum($warray = null)
     {
-        $this->db->select_sum('quantity');
+        $this->db->select_sum('jumlah');
         $this->db->where($warray);
-        return $this->db->get($this->_table_name)->row()->quantity;
+        return $this->db->get($this->_table_name)->row()->jumlah;
     }
 
 }

@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="tab-content wizard-tabcontent">
-                                <div class="tab-pane active" role="tabpanel" id="database">
+                                <div class="tab-pane active" peran="tabpanel" id="database">
                                     <form action="<?=base_url('install/database')?>" method="POST">
                                         <div class="form-group <?=form_error('hostname') ? 'has-error' : ''?>">
                                             <label for="hostname">Host Name</label>
@@ -51,17 +51,17 @@
                                             <input type="text" class="form-control" name="hostname" value="<?=set_value('hostname')?>" placeholder="Host Name">
                                             <span class="help-block"><?=form_error('hostname')?></span>
                                         </div>
-                                        <div class="form-group <?=form_error('username') ? 'has-error' : ''?>">
-                                            <label for="username">User Name</label>
+                                        <div class="form-group <?=form_error('nama_pengguna') ? 'has-error' : ''?>">
+                                            <label for='nama_pengguna'>User Name</label>
                                             <span class="text-danger">*</span>
-                                            <input type="text" class="form-control" name="username" value="<?=set_value('username')?>" placeholder="User Name">
-                                            <span class="help-block"><?=form_error('username')?></span>
+                                            <input type="text" class="form-control" name='nama_pengguna' value="<?=set_value('nama_pengguna')?>" placeholder="User Name">
+                                            <span class="help-block"><?=form_error('nama_pengguna')?></span>
                                         </div>
-                                        <div class="form-group <?=form_error('password') ? 'has-error' : ''?>">
-                                            <label for="password">Password</label>
+                                        <div class="form-group <?=form_error('kata_sandi') ? 'has-error' : ''?>">
+                                            <label for='kata_sandi'>Password</label>
                                             <span class="text-danger">*</span>
-                                            <input type="password" class="form-control" name="password" value="<?=set_value('password')?>" placeholder="Password">
-                                            <span class="help-block"><?=form_error('password')?></span>
+                                            <input type='kata_sandi' class="form-control" name='kata_sandi' value="<?=set_value('kata_sandi')?>" placeholder="Password">
+                                            <span class="help-block"><?=form_error('kata_sandi')?></span>
                                         </div>
                                         <div class="form-group <?=form_error('database') ? 'has-error' : ''?>">
                                             <label for="database">Database</label>

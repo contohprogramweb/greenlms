@@ -4,7 +4,7 @@
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
             <li><a href="<?=base_url('order/index')?>">Pesanan</a></li>
-            <li class="active">Lihat</li>
+            <li class='aktif'>Lihat</li>
         </ol>
     </section>
     <section class="content">
@@ -21,13 +21,13 @@
                                           <input <?=set_radio('payment_method', 5, TRUE); ?> class="form-check-input <?=form_error('payment_method') ? 'is-invalid' : ''?>" type="radio" name="payment_method" id="cash_on_delivery" value="5">
                                           <label class="form-check-label" for="cash_on_delivery">Cash On Delivery</label>
                                         </div>
-                                        <?php if($generalsetting->paypal_payment_method == 1) { ?>
+                                        <?php if($pengaturan_umum->paypal_payment_method == 1) { ?>
                                             <div class="form-check form-check-inline">
                                               <input <?=set_radio('payment_method', 10); ?> class="form-check-input <?=form_error('payment_method') ? 'is-invalid' : ''?>" type="radio" name="payment_method" id="paypal" value="10">
                                               <label class="form-check-label" for="paypal">Paypal</label>
                                             </div>
                                         <?php } ?>
-                                        <?php if($generalsetting->stripe_payment_method == 1) { ?>
+                                        <?php if($pengaturan_umum->stripe_payment_method == 1) { ?>
                                             <div class="form-check form-check-inline">
                                               <input class="form-check-input <?=form_error('payment_method') ? 'is-invalid' : ''?>" type="radio" name="payment_method" id="stripe" value="20">
                                               <label class="form-check-label" for="stripe">Stripe</label>
@@ -35,7 +35,7 @@
                                         <?php } ?>
                                     </div>
                                 </div>
-                                <?php if($generalsetting->stripe_payment_method == 1) { ?>
+                                <?php if($pengaturan_umum->stripe_payment_method == 1) { ?>
                                     <div class="form-row" id="stripeCard">
                                         <div class="form-group col-sm-6">
                                             <label>Nomor Kartu</label>
@@ -72,12 +72,12 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                        foreach($orderitems as $orderitem) { ?>
+                                        foreach($item_pesanan as $orderitem) { ?>
                                             <tr>
                                                 <td class="p-1">
-                                                    <img class="checkoutimage rounded mx-auto d-block" src="<?=app_image_link($orderitem->coverphoto,'uploads/storebook/','storebook.jpg')?>" alt="<?=$orderitem->name?>">
+                                                    <img class="checkoutimage rounded mx-auto d-block" src="<?=app_image_link($orderitem->coverphoto,'uploads/buku_toko/','buku_toko.jpg')?>" alt="<?=$orderitem->nama?>">
                                                 </td>
-                                                <td><?=$orderitem->name?> <strong> × <?=$orderitem->quantity?></strong></td>
+                                                <td><?=$orderitem->nama?> <strong> × <?=$orderitem->jumlah?></strong></td>
                                                 <td><?=app_amount_format($orderitem->subtotal)?></td>
                                             </tr>
                                         <?php } ?>
@@ -85,7 +85,7 @@
                                     <tfoot>
                                         <tr class="order_total">
                                             <th colspan="2">Ongkos Kirim</th>
-                                            <th><strong><?=app_amount_format($generalsetting->delivery_charge) ?></strong></th>
+                                            <th><strong><?=app_amount_format($pengaturan_umum->delivery_charge) ?></strong></th>
                                         </tr>
                                         <tr class="order_total">
                                             <th colspan="2">Harga Diskon</th>
@@ -93,7 +93,7 @@
                                         </tr>
                                         <tr class="order_total">
                                             <th colspan="2">Total Pesanan</th>
-                                            <th><strong><?=app_amount_format($order->total + $generalsetting->delivery_charge); ?></strong></th>
+                                            <th><strong><?=app_amount_format($order->total + $pengaturan_umum->delivery_charge); ?></strong></th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -106,7 +106,7 @@
     </section>
 </div>
 
-<?php if($generalsetting->stripe_payment_method == 1) { ?>
+<?php if($pengaturan_umum->stripe_payment_method == 1) { ?>
     <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
     <script>
         // Set your publishable API key
@@ -195,7 +195,7 @@
             // Insert the token ID into the form so it gets submitted to the server
             var hiddenInput = document.createElement('input');
             hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('nama', 'stripeToken');
             hiddenInput.setAttribute('value', token.id);
             form.appendChild(hiddenInput);
             

@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Paymentanddiscount_m extends MY_Model
 {
 
-    protected $_table_name  = 'paymentanddiscount';
+    protected $_table_name  = 'pembayaran_dan_diskon';
     protected $_primary_key = 'paymentanddiscountID';
     protected $_order_by    = "paymentanddiscountID desc";
 
@@ -55,18 +55,18 @@ class Paymentanddiscount_m extends MY_Model
 
     public function get_order_by_paymentanddiscount_for_report($array)
     {
-        $this->db->select('*, paymentanddiscount.paymentamount as payamount, paymentanddiscount.discountamount as disamount');
+        $this->db->select('*, pembayaran_dan_diskon.paymentamount as payamount, pembayaran_dan_diskon.discountamount as disamount');
         $this->db->from($this->_table_name);
-        $this->db->join('bookissue', 'bookissue.bookissueID=paymentanddiscount.bookissueID');
-        if (isset($array['roleID'])) {
-            $this->db->where('bookissue.roleID', $array['roleID']);
-            if (isset($array['memberID'])) {
-                $this->db->where('bookissue.memberID', $array['memberID']);
+        $this->db->join('peminjaman_buku', 'peminjaman_buku.bookissueID=pembayaran_dan_diskon.bookissueID');
+        if (isset($array['id_peran'])) {
+            $this->db->where('peminjaman_buku.roleID', $array['id_peran']);
+            if (isset($array['id_anggota'])) {
+                $this->db->where('peminjaman_buku.memberID', $array['id_anggota']);
             }
         }
         if (isset($array['fromdate']) && isset($array['todate'])) {
-            $this->db->where('paymentanddiscount.create_date >=', $array['fromdate']);
-            $this->db->where('paymentanddiscount.create_date <=', $array['todate']);
+            $this->db->where('pembayaran_dan_diskon.create_date >=', $array['fromdate']);
+            $this->db->where('pembayaran_dan_diskon.create_date <=', $array['todate']);
         }
         return $this->db->get()->result();
     }

@@ -3,7 +3,7 @@
   		<h1>Pengaturan Pembayaran</h1>
   		<ol class="breadcrumb">
         	<li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-  			<li class="active">Pengaturan Pembayaran</li>
+  			<li class='aktif'>Pengaturan Pembayaran</li>
   		</ol>
     </section>
     <section class="content">
@@ -20,7 +20,7 @@
 										$paypalArray[1] = 'Difungsikan';
 										$paypalArray[0] = 'Tidak Difungsikan';
 
-										echo form_dropdown('paypal_payment_method', $paypalArray, set_value('paypal_payment_method', $generalsetting->paypal_payment_method),'id="paypal_payment_method" class="form-control"');
+										echo form_dropdown('paypal_payment_method', $paypalArray, set_value('paypal_payment_method', $pengaturan_umum->paypal_payment_method),'id="paypal_payment_method" class="form-control"');
 									?>
 								  	<?=form_error('paypal_payment_method')?>
 								</div>
@@ -32,7 +32,7 @@
 										$stripeArray[1] = 'Difungsikan';
 										$stripeArray[0] = 'Tidak Difungsikan';
 
-										echo form_dropdown('stripe_payment_method', $stripeArray, set_value('stripe_payment_method', $generalsetting->stripe_payment_method),'id="stripe_payment_method" class="form-control"');
+										echo form_dropdown('stripe_payment_method', $stripeArray, set_value('stripe_payment_method', $pengaturan_umum->stripe_payment_method),'id="stripe_payment_method" class="form-control"');
 									?>
 								  	<?=form_error('stripe_payment_method')?>
 								</div>
@@ -46,14 +46,14 @@
 		                    <div class="col-sm-6 stripe_key">
 		                   		<div class="form-group <?=form_error('stripe_key') ? 'has-error' : ''?>">
 								  	<label>Stripe Key</label>
-								  	<input type="text" class="form-control" id="stripe_key" name="stripe_key" value="<?=set_value('stripe_key', $generalsetting->stripe_key)?>" />
+								  	<input type="text" class="form-control" id="stripe_key" name="stripe_key" value="<?=set_value('stripe_key', $pengaturan_umum->stripe_key)?>" />
 								  	<?=form_error('stripe_key')?>
 								</div>
 							</div>
 							<div class="col-sm-6 stripe_secret">
 		                   		<div class="form-group <?=form_error('stripe_secret') ? 'has-error' : ''?>">
 								  	<label>Stripe Secret</label>
-								  	<input type="text" class="form-control" id="stripe_secret" name="stripe_secret" value="<?=set_value('stripe_secret', $generalsetting->stripe_secret)?>" />
+								  	<input type="text" class="form-control" id="stripe_secret" name="stripe_secret" value="<?=set_value('stripe_secret', $pengaturan_umum->stripe_secret)?>" />
 								  	<?=form_error('stripe_secret')?>
 								</div>
 							</div>

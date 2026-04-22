@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Chat_m extends MY_Model
 {
 
-    protected $_table_name  = 'chat';
-    protected $_primary_key = 'chatID';
+    protected $_table_name  = 'obrolan';
+    protected $_primary_key = 'id_obrolan';
     protected $_order_by    = "chatID asc";
 
     public function __construct()

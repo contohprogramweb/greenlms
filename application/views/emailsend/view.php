@@ -3,8 +3,8 @@
         <h1>Kirim Email</h1>
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li><a href="<?=base_url('emailsend/index')?>">Kirim Email</a></li>
-            <li class="active">Lihat</li>
+            <li><a href="<?=base_url('kirim_email/index')?>">Kirim Email</a></li>
+            <li class='aktif'>Lihat</li>
         </ol>
     </section>
     <section class="content">
@@ -15,24 +15,24 @@
                         <div class="panel-body profile_view_des">
                             <div class="row">
                                 <div class="profile_view_item">
-                                    <p><b>Judul Email</b>: <?=$emailsend->subject?></p>
+                                    <p><b>Judul Email</b>: <?=$kirim_email->subjek?></p>
                                 </div>
-                                <?php if(isset($emailtemplates[$emailsend->emailtemplateID])) { ?>
+                                <?php if(isset($emailtemplates[$kirim_email->emailtemplateID])) { ?>
                                     <div class="profile_view_item">
-                                        <p><b>Template Email</b>: <?=$emailtemplates[$emailsend->emailtemplateID]?></p>
+                                        <p><b>Template Email</b>: <?=$emailtemplates[$kirim_email->emailtemplateID]?></p>
                                     </div>
                                 <?php } ?>
                                 <div class="profile_view_item">
-                                    <p><b>Pesan</b>: <?=$emailsend->message?></p>
+                                    <p><b>Pesan</b>: <?=$kirim_email->pesan?></p>
                                 </div>
                                 <div class="profile_view_item">
-                                    <p><b>Nama Pengirim</b>: <?=$emailsend->sender_name?></p>
+                                    <p><b>Nama Pengirim</b>: <?=$kirim_email->sender_name?></p>
                                 </div>
                                 <div class="profile_view_item">
-                                    <p><b>Terkirim</b>: <?=$emailsend->email?></p>
+                                    <p><b>Terkirim</b>: <?=$kirim_email->surel?></p>
                                 </div>
                                 <div class="profile_view_item">
-                                    <p><b>Tanggal Buat</b>: <?=app_date($emailsend->create_date)?></p>
+                                    <p><b>Tanggal Buat</b>: <?=app_date($kirim_email->tanggal_dibuat)?></p>
                                 </div>
                             </div>
                         </div>

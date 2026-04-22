@@ -39,10 +39,10 @@
 	}
 </style>
 <div class="reportheader">
-	<h2><?=$generalsetting->sitename?></h2>
-	<p><?=$generalsetting->phone?></p>
-	<p><?=$generalsetting->email?></p>
-	<p><?=$generalsetting->address?></p>
+	<h2><?=$pengaturan_umum->sitename?></h2>
+	<p><?=$pengaturan_umum->telepon?></p>
+	<p><?=$pengaturan_umum->surel?></p>
+	<p><?=$pengaturan_umum->alamat?></p>
 </div>
 <?php if(calculate($transactions)) { ?>
 	<table class="table table-hover table-striped table-bordered reporttable">
@@ -64,11 +64,11 @@
 				<td><?=$i?></td>
 				<td><?=$transaction['type']?></td>
 				<?php if($reportfor !=1 && $reportfor !=2) { ?>
-					<td><?=$transaction['role']?></td>
-					<td><?=$transaction['member']?></td>
+					<td><?=$transaction['peran']?></td>
+					<td><?=$transaction['anggota']?></td>
 				<?php } ?>
-				<td><?=app_date($transaction['date'])?></td>
-				<td><?=$transaction['amount']?></td>
+				<td><?=app_date($transaction['tanggal'])?></td>
+				<td><?=$transaction['jumlah']?></td>
 			</tr>
 			<?php } ?>
 		</tbody>
@@ -79,6 +79,6 @@
 	</div>
 <?php } ?>
 <div class="reportfooter">
-	<h4><?=$generalsetting->sitename?></h4>
-	<p><?=$generalsetting->address?></p>
+	<h4><?=$pengaturan_umum->sitename?></h4>
+	<p><?=$pengaturan_umum->alamat?></p>
 </div>

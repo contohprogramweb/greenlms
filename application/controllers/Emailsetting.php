@@ -10,7 +10,7 @@ class Emailsetting extends Admin_Controller
         $this->load->model('emailsetting_m');
 
         $lang = 'indonesia';
-        $this->lang->load('emailsetting', $lang);
+        $this->lang->load('pengaturan_surel', $lang);
 
         if (config_item('demo')) {
             $this->session->set_flashdata('error', 'This email setting module disable for demo version');
@@ -20,14 +20,14 @@ class Emailsetting extends Admin_Controller
 
     public function index()
     {
-		$this->data['get_title'] = 'Pengaturan Email | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Pengaturan Email | '.$this->data['pengaturan_umum']->sitename;
 		
-        $this->data['emailsetting'] = (object) pluck($this->emailsetting_m->get_emailsetting(), 'optionvalue', 'optionkey');
+        $this->data['pengaturan_surel'] = (object) pluck($this->emailsetting_m->get_emailsetting(), 'optionvalue', 'optionkey');
         if ($_POST) {
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
-                $this->data["subview"] = "emailsetting/index";
+                $this->data["subview"] = "pengaturan_surel/index";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $array = [];
@@ -41,10 +41,10 @@ class Emailsetting extends Admin_Controller
 
                 $this->emailsetting_m->insertorupdate_emailsetting($array);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('emailsetting/index'));
+                redirect(base_url('pengaturan_surel/index'));
             }
         } else {
-            $this->data["subview"] = "emailsetting/index";
+            $this->data["subview"] = "pengaturan_surel/index";
             $this->load->view('_main_layout', $this->data);
         }
     }

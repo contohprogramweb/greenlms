@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Generalsetting_m extends MY_Model
 {
 
-    protected $_table_name = 'generalsetting';
+    protected $_table_name = 'pengaturan_umum';
 
     public function __construct()
     {
@@ -46,7 +46,7 @@ class Generalsetting_m extends MY_Model
         if (calculate($arrays)) {
             foreach ($arrays as $optionkey => $optionvalue) {
                 $optionvalue = str_replace("'", "\'", $optionvalue);
-                $this->db->query("INSERT INTO generalsetting (optionkey, optionvalue) VALUES ('" . $optionkey . "', '" . $optionvalue . "') ON DUPLICATE KEY UPDATE optionkey='" . $optionkey . "' , optionvalue='" . $optionvalue . "'");
+                $this->db->query("INSERT INTO pengaturan_umum (optionkey, optionvalue) VALUES ('" . $optionkey . "', '" . $optionvalue . "') ON DUPLICATE KEY UPDATE optionkey='" . $optionkey . "' , optionvalue='" . $optionvalue . "'");
             }
         }
         return true;

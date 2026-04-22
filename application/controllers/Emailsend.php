@@ -14,7 +14,7 @@ class Emailsend extends Admin_Controller
         $this->load->library('applications');
 
         $lang = 'indonesia';
-        $this->lang->load('emailsend', $lang);
+        $this->lang->load('kirim_email', $lang);
     }
 
     public function index()
@@ -29,11 +29,11 @@ class Emailsend extends Admin_Controller
                 'assets/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js',
             ),
         );
-		$this->data['get_title'] = 'Kirim Email | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Kirim Email | '.$this->data['pengaturan_umum']->sitename;
 		
-        $this->data['roles']      = pluck($this->role_m->get_role(), 'role', 'roleID');
+        $this->data['roles']      = pluck($this->role_m->get_role(), 'peran', 'id_peran');
         $this->data['emailsends'] = $this->emailsend_m->get_order_by_emailsend(array('on_deleted' => 0));
-        $this->data["subview"]    = "emailsend/index";
+        $this->data["subview"]    = "kirim_email/index";
         $this->load->view('_main_layout', $this->data);
     }
 
@@ -47,11 +47,11 @@ class Emailsend extends Admin_Controller
             'js'  => array(
                 'assets/plugins/summernote/summernote.min.js',
                 'assets/plugins/select2/dist/js/select2.min.js',
-                'assets/custom/js/emailsend.js',
+                'assets/custom/js/kirim_email.js',
             ),
         );
 		
-		$this->data['get_title'] = 'Kirim Email | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Kirim Email | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data['active_tab']     = 1;
         $this->data['roles']          = $this->role_m->get_role();
@@ -63,29 +63,29 @@ class Emailsend extends Admin_Controller
                 $rules                    = $this->rules_email();
                 $this->form_validation->set_rules($rules);
                 if ($this->form_validation->run() == false) {
-                    $this->data["subview"] = "emailsend/add";
+                    $this->data["subview"] = "kirim_email/add";
                     $this->load->view('_main_layout', $this->data);
                 } else {
                     $members                  = $this->get_member_to_email_send($_POST);
                     $array                    = [];
-                    $array['subject']         = $this->input->post('subject');
-                    $array['message']         = trim($this->input->post('message'));
+                    $array['subjek']         = $this->input->post('subjek');
+                    $array['pesan']         = trim($this->input->post('pesan'));
                     $array['sender_name']     = $this->get_sender_name($members);
                     $array['sender_memberID'] = json_encode($this->input->post('sender_memberID'));
                     $array['sender_roleID']   = $this->input->post('sender_roleID');
                     $array['emailtemplateID'] = $this->input->post('emailtemplateID');
-                    $array['create_date']     = date('Y-m-d H:i:s');
+                    $array['tanggal_dibuat']     = date('Y-m-d H:i:s');
                     $array['create_memberID'] = $this->session->userdata('loginmemberID');
-                    $array['create_roleID']   = $this->session->userdata('roleID');
+                    $array['create_roleID']   = $this->session->userdata('id_peran');
 
                     if (calculate($members)) {
-                        $this->applications->sendemails($members, $this->input->post('message'), $this->input->post('subject'));
+                        $this->applications->sendemails($members, $this->input->post('pesan'), $this->input->post('subjek'));
                         $this->emailsend_m->insert_emailsend($array);
                         $this->session->set_flashdata('success', 'Success');
-                        redirect(base_url('emailsend/index'));
+                        redirect(base_url('kirim_email/index'));
                     } else {
                         $this->session->set_flashdata('error', 'Error');
-                        redirect(base_url('emailsend/index'));
+                        redirect(base_url('kirim_email/index'));
                     }
                 }
             } elseif ($emailtype == 2) {
@@ -93,29 +93,29 @@ class Emailsend extends Admin_Controller
                 $rules                    = $this->rules_otheremail();
                 $this->form_validation->set_rules($rules);
                 if ($this->form_validation->run() == false) {
-                    $this->data["subview"] = "emailsend/add";
+                    $this->data["subview"] = "kirim_email/add";
                     $this->load->view('_main_layout', $this->data);
                 } else {
                     $array                    = [];
-                    $array['subject']         = $this->input->post('othersubject');
-                    $array['message']         = trim($this->input->post('othermessage'));
-                    $array['email']           = $this->input->post('email');
-                    $array['sender_name']     = $this->input->post('name');
+                    $array['subjek']         = $this->input->post('othersubject');
+                    $array['pesan']         = trim($this->input->post('othermessage'));
+                    $array['surel']           = $this->input->post('surel');
+                    $array['sender_name']     = $this->input->post('nama');
                     $array['sender_memberID'] = 0;
                     $array['sender_roleID']   = 0;
                     $array['emailtemplateID'] = 0;
-                    $array['create_date']     = date('Y-m-d H:i:s');
+                    $array['tanggal_dibuat']     = date('Y-m-d H:i:s');
                     $array['create_memberID'] = $this->session->userdata('loginmemberID');
-                    $array['create_roleID']   = $this->session->userdata('roleID');
+                    $array['create_roleID']   = $this->session->userdata('id_peran');
 
-                    $result = $this->applications->sendemail($this->input->post('email'), $this->input->post('othermessage'), $this->input->post('othersubject'), $this->input->post('name'));
+                    $result = $this->applications->sendemail($this->input->post('surel'), $this->input->post('othermessage'), $this->input->post('othersubject'), $this->input->post('nama'));
                     if ($result) {
                         $this->emailsend_m->insert_emailsend($array);
                         $this->session->set_flashdata('success', 'Success');
-                        redirect(base_url('emailsend/index'));
+                        redirect(base_url('kirim_email/index'));
                     } else {
                         $this->session->set_flashdata('error', 'Error');
-                        redirect(base_url('emailsend/index'));
+                        redirect(base_url('kirim_email/index'));
                     }
                 }
             } else {
@@ -123,7 +123,7 @@ class Emailsend extends Admin_Controller
                 $this->load->view('_main_layout', $this->data);
             }
         } else {
-            $this->data["subview"] = "emailsend/add";
+            $this->data["subview"] = "kirim_email/add";
             $this->load->view('_main_layout', $this->data);
         }
     }
@@ -134,9 +134,9 @@ class Emailsend extends Admin_Controller
         $sender_memberID = isset($post['sender_memberID']) ? $post['sender_memberID'] : [];
 
         if (calculate($sender_memberID)) {
-            $members = $this->member_m->get_where_in_member('memberID', $sender_memberID, array('roleID' => $roleID, 'deleted_at' => 0));
+            $members = $this->member_m->get_where_in_member('id_anggota', $sender_memberID, array('id_peran' => $roleID, 'dihapus_pada' => 0));
         } else {
-            $members = $this->member_m->get_order_by_member(array('roleID' => $roleID, 'deleted_at' => 0));
+            $members = $this->member_m->get_order_by_member(array('id_peran' => $roleID, 'dihapus_pada' => 0));
         }
         return $members;
     }
@@ -146,11 +146,11 @@ class Emailsend extends Admin_Controller
         $ret = "";
         $i   = 1;
         if (calculate($members)) {
-            foreach ($members as $member) {
+            foreach ($members as $anggota) {
                 if ($i == 1) {
-                    $ret .= $member->name;
+                    $ret .= $anggota->nama;
                 } else {
-                    $ret .= "," . $member->name;
+                    $ret .= "," . $anggota->nama;
                 }
                 $i++;
             }
@@ -161,13 +161,13 @@ class Emailsend extends Admin_Controller
     public function view()
     {
         $emailsendID = htmlentities(escapeString($this->uri->segment('3')));
-		$this->data['get_title'] = 'Tampilkan Data Email | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Tampilkan Data Email | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $emailsendID) {
-            $this->data['emailsend'] = $this->emailsend_m->get_single_emailsend(array('emailsendID' => $emailsendID, 'on_deleted' => 0));
-            if (calculate($this->data['emailsend'])) {
-                $this->data['emailtemplates'] = pluck($this->emailtemplate_m->get_emailtemplate(), 'name', 'emailtemplateID');
-                $this->data["subview"]        = "emailsend/view";
+            $this->data['kirim_email'] = $this->emailsend_m->get_single_emailsend(array('emailsendID' => $emailsendID, 'on_deleted' => 0));
+            if (calculate($this->data['kirim_email'])) {
+                $this->data['emailtemplates'] = pluck($this->emailtemplate_m->get_emailtemplate(), 'nama', 'emailtemplateID');
+                $this->data["subview"]        = "kirim_email/view";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $this->data["subview"] = "_not_found";
@@ -187,7 +187,7 @@ class Emailsend extends Admin_Controller
             $array['on_deleted'] = 1;
             $this->emailsend_m->update_emailsend($array, $emailsendID);
             $this->session->set_flashdata('success', 'Success');
-            redirect(base_url('emailsend/index'));
+            redirect(base_url('kirim_email/index'));
         } else {
             $this->data["subview"] = "_not_found";
             $this->load->view('_main_layout', $this->data);
@@ -198,8 +198,8 @@ class Emailsend extends Admin_Controller
     {
         $retArray           = [];
         $retArray['status'] = false;
-        if ($_FILES["photo"]['name'] != "") {
-            $file_name   = $_FILES["photo"]['name'];
+        if ($_FILES['foto']['nama'] != "") {
+            $file_name   = $_FILES['foto']['nama'];
             $random      = rand(1, 10000000000000000);
             $file_rename = hash('sha512', $random . config_item("encryption_key"));
             $explode     = explode('.', $file_name);
@@ -212,18 +212,18 @@ class Emailsend extends Admin_Controller
                 $config['max_width']     = '2000';
                 $config['max_height']    = '2000';
                 $this->load->library('upload', $config);
-                if (!$this->upload->do_upload("photo")) {
-                    $retArray['message'] = $this->upload->display_errors();
+                if (!$this->upload->do_upload('foto')) {
+                    $retArray['pesan'] = $this->upload->display_errors();
                 } else {
                     $imagename          = $this->upload->data()['file_name'];
-                    $retArray['photo']  = base_url('uploads/summernote/' . $imagename);
+                    $retArray['foto']  = base_url('uploads/summernote/' . $imagename);
                     $retArray['status'] = true;
                 }
             } else {
-                $retArray['message'] = "Invalid File";
+                $retArray['pesan'] = "Invalid File";
             }
         } else {
-            $retArray['message'] = "Please Select File";
+            $retArray['pesan'] = "Please Select File";
         }
         echo json_encode($retArray);
     }
@@ -232,26 +232,26 @@ class Emailsend extends Admin_Controller
     {
         echo "<option value='0'>" . $this->lang->line('emailsend_all_member') . "</option>";
         if ($_POST && permissionChecker('emailsend_add')) {
-            $roleID = $this->input->post('roleID');
+            $roleID = $this->input->post('id_peran');
             if ((int) $roleID) {
-                $members = $this->member_m->get_order_by_member(array('roleID' => $roleID), array('memberID', 'name'));
+                $members = $this->member_m->get_order_by_member(array('id_peran' => $roleID), array('id_anggota', 'nama'));
                 if (calculate($members)) {
-                    foreach ($members as $member) {
-                        echo "<option value='" . $member->memberID . "'>" . $member->name . "</option>";
+                    foreach ($members as $anggota) {
+                        echo "<option value='" . $anggota->id_anggota . "'>" . $anggota->nama . "</option>";
                     }
                 }
             }
         }
     }
 
-    public function emailtemplate()
+    public function templat_surel()
     {
         if ($_POST) {
             $emailtemplateID = $this->input->post('emailtemplateID');
             if ((int) $emailtemplateID) {
                 $emialtemplate = $this->emailtemplate_m->get_single_emailtemplate($emailtemplateID);
                 if (calculate($emialtemplate)) {
-                    echo $emialtemplate->template;
+                    echo $emialtemplate->templat;
                 } else {
                     echo "error";
                 }
@@ -267,7 +267,7 @@ class Emailsend extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'subject',
+                'field' => 'subjek',
                 'label' => $this->lang->line('emailsend_subject'),
                 'rules' => 'trim|xss_clean|required|min_length[4]|max_length[60]',
             ),
@@ -287,7 +287,7 @@ class Emailsend extends Admin_Controller
                 'rules' => 'trim|xss_clean|required',
             ),
             array(
-                'field' => 'message',
+                'field' => 'pesan',
                 'label' => $this->lang->line('emailsend_message'),
                 'rules' => 'trim|xss_clean|required',
             ),
@@ -304,12 +304,12 @@ class Emailsend extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|min_length[4]|max_length[60]',
             ),
             array(
-                'field' => 'name',
+                'field' => 'nama',
                 'label' => $this->lang->line('emailsend_name'),
                 'rules' => 'trim|xss_clean|required|min_length[4]|max_length[60]',
             ),
             array(
-                'field' => 'email',
+                'field' => 'surel',
                 'label' => $this->lang->line('emailsend_email'),
                 'rules' => 'trim|xss_clean|required|valid_email',
             ),

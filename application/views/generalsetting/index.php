@@ -3,13 +3,13 @@
   		<h1>Pengaturan Umum</h1>
   		<ol class="breadcrumb">
         	<li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-  			<li class="active">Pengaturan Umum</li>
+  			<li class='aktif'>Pengaturan Umum</li>
   		</ol>
     </section>
     <section class="content">
 		<div class="box box-mytheme">
 			<div class="box-body">
-				<form action="<?=base_url('generalsetting/index')?>" method="POST" enctype="multipart/form-data">
+				<form action="<?=base_url('pengaturan_umum/index')?>" method="POST" enctype="multipart/form-data">
 					<fieldset class="setting-fieldset">
 		                <legend class="setting-legend">Pengaturan Umum</legend>
 		                <div class="row">
@@ -18,7 +18,7 @@
 		                            <label for="sitename">
 		                                Nama Website <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Set your sitename"></i>
 		                            </label>
-		                            <input type="text" class="form-control" id="sitename" name="sitename" value="<?=set_value('sitename', $generalsetting->sitename)?>" />
+		                            <input type="text" class="form-control" id="sitename" name="sitename" value="<?=set_value('sitename', $pengaturan_umum->sitename)?>" />
 		                            <?=form_error('sitename'); ?>
 				                </div>
 				            </div>
@@ -28,12 +28,12 @@
 		                                Logo <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Set your logo"></i>
 		                            </label>
 							        <div class="input-group image-preview">
-							            <input type="text" class="form-control fileuploadname" value="<?=set_value('logo', $generalsetting->logo)?>" disabled="disabled" />
+							            <input type="text" class="form-control fileuploadname" value="<?=set_value('logo', $pengaturan_umum->logo)?>" disabled="disabled" />
 							            <span class="input-group-btn">
 							                <div class="btn btn-success image-preview-input">
 							                    <span class="fa fa-repeat"></span>
 							                    <span class="image-preview-input-title">Browse</span>
-							                    <input type="file" name="logo" id="fileupload"/>
+							                    <input type='file' name="logo" id="fileupload"/>
 							                </div>
 							            </span>
 							        </div>
@@ -41,12 +41,12 @@
 							    </div>
 				            </div>
 		                    <div class="col-sm-6 address">
-		                   		<div class="form-group <?=form_error('address') ? 'has-error' : ''?>">
-		                            <label for="address">
+		                   		<div class="form-group <?=form_error('alamat') ? 'has-error' : ''?>">
+		                            <label for='alamat'>
 		                                Alamat <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Set your address"></i>
 		                            </label>
-		                            <textarea class="form-control" name="address" id="address" cols="30" rows="2"><?=set_value('address', $generalsetting->address)?></textarea>
-		                            <?=form_error('address'); ?>
+		                            <textarea class="form-control" name='alamat' id='alamat' cols="30" rows="2"><?=set_value('alamat', $pengaturan_umum->alamat)?></textarea>
+		                            <?=form_error('alamat'); ?>
 				                </div>
 				            </div>
 		                    <div class="col-sm-6 copyright_by">
@@ -54,26 +54,26 @@
 		                            <label for="copyright_by">
 		                                Copyright <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Set your copyright_by"></i>
 		                            </label>
-		                            <textarea class="form-control" name="copyright_by" id="copyright_by" cols="30" rows="2"><?=set_value('copyright_by', $generalsetting->copyright_by)?></textarea>
+		                            <textarea class="form-control" name="copyright_by" id="copyright_by" cols="30" rows="2"><?=set_value('copyright_by', $pengaturan_umum->copyright_by)?></textarea>
 		                            <?=form_error('copyright_by'); ?>
 				                </div>
 				            </div>
 		                	<div class="col-sm-6 email">
-		                   		<div class="form-group <?=form_error('email') ? 'has-error' : ''?>">
-		                            <label for="email">
+		                   		<div class="form-group <?=form_error('surel') ? 'has-error' : ''?>">
+		                            <label for='surel'>
 		                                Email <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Set your email"></i>
 		                            </label>
-		                            <input type="text" class="form-control" id="email" name="email" value="<?=set_value('email', $generalsetting->email)?>" />
-		                            <?=form_error('email'); ?>
+		                            <input type="text" class="form-control" id='surel' name='surel' value="<?=set_value('surel', $pengaturan_umum->surel)?>" />
+		                            <?=form_error('surel'); ?>
 				                </div>
 				            </div>
 		                	<div class="col-sm-6 phone">
-		                   		<div class="form-group <?=form_error('phone') ? 'has-error' : ''?>">
-		                            <label for="phone">
+		                   		<div class="form-group <?=form_error('telepon') ? 'has-error' : ''?>">
+		                            <label for='telepon'>
 		                                Nomor Telp. <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Set your phone"></i>
 		                            </label>
-		                            <input type="text" class="form-control" id="phone" name="phone" value="<?=set_value('phone', $generalsetting->phone)?>" />
-		                            <?=form_error('phone'); ?>
+		                            <input type="text" class="form-control" id='telepon' name='telepon' value="<?=set_value('telepon', $pengaturan_umum->telepon)?>" />
+		                            <?=form_error('telepon'); ?>
 				                </div>
 				            </div>
 		                	<div class="col-sm-6 web_address">
@@ -81,7 +81,7 @@
 		                            <label for="web_address">
 		                                Alamat Web <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="Set your web address"></i>
 		                            </label>
-		                            <input type="text" class="form-control" id="web_address" name="web_address" value="<?=set_value('web_address', $generalsetting->web_address)?>" />
+		                            <input type="text" class="form-control" id="web_address" name="web_address" value="<?=set_value('web_address', $pengaturan_umum->web_address)?>" />
 		                            <?=form_error('web_address'); ?>
 				                </div>
 				            </div>
@@ -98,7 +98,7 @@
 										$ebookDownloadArray[1] = 'Difungsikan';
 										$ebookDownloadArray[0] = 'Tidak Difungsikan';
 
-										echo form_dropdown('ebook_download', $ebookDownloadArray, set_value('ebook_download', $generalsetting->ebook_download),'id="ebook_download" class="form-control"');
+										echo form_dropdown('ebook_download', $ebookDownloadArray, set_value('ebook_download', $pengaturan_umum->ebook_download),'id="ebook_download" class="form-control"');
 									?>
 								  	<?=form_error('ebook_download')?>
 								</div>
@@ -110,7 +110,7 @@
 										$registrationArray[1] = 'Difungsikan';
 										$registrationArray[0] = 'Tidak Difungsikan';
 
-										echo form_dropdown('registration', $registrationArray, set_value('registration', $generalsetting->registration),'id="registration" class="form-control"');
+										echo form_dropdown('registration', $registrationArray, set_value('registration', $pengaturan_umum->registration),'id="registration" class="form-control"');
 									?>
 								  	<?=form_error('registration')?>
 								</div>
@@ -122,7 +122,7 @@
 										$frontendArray[1] = 'Difungsikan';
 										$frontendArray[0] = 'Tidak Difungsikan';
 
-										echo form_dropdown('frontend', $frontendArray, set_value('frontend', $generalsetting->frontend),'id="frontend" class="form-control"');
+										echo form_dropdown('frontend', $frontendArray, set_value('frontend', $pengaturan_umum->frontend),'id="frontend" class="form-control"');
 									?>
 								  	<?=form_error('frontend')?>
 								</div>
@@ -130,7 +130,7 @@
 		                    <div class="col-sm-6 delivery_charge">
 		                   		<div class="form-group <?=form_error('delivery_charge') ? 'has-error' : ''?>">
 								  	<label>Ongkos Kirim</label> <span class="text-red">*</span>
-								  	<input type="text" class="form-control" id="delivery_charge" name="delivery_charge" value="<?=set_value('delivery_charge', $generalsetting->delivery_charge)?>" />
+								  	<input type="text" class="form-control" id="delivery_charge" name="delivery_charge" value="<?=set_value('delivery_charge', $pengaturan_umum->delivery_charge)?>" />
 								  	<?=form_error('delivery_charge')?>
 								</div>
 							</div>

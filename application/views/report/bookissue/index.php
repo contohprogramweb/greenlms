@@ -3,7 +3,7 @@
         <h1>Laporan Data Buku Dipinjam</h1>
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li class="active">Laporan Data Buku Dipinjam</li>
+            <li class='aktif'>Laporan Data Buku Dipinjam</li>
         </ol>
     </section>
     <section class="content">
@@ -17,8 +17,8 @@
                                 <?php 
                                     $bookcategoryArray[0]   = 'Silakan Pilih';
                                     if(calculate($bookcategorys)) {
-                                        foreach($bookcategorys as $bookcategory) {
-                                            $bookcategoryArray[$bookcategory->bookcategoryID] = $bookcategory->name;
+                                        foreach($bookcategorys as $kategori_buku) {
+                                            $bookcategoryArray[$kategori_buku->bookcategoryID] = $kategori_buku->nama;
                                         }
                                     }
                                     echo form_dropdown('bookcategoryID', $bookcategoryArray, set_value('bookcategoryID'),'id="bookcategoryID" class="form-control"');
@@ -26,34 +26,34 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="form-group <?=form_error('bookID') ? 'has-error' : ''?>">
+                            <div class="form-group <?=form_error('id_buku') ? 'has-error' : ''?>">
                                 <label>Buku</label>
                                 <?php 
                                     $bookArray[0]   = 'Silakan Pilih';
-                                    echo form_dropdown('bookID', $bookArray, set_value('bookID'),'id="bookID" class="form-control"');
+                                    echo form_dropdown('id_buku', $bookArray, set_value('id_buku'),'id='id_buku' class="form-control"');
                                 ?>
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="form-group <?=form_error('roleID') ? 'has-error' : ''?>">
+                            <div class="form-group <?=form_error('id_peran') ? 'has-error' : ''?>">
                                 <label>Hak Akses</label>
                                 <?php 
                                     $roleArray[0]   = 'Silakan Pilih';
                                     if(calculate($roles)) {
-                                        foreach($roles as $role) {
-                                            $roleArray[$role->roleID]   = $role->role;
+                                        foreach($roles as $peran) {
+                                            $roleArray[$peran->id_peran]   = $peran->peran;
                                         }
                                     }
-                                    echo form_dropdown('roleID', $roleArray, set_value('roleID'),'id="roleID" class="form-control"');
+                                    echo form_dropdown('id_peran', $roleArray, set_value('id_peran'),'id='id_peran' class="form-control"');
                                 ?>
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="form-group <?=form_error('memberID') ? 'has-error' : ''?>">
+                            <div class="form-group <?=form_error('id_anggota') ? 'has-error' : ''?>">
                                 <label>Anggota</label>
                                 <?php 
                                     $memberArray[0]   = 'Silakan Pilih';
-                                    echo form_dropdown('memberID', $memberArray, set_value('memberID'),'id="memberID" class="form-control"');
+                                    echo form_dropdown('id_anggota', $memberArray, set_value('id_anggota'),'id='id_anggota' class="form-control"');
                                 ?>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                                     $statusArray[1]   = 'Dipinjam';
                                     $statusArray[2]   = 'Dikembalikan';
                                     $statusArray[3]   = 'Hilang';
-                                    echo form_dropdown('status', $statusArray, set_value('status'),'id="status" class="form-control"');
+                                    echo form_dropdown('status', $statusArray, set_value('status'),'id='status' class="form-control"');
                                 ?>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-sm-12" id="printDiv">
-                            <?php $this->load->view('report/bookissue/view')?>
+                            <?php $this->load->view('report/peminjaman_buku/view')?>
                         </div>
                     </div>
                 </div>

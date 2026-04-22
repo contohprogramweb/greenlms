@@ -34,13 +34,13 @@ class Transactionreport extends Admin_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Laporan Transaksi | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Laporan Transaksi | '.$this->data['pengaturan_umum']->sitename;
 		
 		
         $this->data['flag']      = 0;
         $this->data['reportfor'] = 0;
-        $this->data['roleID']    = 0;
-        $this->data['memberID']  = 0;
+        $this->data['id_peran']    = 0;
+        $this->data['id_anggota']  = 0;
         $this->data['fromdate']  = 0;
         $this->data['todate']    = 0;
         $this->data['members']   = [];
@@ -49,8 +49,8 @@ class Transactionreport extends Admin_Controller
         unset($_SESSION['error']);
         if ($_POST) {
             $reportfor = $this->input->post('reportfor');
-            $roleID    = $this->input->post('roleID');
-            $memberID  = $this->input->post('memberID');
+            $roleID    = $this->input->post('id_peran');
+            $memberID  = $this->input->post('id_anggota');
             $fromdate  = $this->input->post('fromdate');
             $todate    = $this->input->post('todate');
 
@@ -63,7 +63,7 @@ class Transactionreport extends Admin_Controller
                 $this->load->view('_main_layout', $this->data);
             } else {
 
-                $this->_queryArray(['reportfor' => $reportfor, 'roleID' => $roleID, 'memberID' => $memberID, 'fromdate' => $fromdate, 'todate' => $todate]);
+                $this->_queryArray(['reportfor' => $reportfor, 'id_peran' => $roleID, 'id_anggota' => $memberID, 'fromdate' => $fromdate, 'todate' => $todate]);
 
                 $this->data["subview"] = "report/transaction/index";
                 $this->load->view('_main_layout', $this->data);
@@ -84,7 +84,7 @@ class Transactionreport extends Admin_Controller
 
         if ((int) $reportfor && ((int) $roleID || $roleID == 0) && ((int) $memberID || $memberID == 0) && ((int) $fromdate || $fromdate == 0) && ((int) $todate || $todate == 0)) {
 
-            $this->_queryArray(['reportfor' => $reportfor, 'roleID' => $roleID, 'memberID' => $memberID, 'fromdate' => $fromdate, 'todate' => $todate]);
+            $this->_queryArray(['reportfor' => $reportfor, 'id_peran' => $roleID, 'id_anggota' => $memberID, 'fromdate' => $fromdate, 'todate' => $todate]);
 
             $this->pdf->create(['stylesheet' => 'transactionreport.css', 'view' => 'report/transaction/pdf.php', 'data' => $this->data]);
 
@@ -104,14 +104,14 @@ class Transactionreport extends Admin_Controller
             $queryArray['reportfor'] = $reportfor;
         }
         if ((int) $roleID) {
-            $queryArray['roleID'] = $roleID;
-            $userArray['roleID']  = $roleID;
+            $queryArray['id_peran'] = $roleID;
+            $userArray['id_peran']  = $roleID;
             if ((int) $memberID) {
-                $queryArray['memberID'] = $memberID;
+                $queryArray['id_anggota'] = $memberID;
             }
         }
         $userArray['status']     = 1;
-        $userArray['deleted_at'] = 0;
+        $userArray['dihapus_pada'] = 0;
 
         if (!empty($fromdate) && !empty($todate)) {
             $queryArray['fromdate'] = date('Y-m-d', strtotime($fromdate));
@@ -125,8 +125,8 @@ class Transactionreport extends Admin_Controller
 
         $this->data['flag']      = 1;
         $this->data['reportfor'] = $reportfor;
-        $this->data['roleID']    = $roleID;
-        $this->data['memberID']  = $memberID;
+        $this->data['id_peran']    = $roleID;
+        $this->data['id_anggota']  = $memberID;
         $this->data['fromdate']  = empty($fromdate) ? 0 : strtotime($fromdate);
         $this->data['todate']    = empty($todate) ? 0 : strtotime($todate);
         $this->data['members']   = $members;
@@ -137,80 +137,80 @@ class Transactionreport extends Admin_Controller
     private function _queryArrayDB($queryArray)
     {
         $reportfor = $this->data['reportfor'];
-        $members   = pluck($this->data['members'], 'name', 'memberID');
-        $roles     = pluck($this->role_m->get_role(), 'role', 'roleID');
+        $members   = pluck($this->data['members'], 'nama', 'id_anggota');
+        $roles     = pluck($this->role_m->get_role(), 'peran', 'id_peran');
         $i         = 1;
         $retArray  = [];
         if ($reportfor == 1) {
             $incomes = $this->income_m->get_order_by_income_for_report($queryArray);
             if (calculate($incomes)) {
-                foreach ($incomes as $income) {
+                foreach ($incomes as $pemasukan) {
                     $retArray[$i]['type']   = 'Income';
-                    $retArray[$i]['role']   = '';
-                    $retArray[$i]['member'] = '';
-                    $retArray[$i]['date']   = app_date($income->date);
-                    $retArray[$i]['amount'] = $income->amount;
+                    $retArray[$i]['peran']   = '';
+                    $retArray[$i]['anggota'] = '';
+                    $retArray[$i]['tanggal']   = app_date($pemasukan->tanggal);
+                    $retArray[$i]['jumlah'] = $pemasukan->jumlah;
                     $i++;
                 }
             }
         } else if ($reportfor == 2) {
             $expenses = $this->expense_m->get_order_by_expense_for_report($queryArray);
             if (calculate($expenses)) {
-                foreach ($expenses as $expense) {
+                foreach ($expenses as $pengeluaran) {
                     $retArray[$i]['type']   = 'Expense';
-                    $retArray[$i]['role']   = '';
-                    $retArray[$i]['member'] = '';
-                    $retArray[$i]['date']   = app_date($expense->date);
-                    $retArray[$i]['amount'] = $expense->amount;
+                    $retArray[$i]['peran']   = '';
+                    $retArray[$i]['anggota'] = '';
+                    $retArray[$i]['tanggal']   = app_date($pengeluaran->tanggal);
+                    $retArray[$i]['jumlah'] = $pengeluaran->jumlah;
                     $i++;
                 }
             }
         } else if ($reportfor == 3) {
             $paymentanddiscounts = $this->paymentanddiscount_m->get_order_by_paymentanddiscount_for_report($queryArray);
             if (calculate($paymentanddiscounts)) {
-                foreach ($paymentanddiscounts as $paymentanddiscount) {
+                foreach ($paymentanddiscounts as $pembayaran_dan_diskon) {
                     $retArray[$i]['type']   = 'Collection';
-                    $retArray[$i]['role']   = isset($roles[$paymentanddiscount->roleID]) ? $roles[$paymentanddiscount->roleID] : '';
-                    $retArray[$i]['member'] = isset($members[$paymentanddiscount->memberID]) ? $members[$paymentanddiscount->memberID] : '';
-                    $retArray[$i]['date']   = app_date($paymentanddiscount->create_date);
-                    $retArray[$i]['amount'] = $paymentanddiscount->payamount;
+                    $retArray[$i]['peran']   = isset($roles[$pembayaran_dan_diskon->id_peran]) ? $roles[$pembayaran_dan_diskon->id_peran] : '';
+                    $retArray[$i]['anggota'] = isset($members[$pembayaran_dan_diskon->id_anggota]) ? $members[$pembayaran_dan_diskon->id_anggota] : '';
+                    $retArray[$i]['tanggal']   = app_date($pembayaran_dan_diskon->tanggal_dibuat);
+                    $retArray[$i]['jumlah'] = $pembayaran_dan_diskon->payamount;
                     $i++;
                 }
             }
         } else if ($reportfor == 4) {
             $finehistorys = $this->finehistory_m->get_order_by_finehistory_for_report($queryArray);
             if (calculate($finehistorys)) {
-                foreach ($finehistorys as $finehistory) {
+                foreach ($finehistorys as $riwayat_denda) {
                     $retArray[$i]['type']   = 'Fine';
-                    $retArray[$i]['role']   = isset($roles[$finehistory->roleID]) ? $roles[$finehistory->roleID] : '';
-                    $retArray[$i]['member'] = isset($members[$finehistory->memberID]) ? $members[$finehistory->memberID] : '';
-                    $retArray[$i]['date']   = app_date($finehistory->create_date);
-                    $retArray[$i]['amount'] = $finehistory->famount;
+                    $retArray[$i]['peran']   = isset($roles[$riwayat_denda->id_peran]) ? $roles[$riwayat_denda->id_peran] : '';
+                    $retArray[$i]['anggota'] = isset($members[$riwayat_denda->id_anggota]) ? $members[$riwayat_denda->id_anggota] : '';
+                    $retArray[$i]['tanggal']   = app_date($riwayat_denda->tanggal_dibuat);
+                    $retArray[$i]['jumlah'] = $riwayat_denda->famount;
                     $i++;
                 }
             }
         } else if ($reportfor == 5) {
             $paymentanddiscounts = $this->paymentanddiscount_m->get_order_by_paymentanddiscount_for_report($queryArray);
             if (calculate($paymentanddiscounts)) {
-                foreach ($paymentanddiscounts as $paymentanddiscount) {
+                foreach ($paymentanddiscounts as $pembayaran_dan_diskon) {
                     $retArray[$i]['type']   = 'Discount';
-                    $retArray[$i]['role']   = isset($roles[$paymentanddiscount->roleID]) ? $roles[$paymentanddiscount->roleID] : '';
-                    $retArray[$i]['member'] = isset($members[$paymentanddiscount->memberID]) ? $members[$paymentanddiscount->memberID] : '';
-                    $retArray[$i]['date']   = app_date($paymentanddiscount->create_date);
-                    $retArray[$i]['amount'] = $paymentanddiscount->disamount;
+                    $retArray[$i]['peran']   = isset($roles[$pembayaran_dan_diskon->id_peran]) ? $roles[$pembayaran_dan_diskon->id_peran] : '';
+                    $retArray[$i]['anggota'] = isset($members[$pembayaran_dan_diskon->id_anggota]) ? $members[$pembayaran_dan_diskon->id_anggota] : '';
+                    $retArray[$i]['tanggal']   = app_date($pembayaran_dan_diskon->tanggal_dibuat);
+                    $retArray[$i]['jumlah'] = $pembayaran_dan_diskon->disamount;
                     $i++;
                 }
             }
         } else if ($reportfor == 6) {
             $bookissues = $this->bookissue_m->get_order_by_bookissue_for_report($queryArray);
             if (calculate($bookissues)) {
-                foreach ($bookissues as $bookissue) {
-                    $dueamount              = $bookissue->fineamount - ($bookissue->paymentamount + $bookissue->discountamount);
+                foreach ($bookissues as $peminjaman_buku) {
+                    $dueamount              = $peminjaman_buku->fineamount - ($peminjaman_buku->paymentamount + $peminjaman_buku->discountamount);
                     $retArray[$i]['type']   = 'Due';
-                    $retArray[$i]['role']   = isset($roles[$bookissue->roleID]) ? $roles[$bookissue->roleID] : '';
-                    $retArray[$i]['member'] = isset($members[$bookissue->memberID]) ? $members[$bookissue->memberID] : '';
-                    $retArray[$i]['date']   = app_date($bookissue->create_date);
-                    $retArray[$i]['amount'] = $dueamount;
+                    $retArray[$i]['peran']   = isset($roles[$peminjaman_buku->id_peran]) ? $roles[$peminjaman_buku->id_peran] : '';
+                    $retArray[$i]['anggota'] = isset($members[$peminjaman_buku->id_anggota]) ? $members[$peminjaman_buku->id_anggota] : '';
+                    $retArray[$i]['tanggal']   = app_date($peminjaman_buku->tanggal_dibuat);
+                    $retArray[$i]['jumlah'] = $dueamount;
                     $i++;
                 }
             }
@@ -222,12 +222,12 @@ class Transactionreport extends Admin_Controller
     {
         echo "<option value='0'>" . $this->lang->line('transactionreport_please_select') . "</option>";
         if ($_POST && permissionChecker('transactionreport')) {
-            $roleID = $this->input->post('roleID');
+            $roleID = $this->input->post('id_peran');
             if ((int) $roleID) {
-                $members = $this->member_m->get_order_by_member(array('roleID' => $roleID, 'status' => 1, 'deleted_at' => 0), array('memberID', 'name'));
+                $members = $this->member_m->get_order_by_member(array('id_peran' => $roleID, 'status' => 1, 'dihapus_pada' => 0), array('id_anggota', 'nama'));
                 if (calculate($members)) {
-                    foreach ($members as $member) {
-                        echo "<option value='" . $member->memberID . "'>" . $member->name . "</option>";
+                    foreach ($members as $anggota) {
+                        echo "<option value='" . $anggota->id_anggota . "'>" . $anggota->nama . "</option>";
                     }
                 }
             }
@@ -243,12 +243,12 @@ class Transactionreport extends Admin_Controller
                 'rules' => 'trim|xss_clean|numeric|required_no_zero',
             ),
             array(
-                'field' => 'roleID',
+                'field' => 'id_peran',
                 'label' => $this->lang->line('transactionreport_role'),
                 'rules' => 'trim|xss_clean|numeric',
             ),
             array(
-                'field' => 'memberID',
+                'field' => 'id_anggota',
                 'label' => $this->lang->line('transactionreport_member'),
                 'rules' => 'trim|xss_clean|numeric',
             ),

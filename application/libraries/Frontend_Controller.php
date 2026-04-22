@@ -18,7 +18,7 @@ class Frontend_Controller extends MY_Controller
         }
         $this->load->database();
 
-        $this->data["generalsetting"] = (object) pluck($this->generalsetting_m->get_generalsetting(), 'optionvalue', 'optionkey');
+        $this->data['pengaturan_umum'] = (object) pluck($this->generalsetting_m->get_generalsetting(), 'optionvalue', 'optionkey');
 
         $exception_uris = array(
             'myaccount/index',
@@ -46,7 +46,7 @@ class Frontend_Controller extends MY_Controller
         if (!$title) {
             $title = (empty($this->data['activemenu']) || $this->data['activemenu'] == 'index') ? 'Home Page' : $this->data['activemenu'];
         }
-        return ucfirst($title) . " | " . $this->data["generalsetting"]->sitename;
+        return ucfirst($title) . " | " . $this->data['pengaturan_umum']->sitename;
     }
 
     public function loggedCheck()

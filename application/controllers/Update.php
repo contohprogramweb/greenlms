@@ -22,7 +22,7 @@ class Update extends Admin_Controller
 
     public function index()
     {
-		$this->data['get_title'] = 'Restore Database | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Restore Database | '.$this->data['pengaturan_umum']->sitename;
 		
         if ($_FILES) {
             $rules = $this->rules();
@@ -31,7 +31,7 @@ class Update extends Admin_Controller
                 $this->data["subview"] = "update/index";
                 $this->load->view('_main_layout', $this->data);
             } else {
-                $this->fileName   = $this->upload_data['upload']['raw_name'];
+                $this->nama_file   = $this->upload_data['upload']['raw_name'];
                 $this->folderPath = $this->upload_data['upload']['file_path'];
                 $this->filePath   = $this->upload_data['upload']['full_path'];
                 if (file_exists($this->filePath)) {
@@ -41,7 +41,7 @@ class Update extends Admin_Controller
                         $zip->close();
 
                         $destination = rtrim(FCPATH, '/');
-                        $extractPath = $this->folderPath . $this->fileName . '/';
+                        $extractPath = $this->folderPath . $this->nama_file . '/';
 
                         if ($this->fileUpdate($extractPath, $destination)) {
                             $updateFile = FCPATH . 'greensoftbd.json';
@@ -55,13 +55,13 @@ class Update extends Admin_Controller
                                         if (file_exists($file) && is_file($file)) {
                                             @include_once $file;
                                         }
-                                        if ($updateArr['version'] != 'none') {
+                                        if ($updateArr['versi'] != 'none') {
                                             $array = [
-                                                'version'     => $updateArr['version'],
-                                                'date'        => date('Y-m-d H:i:s'),
-                                                'memberID'    => $this->session->userdata('loginmemberID'),
+                                                'versi'     => $updateArr['versi'],
+                                                'tanggal'        => date('Y-m-d H:i:s'),
+                                                'id_anggota'    => $this->session->userdata('loginmemberID'),
                                                 'status'      => 0,
-                                                'description' => trim($updateArr['description'])
+                                                'deskripsi' => trim($updateArr['deskripsi'])
                                             ];
                                             $this->update_m->insert_update($array);
                                         }
@@ -129,8 +129,8 @@ class Update extends Admin_Controller
 
     public function upload()
     {
-        if ($_FILES["upload"]['name'] != "") {
-            $file_name = $_FILES["upload"]['name'];
+        if ($_FILES["upload"]['nama'] != "") {
+            $file_name = $_FILES["upload"]['nama'];
             $explode   = explode('.', $file_name);
             if (calculate($explode) >= 2) {
                 $config['upload_path']   = "./uploads/update";

@@ -8,28 +8,28 @@
 						<div class="row">
 							<div class="col">
 								<div class="form-group">
-									<label for="name">Nama</label> <span class="text-danger">*</span>
-									<input type="text" name="name" value="<?=set_value('name')?>" class="form-control <?=form_error('name') ? 'is-invalid' : ''?>" id="name" placeholder="Name">
+									<label for='nama'>Nama</label> <span class="text-danger">*</span>
+									<input type="text" name='nama' value="<?=set_value('nama')?>" class="form-control <?=form_error('nama') ? 'is-invalid' : ''?>" id='nama' placeholder="Name">
 								</div>
 							</div>
 							<div class="col">
 								<div class="form-group">
-									<label for="mobile">Nomor Telp.</label> <span class="text-danger">*</span>
-									<input type="text" name="mobile" value="<?=set_value('mobile')?>" class="form-control <?=form_error('mobile') ? 'is-invalid' : ''?>" id="mobile" placeholder="Mobile">
+									<label for='seluler'>Nomor Telp.</label> <span class="text-danger">*</span>
+									<input type="text" name='seluler' value="<?=set_value('seluler')?>" class="form-control <?=form_error('seluler') ? 'is-invalid' : ''?>" id='seluler' placeholder="Mobile">
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col">
 								<div class="form-group">
-									<label for="email">Email</label> <span class="text-danger">*</span>
-									<input type="email" name="email" value="<?=set_value('email')?>" class="form-control <?=form_error('email') ? 'is-invalid' : ''?>" id="email" placeholder="Email">
+									<label for='surel'>Email</label> <span class="text-danger">*</span>
+									<input type='surel' name='surel' value="<?=set_value('surel')?>" class="form-control <?=form_error('surel') ? 'is-invalid' : ''?>" id='surel' placeholder="Email">
 								</div>
 							</div>
 							<div class="col">
 								<div class="form-group">
-									<label for="address">Alamat</label> <span class="text-danger">*</span>
-									<textarea name="address" class="form-control <?=form_error('address') ? 'is-invalid' : ''?>" id="address" rows="1"><?=set_value('address')?></textarea>
+									<label for='alamat'>Alamat</label> <span class="text-danger">*</span>
+									<textarea name='alamat' class="form-control <?=form_error('alamat') ? 'is-invalid' : ''?>" id='alamat' rows="1"><?=set_value('alamat')?></textarea>
 								</div>
 							</div>
 						</div>
@@ -44,13 +44,13 @@
 								  <input <?=set_radio('payment_method', 5, TRUE); ?> class="form-check-input <?=form_error('payment_method') ? 'is-invalid' : ''?>" type="radio" name="payment_method" id="cash_on_delivery" value="5">
 								  <label class="form-check-label" for="cash_on_delivery">Cash On Delivery</label>
 								</div>
-                                <?php if($generalsetting->paypal_payment_method == 1) { ?>
+                                <?php if($pengaturan_umum->paypal_payment_method == 1) { ?>
     								<div class="form-check form-check-inline">
     								  <input <?=set_radio('payment_method', 10); ?> class="form-check-input <?=form_error('payment_method') ? 'is-invalid' : ''?>" type="radio" name="payment_method" id="paypal" value="10">
     								  <label class="form-check-label" for="paypal">Paypal</label>
     								</div>
                                 <?php } ?>
-                                <?php if($generalsetting->stripe_payment_method == 1) { ?>
+                                <?php if($pengaturan_umum->stripe_payment_method == 1) { ?>
     								<div class="form-check form-check-inline">
     								  <input class="form-check-input <?=form_error('payment_method') ? 'is-invalid' : ''?>" type="radio" name="payment_method" id="stripe" value="20">
     								  <label class="form-check-label" for="stripe">Stripe</label>
@@ -58,7 +58,7 @@
                                 <?php } ?>
 							</div>
 						</div>
-                        <?php if($generalsetting->stripe_payment_method == 1) { ?>
+                        <?php if($pengaturan_umum->stripe_payment_method == 1) { ?>
     						<div class="form-row" id="stripeCard">
     				            <div class="form-group col-sm-6">
     				                <label>Nomor Kartu</label>
@@ -98,9 +98,9 @@
                         	foreach($cart_contents as $cart_content) { ?>
 	                            <tr>
 	                                <td class="p-1">
-	                                	<img class="checkoutimage rounded mx-auto d-block" src="<?=$cart_content['images']?>" alt="<?=$cart_content['name']?>">
+	                                	<img class="checkoutimage rounded mx-auto d-block" src="<?=$cart_content['images']?>" alt="<?=$cart_content['nama']?>">
 	                                </td>
-	                                <td><?=$cart_content['name']?> <strong> × <?=$cart_content['qty']?></strong></td>
+	                                <td><?=$cart_content['nama']?> <strong> × <?=$cart_content['qty']?></strong></td>
 	                                <td><?=app_amount_format($cart_content['subtotal'])?></td>
 	                            </tr>
                         	<?php } ?>
@@ -108,7 +108,7 @@
                         <tfoot>
                             <tr class="order_total">
                                 <th colspan="2">Ongkos Kirim</th>
-                                <th><strong><?=app_amount_format($generalsetting->delivery_charge) ?></strong></th>
+                                <th><strong><?=app_amount_format($pengaturan_umum->delivery_charge) ?></strong></th>
                             </tr>
                             <tr class="order_total">
                                 <th colspan="2">Harga Diskon</th>
@@ -116,7 +116,7 @@
                             </tr>
                             <tr class="order_total">
                                 <th colspan="2">Total Pesanan</th>
-                                <th><strong><?=app_amount_format($this->cart->total() + $generalsetting->delivery_charge); ?></strong></th>
+                                <th><strong><?=app_amount_format($this->cart->total() + $pengaturan_umum->delivery_charge); ?></strong></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -126,7 +126,7 @@
 	</div>
 </section>
 
-<?php if($generalsetting->stripe_payment_method == 1) { ?>
+<?php if($pengaturan_umum->stripe_payment_method == 1) { ?>
     <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
     <script>
         // Set your publishable API key
@@ -215,7 +215,7 @@
             // Insert the token ID into the form so it gets submitted to the server
             var hiddenInput = document.createElement('input');
             hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('nama', 'stripeToken');
             hiddenInput.setAttribute('value', token.id);
             form.appendChild(hiddenInput);
             

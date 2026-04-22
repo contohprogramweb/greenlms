@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Login_m extends MY_Model
 {
 
-    protected $_table_name  = 'member';
-    protected $_primary_key = 'memberID';
+    protected $_table_name  = 'anggota';
+    protected $_primary_key = 'id_anggota';
     protected $_order_by    = "memberID asc";
 
     public function __construct()
@@ -33,10 +33,10 @@ class Login_m extends MY_Model
         $this->db->select('*');
         $this->db->from($this->_table_name);
         $this->db->group_start();
-        $this->db->where('username', $array['username_or_email']);
-        $this->db->or_where('email', $array['username_or_email']);
+        $this->db->where('nama_pengguna', $array['username_or_email']);
+        $this->db->or_where('surel', $array['username_or_email']);
         $this->db->group_end();
-        $this->db->where('password', $array['password']);
+        $this->db->where('kata_sandi', $array['kata_sandi']);
         $query = $this->db->get();
         return $query->row();
     }
@@ -45,8 +45,8 @@ class Login_m extends MY_Model
     {
         $this->db->select('*');
         $this->db->from($this->_table_name);
-        $this->db->where('username', $username_or_email);
-        $this->db->or_where('email', $username_or_email);
+        $this->db->where('nama_pengguna', $username_or_email);
+        $this->db->or_where('surel', $username_or_email);
         $query = $this->db->get();
         return $query->row();
     }

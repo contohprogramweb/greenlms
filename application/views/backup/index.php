@@ -3,7 +3,7 @@
 		<h1>Backup</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li class="active">Backup</li>
+            <li class='aktif'>Backup</li>
 		</ol>
     </section>
     <section class="content">

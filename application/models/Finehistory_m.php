@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Finehistory_m extends MY_Model
 {
 
-    protected $_table_name  = 'finehistory';
+    protected $_table_name  = 'riwayat_denda';
     protected $_primary_key = 'finehistoryID';
     protected $_order_by    = "finehistoryID asc";
 
@@ -50,20 +50,20 @@ class Finehistory_m extends MY_Model
 
     public function get_order_by_finehistory_for_report($array)
     {
-        $this->db->select('*, finehistory.fineamount as famount');
+        $this->db->select('*, riwayat_denda.fineamount as famount');
         $this->db->from($this->_table_name);
-        $this->db->join('bookissue', 'bookissue.bookissueID=finehistory.bookissueID');
-        if (isset($array['roleID'])) {
-            $this->db->where('bookissue.roleID', $array['roleID']);
-            if (isset($array['memberID'])) {
-                $this->db->where('bookissue.memberID', $array['memberID']);
+        $this->db->join('peminjaman_buku', 'peminjaman_buku.bookissueID=riwayat_denda.bookissueID');
+        if (isset($array['id_peran'])) {
+            $this->db->where('peminjaman_buku.roleID', $array['id_peran']);
+            if (isset($array['id_anggota'])) {
+                $this->db->where('peminjaman_buku.memberID', $array['id_anggota']);
             }
         }
         if (isset($array['fromdate']) && isset($array['todate'])) {
-            $this->db->where('finehistory.create_date >=', $array['fromdate']);
-            $this->db->where('finehistory.create_date <=', $array['todate']);
+            $this->db->where('riwayat_denda.create_date >=', $array['fromdate']);
+            $this->db->where('riwayat_denda.create_date <=', $array['todate']);
         }
-        $this->db->where('finehistory.fineamount >', 0);
+        $this->db->where('riwayat_denda.fineamount >', 0);
         return $this->db->get()->result();
     }
 

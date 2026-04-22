@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Income_m extends MY_Model
 {
 
-    protected $_table_name  = 'income';
-    protected $_primary_key = 'incomeID';
+    protected $_table_name  = 'pemasukan';
+    protected $_primary_key = 'id_pemasukan';
     protected $_order_by    = "incomeID desc";
 
     public function __construct()

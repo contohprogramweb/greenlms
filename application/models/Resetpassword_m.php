@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Resetpassword_m extends MY_Model
 {
 
-    protected $_table_name  = 'resetpassword';
+    protected $_table_name  = 'reset_kata_sandi';
     protected $_primary_key = 'resetpasswordID';
     protected $_order_by    = "resetpasswordID asc";
 
@@ -48,10 +48,10 @@ class Resetpassword_m extends MY_Model
         $this->db->select('*');
         $this->db->from($this->_table_name);
         $this->db->group_start();
-        $this->db->where('username', $array['username_or_email']);
-        $this->db->or_where('email', $array['username_or_email']);
+        $this->db->where('nama_pengguna', $array['username_or_email']);
+        $this->db->or_where('surel', $array['username_or_email']);
         $this->db->group_end();
-        $this->db->where('code', $array['code']);
+        $this->db->where('kode', $array['kode']);
         $this->db->order_by('resetpasswordID', 'desc');
         $query = $this->db->get();
         return $query->row();

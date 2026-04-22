@@ -3,7 +3,7 @@
         <h1>Peminjaman Buku</h1>
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li class="active">Peminjaman Buku</li>
+            <li class='aktif'>Peminjaman Buku</li>
         </ol>
     </section>
     <section class="content">
@@ -13,15 +13,15 @@
                     <?php if(permissionChecker('bookissue_add')) { ?>
                     <div class="col-sm-2 col-sm-offset-3">
                         <div class="box-header">
-                            <a href="<?=base_url('bookissue/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i>  Tambah Buku Dipinjam </a> 
+                            <a href="<?=base_url('peminjaman_buku/add')?>" class="btn btn-inline btn-mytheme btn-md"><i class="fa fa-plus"></i>  Tambah Buku Dipinjam </a> 
                         </div>
                     </div> 
                     <?php } ?>
                     <div class="col-sm-4 <?=!(permissionChecker('bookissue_add')) ? 'col-sm-offset-4' : ''?>">
                         <div class="box-body">
-                            <form method="POST" action="<?=base_url('bookissue/index')?>">
+                            <form method="POST" action="<?=base_url('peminjaman_buku/index')?>">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" value="<?=set_value('memberID', $memberID)?>" name="memberID" placeholder="Filter By Anggota ID">
+                                    <input type="text" class="form-control" value="<?=set_value('id_anggota', $memberID)?>" name='id_anggota' placeholder="Filter By Anggota ID">
                                     <div class="input-group-btn">
                                         <button type="submit" class="btn btn-default"><i class="fa fa-search-plus" aria-hidden="true"></i> Cari Buku</button>
                                     </div>
@@ -51,22 +51,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(calculate($bookissues)) { $i=0; foreach($bookissues as $bookissue) { $i++; ?>
+                            <?php if(calculate($bookissues)) { $i=0; foreach($bookissues as $peminjaman_buku) { $i++; ?>
                             <tr>
                                 <td data-title="#"><?=$i?></td>
-                                <td data-title="Nomor Anggota"><?=$bookissue->memberID?></td>
-                                <td data-title="Nama Anggota"><?=isset($members[$bookissue->memberID]) ? $members[$bookissue->memberID] : ''?></td>
-                                <td data-title="Kategori"><?=isset($bookcategory[$bookissue->bookcategoryID]) ? $bookcategory[$bookissue->bookcategoryID] : 'Uncategorized'?></td>
-                                <td data-title="Judul Buku"><?=isset($book[$bookissue->bookID]) ? $book[$bookissue->bookID] : ''?></td>
-                                <td data-title="Nomor Buku"><?=$bookissue->bookno?></td>
+                                <td data-title="Nomor Anggota"><?=$peminjaman_buku->id_anggota?></td>
+                                <td data-title="Nama Anggota"><?=isset($members[$peminjaman_buku->id_anggota]) ? $members[$peminjaman_buku->id_anggota] : ''?></td>
+                                <td data-title="Kategori"><?=isset($kategori_buku[$peminjaman_buku->bookcategoryID]) ? $kategori_buku[$peminjaman_buku->bookcategoryID] : 'Uncategorized'?></td>
+                                <td data-title="Judul Buku"><?=isset($buku[$peminjaman_buku->id_buku]) ? $buku[$peminjaman_buku->id_buku] : ''?></td>
+                                <td data-title="Nomor Buku"><?=$peminjaman_buku->bookno?></td>
                                 <td data-title="Status Buku">
                                     <span class="text-bold text-success">
                                         <?php 
-                                            if($bookissue->status == 0) {
+                                            if($peminjaman_buku->status == 0) {
                                                 echo 'Dipinjam';              
-                                            } elseif ($bookissue->status == 1) {
+                                            } elseif ($peminjaman_buku->status == 1) {
                                                 echo 'Kembali';              
-                                            } elseif ($bookissue->status == 2) {
+                                            } elseif ($peminjaman_buku->status == 2) {
                                                 echo 'Hilang';
                                             }
                                         ?>
@@ -75,18 +75,18 @@
                                 
                                 <?php if(permissionChecker('bookissue_view') || permissionChecker('bookissue_edit') || permissionChecker('bookissue_delete')) { ?>
                                 <td data-title="Aksi">
-                                    <?=btn_view('bookissue/view/'.$bookissue->bookissueID,'Lihat'); ?>
-                                    <?php if(($bookissue->status == 0) && ($bookissue->deleted_at == 0) && ($bookissue->renewed == 1)) { 
-                                        echo btn_edit('bookissue/edit/'.$bookissue->bookissueID, 'Edit'). " ";
-                                        echo btn_delete('bookissue/delete/'.$bookissue->bookissueID, 'Delete');
+                                    <?=btn_view('peminjaman_buku/view/'.$peminjaman_buku->bookissueID,'Lihat'); ?>
+                                    <?php if(($peminjaman_buku->status == 0) && ($peminjaman_buku->dihapus_pada == 0) && ($peminjaman_buku->diperbarui == 1)) { 
+                                        echo btn_edit('peminjaman_buku/edit/'.$peminjaman_buku->bookissueID, 'Edit'). " ";
+                                        echo btn_delete('peminjaman_buku/delete/'.$peminjaman_buku->bookissueID, 'Delete');
                                     } ?>
                             
-                                    <?php if($bookissue->status == 0) { ?>
-                                        <a href="<?=base_url('bookissue/renewandreturn/'.$bookissue->bookissueID)?>" class="btn btn-info btn-xs mrg" data-placement="auto" data-toggle="tooltip" data-original-title="Perpanjang atau Kembalikan"><i class="fa fa-retweet"></i></a>
+                                    <?php if($peminjaman_buku->status == 0) { ?>
+                                        <a href="<?=base_url('peminjaman_buku/renewandreturn/'.$peminjaman_buku->bookissueID)?>" class="btn btn-info btn-xs mrg" data-placement="auto" data-toggle="tooltip" data-original-title="Perpanjang atau Kembalikan"><i class="fa fa-retweet"></i></a>
                                     <?php } ?>
     
-                                    <?php if(permissionChecker('bookissue_add') && ($bookissue->paidstatus != 2) && ($bookissue->fineamount > 0)) { ?>
-                                        <span data-toggle="tooltip" data-original-title="Pembayaran"><button class="btn btn-mytheme btn-xs mrg paymentamount" data-bookissueid="<?=$bookissue->bookissueID?>" data-placement="auto" data-toggle="modal" data-target="#paymentmodal"><i class="fa fa-money"></i></button></span>
+                                    <?php if(permissionChecker('bookissue_add') && ($peminjaman_buku->paidstatus != 2) && ($peminjaman_buku->fineamount > 0)) { ?>
+                                        <span data-toggle="tooltip" data-original-title="Pembayaran"><button class="btn btn-mytheme btn-xs mrg paymentamount" data-bookissueid="<?=$peminjaman_buku->bookissueID?>" data-placement="auto" data-toggle="modal" data-target="#paymentmodal"><i class="fa fa-money"></i></button></span>
                                     <?php } ?>
                                     
                                 </td>
@@ -115,8 +115,8 @@
     </section>
 </div>
 <?php if(permissionChecker('bookissue_add')) { ?>
-    <div class="modal fade" id="paymentmodal" tabindex="-1" role="dialog" aria-labelledby="paymentmodaltitle">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="paymentmodal" tabindex="-1" peran="dialog" aria-labelledby="paymentmodaltitle">
+        <div class="modal-dialog" peran="document">
             <div class="modal-content">
                 <form method="POST" id="paymentform">
                     <div class="modal-header">

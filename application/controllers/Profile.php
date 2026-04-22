@@ -19,16 +19,16 @@ class Profile extends Admin_Controller
     public function index()
     {
         $memberID = $this->session->userdata('loginmemberID');
-		$this->data['get_title'] = 'Profile | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Profile | '.$this->data['pengaturan_umum']->sitename;
 		
 		
         if ((int) $memberID) {
-            $this->data['member'] = $this->member_m->get_single_member(array('memberID' => $memberID));
-            if (calculate($this->data['member'])) {
-                $this->data['bookcategory'] = pluck($this->bookcategory_m->get_bookcategory(), 'name', 'bookcategoryID');
-                $this->data['book']         = pluck($this->book_m->get_book(), 'name', 'bookID');
-                $this->data['bookissues']   = $this->bookissue_m->get_order_by_bookissue(['deleted_at' => 0, 'memberID' => $memberID]);
-                $this->data['role']         = $this->role_m->get_single_role(array('roleID' => $this->data['member']->roleID));
+            $this->data['anggota'] = $this->member_m->get_single_member(array('id_anggota' => $memberID));
+            if (calculate($this->data['anggota'])) {
+                $this->data['kategori_buku'] = pluck($this->bookcategory_m->get_bookcategory(), 'nama', 'bookcategoryID');
+                $this->data['buku']         = pluck($this->book_m->get_book(), 'nama', 'id_buku');
+                $this->data['bookissues']   = $this->bookissue_m->get_order_by_bookissue(['dihapus_pada' => 0, 'id_anggota' => $memberID]);
+                $this->data['peran']         = $this->role_m->get_single_role(array('id_peran' => $this->data['anggota']->id_peran));
                 $this->data["subview"]      = "profile/index";
                 $this->load->view('_main_layout', $this->data);
             } else {

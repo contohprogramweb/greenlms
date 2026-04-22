@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Permissions_m extends MY_Model
 {
 
-    protected $_table_name = 'permissions';
+    protected $_table_name = 'izin';
 
     public function __construct()
     {
@@ -44,7 +44,7 @@ class Permissions_m extends MY_Model
     public function delete_permissions_by_roleID($roleID)
     {
         if ((int) $roleID) {
-            $this->db->where('roleID', $roleID);
+            $this->db->where('id_peran', $roleID);
             return $this->db->delete($this->_table_name);
         }
         return false;
@@ -58,9 +58,9 @@ class Permissions_m extends MY_Model
     public function get_permissions_with_permissionlog_by_roleID($roleID)
     {
         $this->db->select('*');
-        $this->db->from('permissions');
-        $this->db->join('permissionlog', 'permissions.permissionlogID = permissionlog.permissionlogID');
-        $this->db->where('permissions.roleID', $roleID);
+        $this->db->from('izin');
+        $this->db->join('catatan_izin', 'izin.permissionlogID = catatan_izin.permissionlogID');
+        $this->db->where('izin.roleID', $roleID);
         return $this->db->get()->result();
     }
 

@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title><?=$get_title?></title>
         <!-- Tell the browser to be responsive to screen width -->
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, member-scalable=no" name="viewport">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, anggota-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
         <link rel="stylesheet" href="<?=base_url('assets/plugins/bootstrap/dist/css/bootstrap.min.css')?>">
         <!-- Theme style -->
@@ -23,7 +23,7 @@
     <body class="hold-transition login-page" >
         <div class="login-box">
             <div class="login-logo">
-                 <a style="color: #fff" href="<?=base_url('/')?>"><b><?=$generalsetting->sitename?></b></a>
+                 <a style="color: #fff" href="<?=base_url('/')?>"><b><?=$pengaturan_umum->sitename?></b></a>
             </div>
             <div class="login-box-body">
                 <p class="login-box-msg text-bold">Konfirmasi Password</p>
@@ -38,9 +38,9 @@
                         <input type="text" class="form-control" name="verification_code" value="<?=set_value('verification_code')?>"/>
                         <?=form_error('verification_code')?>
                     </div>
-                    <div class="form-group <?=form_error('password') ? 'has-error' : ''?>">
+                    <div class="form-group <?=form_error('kata_sandi') ? 'has-error' : ''?>">
                         <label>Password</label> <span class="text-red">*</span>
-                        <input type="text" class="form-control" name="password" value="<?=set_value('password')?>"/>
+                        <input type="text" class="form-control" name='kata_sandi' value="<?=set_value('kata_sandi')?>"/>
                     </div>
                     <div class="form-group <?=form_error('confirm_password') ? 'has-error' : ''?>">
                         <label>Ulangi Password</label> <span class="text-red">*</span>

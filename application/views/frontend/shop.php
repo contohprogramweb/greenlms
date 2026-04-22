@@ -6,8 +6,8 @@
 						<span class="sidebar-title"><i class="fa fa-list"></i> Kategori Produk</span>
 						<div class="slider-menu">
 							<ul>
-								<?php foreach($storebookcategorys as $storebookcategory) { ?>
-									<li><a href="<?=base_url('frontend/shop?category='.$storebookcategory->storebookcategoryID)?>"><?=$storebookcategory->name?></a></li>
+								<?php foreach($storebookcategorys as $kategori_buku_toko) { ?>
+									<li><a href="<?=base_url('frontend/shop?category='.$kategori_buku_toko->storebookcategoryID)?>"><?=$kategori_buku_toko->nama?></a></li>
 								<?php } ?>
 								<!-- <li><a href="<?=base_url('/')?>"> + Kategori Lain</a></li> -->
 							</ul>
@@ -16,23 +16,23 @@
 				</div>
 				<div class="col-sm-9">
 					<div class="row">
-						<?php if(calculate($storebooks)) { foreach ($storebooks as $storebook) { ?>
+						<?php if(calculate($storebooks)) { foreach ($storebooks as $buku_toko) { ?>
 							<div class="col-sm-4">
-							    <div class="single-book">
-							        <div class="book-image">
-							            <a href="<?=base_url('frontend/single/'.$storebook->storebookID)?>">
-							                <img class="book-thumbail-image" src="<?=app_image_link($storebook->coverphoto, 'uploads/storebook/', 'storebook.jpg')?>" alt="single-book" />
+							    <div class="single-buku">
+							        <div class="buku-image">
+							            <a href="<?=base_url('frontend/single/'.$buku_toko->storebookID)?>">
+							                <img class="buku-thumbail-image" src="<?=app_image_link($buku_toko->coverphoto, 'uploads/buku_toko/', 'buku_toko.jpg')?>" alt="single-buku" />
 							            </a>
-							            <span class="book-badge-label">Baru</span>
-							            <span class="book-badge-price"><?=$storebook->price?></span>
+							            <span class="buku-badge-label">Baru</span>
+							            <span class="buku-badge-price"><?=$buku_toko->harga?></span>
 							        </div>
-							        <div class="book-content">
-							            <a href="<?=base_url('frontend/single/'.$storebook->storebookID)?>" class="book-title">
-							            	<?=$storebook->name?>
+							        <div class="buku-content">
+							            <a href="<?=base_url('frontend/single/'.$buku_toko->storebookID)?>" class="buku-title">
+							            	<?=$buku_toko->nama?>
 							            </a>
-							            <div class="book-actions">
-						                    <a class="btn btn-outline-success btn-sm" href="<?=base_url('frontend/single/'.$storebook->storebookID)?>"><i class="fa fa-eye"></i></a>
-						                    <a class="btn btn-outline-success btn-sm" href="<?=base_url('frontend/addcart/'.$storebook->storebookID)?>"><i class="fa fa-cart-plus"></i></a>
+							            <div class="buku-actions">
+						                    <a class="btn btn-outline-success btn-sm" href="<?=base_url('frontend/single/'.$buku_toko->storebookID)?>"><i class="fa fa-eye"></i></a>
+						                    <a class="btn btn-outline-success btn-sm" href="<?=base_url('frontend/addcart/'.$buku_toko->storebookID)?>"><i class="fa fa-cart-plus"></i></a>
 							            </div>
 							        </div>
 							    </div>

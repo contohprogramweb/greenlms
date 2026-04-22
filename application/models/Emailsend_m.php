@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Emailsend_m extends MY_Model
 {
 
-    protected $_table_name  = 'emailsend';
+    protected $_table_name  = 'kirim_email';
     protected $_primary_key = 'emailsendID';
     protected $_order_by    = "emailsendID asc";
 

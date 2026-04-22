@@ -11,12 +11,12 @@ class Libraryconfigure extends Admin_Controller
         $this->load->model('libraryconfigure_m');
 
         $lang = 'indonesia';
-        $this->lang->load('libraryconfigure', $lang);
+        $this->lang->load('konfigurasi_perpustakaan', $lang);
     }
 
     public function index()
     {
-        $this->data['roles']        = pluck($this->role_m->get_role(), 'role', 'roleID');
+        $this->data['roles']        = pluck($this->role_m->get_role(), 'peran', 'id_peran');
         $this->data['headerassets'] = array(
             'css' => array(
                 'assets/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css',
@@ -28,27 +28,27 @@ class Libraryconfigure extends Admin_Controller
             ),
         );
 		
-		$this->data['get_title'] = 'Pengaturan Perpustakaan | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Pengaturan Perpustakaan | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data['libraryconfigures'] = $this->libraryconfigure_m->get_libraryconfigure();
-        $this->data["subview"]           = "libraryconfigure/index";
+        $this->data["subview"]           = "konfigurasi_perpustakaan/index";
         $this->load->view('_main_layout', $this->data);
     }
 
     public function add()
     {
         $this->data['roles'] = $this->role_m->get_role();
-		$this->data['get_title'] = 'Tambah Pengaturan Perpustakaan | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Tambah Pengaturan Perpustakaan | '.$this->data['pengaturan_umum']->sitename;
 		
         if ($_POST) {
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);
             if ($this->form_validation->run() == false) {
-                $this->data["subview"] = "libraryconfigure/add";
+                $this->data["subview"] = "konfigurasi_perpustakaan/add";
                 $this->load->view('_main_layout', $this->data);
             } else {
                 $array                           = [];
-                $array['roleID']                 = $this->input->post('roleID');
+                $array['id_peran']                 = $this->input->post('id_peran');
                 $array['max_issue_book']         = $this->input->post('max_issue_book');
                 $array['max_renewed_limit']      = $this->input->post('max_renewed_limit');
                 $array['per_renew_limit_day']    = $this->input->post('per_renew_limit_day');
@@ -57,10 +57,10 @@ class Libraryconfigure extends Admin_Controller
                 $this->libraryconfigure_m->insert_libraryconfigure($array);
 
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('libraryconfigure/index'));
+                redirect(base_url('konfigurasi_perpustakaan/index'));
             }
         } else {
-            $this->data["subview"] = "libraryconfigure/add";
+            $this->data["subview"] = "konfigurasi_perpustakaan/add";
             $this->load->view('_main_layout', $this->data);
         }
     }
@@ -68,21 +68,21 @@ class Libraryconfigure extends Admin_Controller
     public function edit()
     {
         $libraryconfigureID = htmlentities(escapeString($this->uri->segment(3)));
-		$this->data['get_title'] = 'Edit Pengaturan Perpustakaan | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Edit Pengaturan Perpustakaan | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $libraryconfigureID) {
-            $this->data['libraryconfigure'] = $this->libraryconfigure_m->get_single_libraryconfigure(array('libraryconfigureID' => $libraryconfigureID));
-            if (calculate($this->data['libraryconfigure'])) {
+            $this->data['konfigurasi_perpustakaan'] = $this->libraryconfigure_m->get_single_libraryconfigure(array('libraryconfigureID' => $libraryconfigureID));
+            if (calculate($this->data['konfigurasi_perpustakaan'])) {
                 $this->data['roles'] = $this->role_m->get_role();
                 if ($_POST) {
                     $rules = $this->rules();
                     $this->form_validation->set_rules($rules);
                     if ($this->form_validation->run() == false) {
-                        $this->data["subview"] = "libraryconfigure/edit";
+                        $this->data["subview"] = "konfigurasi_perpustakaan/edit";
                         $this->load->view('_main_layout', $this->data);
                     } else {
                         $array                           = [];
-                        $array['roleID']                 = $this->input->post('roleID');
+                        $array['id_peran']                 = $this->input->post('id_peran');
                         $array['max_issue_book']         = $this->input->post('max_issue_book');
                         $array['max_renewed_limit']      = $this->input->post('max_renewed_limit');
                         $array['per_renew_limit_day']    = $this->input->post('per_renew_limit_day');
@@ -91,10 +91,10 @@ class Libraryconfigure extends Admin_Controller
                         $this->libraryconfigure_m->update_libraryconfigure($array, $libraryconfigureID);
 
                         $this->session->set_flashdata('success', 'Success');
-                        redirect(base_url('libraryconfigure/index'));
+                        redirect(base_url('konfigurasi_perpustakaan/index'));
                     }
                 } else {
-                    $this->data["subview"] = "libraryconfigure/edit";
+                    $this->data["subview"] = "konfigurasi_perpustakaan/edit";
                     $this->load->view('_main_layout', $this->data);
                 }
             } else {
@@ -111,11 +111,11 @@ class Libraryconfigure extends Admin_Controller
     {
         $libraryconfigureID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $libraryconfigureID) {
-            $libraryconfigure = $this->libraryconfigure_m->get_single_libraryconfigure(array('libraryconfigureID' => $libraryconfigureID));
-            if (calculate($libraryconfigure)) {
+            $konfigurasi_perpustakaan = $this->libraryconfigure_m->get_single_libraryconfigure(array('libraryconfigureID' => $libraryconfigureID));
+            if (calculate($konfigurasi_perpustakaan)) {
                 $this->libraryconfigure_m->delete_libraryconfigure($libraryconfigureID);
                 $this->session->set_flashdata('success', 'Success');
-                redirect(base_url('libraryconfigure/index'));
+                redirect(base_url('konfigurasi_perpustakaan/index'));
             } else {
                 $this->data["subview"] = "_not_found";
                 $this->load->view('_main_layout', $this->data);
@@ -130,7 +130,7 @@ class Libraryconfigure extends Admin_Controller
     {
         $rules = array(
             array(
-                'field' => 'roleID',
+                'field' => 'id_peran',
                 'label' => $this->lang->line('libraryconfigure_role'),
                 'rules' => 'trim|xss_clean|required|numeric|required_no_zero|callback_check_unique_role',
             ),
@@ -167,15 +167,15 @@ class Libraryconfigure extends Admin_Controller
     {
         $libraryconfigureID = htmlentities(escapeString($this->uri->segment(3)));
         if ((int) $libraryconfigureID) {
-            $libraryconfigure = $this->libraryconfigure_m->get_single_libraryconfigure(array('roleID' => $roleID, 'libraryconfigureID !=' => $libraryconfigureID));
-            if (calculate($libraryconfigure)) {
+            $konfigurasi_perpustakaan = $this->libraryconfigure_m->get_single_libraryconfigure(array('id_peran' => $roleID, 'libraryconfigureID !=' => $libraryconfigureID));
+            if (calculate($konfigurasi_perpustakaan)) {
                 $this->form_validation->set_message("check_unique_role", "The %s is already exits.");
                 return false;
             }
             return true;
         } else {
-            $libraryconfigure = $this->libraryconfigure_m->get_single_libraryconfigure(array('roleID' => $roleID));
-            if (calculate($libraryconfigure)) {
+            $konfigurasi_perpustakaan = $this->libraryconfigure_m->get_single_libraryconfigure(array('id_peran' => $roleID));
+            if (calculate($konfigurasi_perpustakaan)) {
                 $this->form_validation->set_message("check_unique_role", "The %s is already exits.");
                 return false;
             }

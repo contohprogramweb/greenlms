@@ -38,35 +38,35 @@
 		overflow: hidden;
 	}
 
-	.bookitem {
+	.item_buku {
 		width: 150px;
 		margin:0px 15px 25px 0px;
 		float: left;
 	}
 
-	.bookitem p {
+	.item_buku p {
 		text-align: center;
 		margin-bottom: 2px;	
 	}
 
-	.bookitem img {
+	.item_buku img {
 		width: 150px;
 		height: 40px;
 	}
 
 </style>
 <div class="reportheader">
-	<h2><?=$generalsetting->sitename?></h2>
-	<p><?=$generalsetting->phone?></p>
-	<p><?=$generalsetting->email?></p>
-	<p><?=$generalsetting->address?></p>
+	<h2><?=$pengaturan_umum->sitename?></h2>
+	<p><?=$pengaturan_umum->telepon?></p>
+	<p><?=$pengaturan_umum->surel?></p>
+	<p><?=$pengaturan_umum->alamat?></p>
 </div>
 <?php if(calculate($bookitems)) { ?>
 	<div class="booklist">
-		<?php foreach ($bookitems as $bookitem) { ?>
-			<div class="bookitem">
-				<p><?=$book->codeno.'-'.$bookitem->bookno?></p>
-				<img src="<?=base_url('uploads/bookbarcode/'.$book->codeno.'-'.$bookitem->bookno.'.jpg')?>" alt="">
+		<?php foreach ($bookitems as $item_buku) { ?>
+			<div class='item_buku'>
+				<p><?=$buku->codeno.'-'.$item_buku->bookno?></p>
+				<img src="<?=base_url('uploads/bookbarcode/'.$buku->codeno.'-'.$item_buku->bookno.'.jpg')?>" alt="">
 			</div>
 		<?php } ?>
 	</div>
@@ -76,6 +76,6 @@
 	</div>
 <?php } ?>
 <div class="reportfooter">
-	<h4><?=$generalsetting->sitename?></h4>
-	<p><?=$generalsetting->address?></p>
+	<h4><?=$pengaturan_umum->sitename?></h4>
+	<p><?=$pengaturan_umum->alamat?></p>
 </div>

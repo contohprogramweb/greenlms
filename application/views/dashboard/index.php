@@ -3,7 +3,7 @@
         <h1>Dashboard</h1>
         <ol class="breadcrumb">
             <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li class="active">Dashboard</li>
+            <li class='aktif'>Dashboard</li>
         </ol>
     </section>
     <section class="content">
@@ -25,29 +25,29 @@
                         <i class="fa fa-comments-o"></i>
                         <h3 class="box-title">Chat</h3>
                     </div>
-                    <div class="box-body chat mainchatbox" id="chat-box">
+                    <div class="box-body obrolan mainchatbox" id="obrolan-box">
                         <div class="text-center">
                             <button class="btn btn-xs btn-mytheme loadmore"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Muat lagi</button>
                         </div>
                         <div class="chatboxmessage">
-                          <!-- chat item -->
-                          <?php if(calculate($chats)) { foreach($chats as $chat) { ?>
-                            <div class="item chatID" data-chatid="<?=$chat->chatID?>">
-                                <?php $memberimage = isset($members[$chat->create_memberID]) ? $members[$chat->create_memberID]->photo : '';?>
-                                <img src="<?=profile_img($memberimage)?>" alt="member image" class="offline">
-                                <p class="message">
-                                    <a href="#" class="name">
-                                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> <?=date('d M Y H:i', strtotime($chat->create_date))?></small>
-                                        <?=isset($members[$chat->create_memberID]) ? $members[$chat->create_memberID]->name : ''?>
+                          <!-- obrolan item -->
+                          <?php if(calculate($chats)) { foreach($chats as $obrolan) { ?>
+                            <div class="item chatID" data-chatid="<?=$obrolan->id_obrolan?>">
+                                <?php $memberimage = isset($members[$obrolan->create_memberID]) ? $members[$obrolan->create_memberID]->foto : '';?>
+                                <img src="<?=profile_img($memberimage)?>" alt="anggota image" class="offline">
+                                <p class='pesan'>
+                                    <a href="#" class='nama'>
+                                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> <?=date('d M Y H:i', strtotime($obrolan->tanggal_dibuat))?></small>
+                                        <?=isset($members[$obrolan->create_memberID]) ? $members[$obrolan->create_memberID]->nama : ''?>
                                     </a>
-                                    <?=$chat->message?>
+                                    <?=$obrolan->pesan?>
                                 </p>
                             </div>
                             <?php } } ?>
-                            <!-- chat item -->
+                            <!-- obrolan item -->
                         </div>
                     </div>
-                    <!-- /.chat -->
+                    <!-- /.obrolan -->
                     <div class="box-footer">
                         <div class="input-group">
                             <input class="form-control" type="text" id="chatmessage" name="chatmessage" placeholder="Ketik Pesan">
@@ -68,13 +68,13 @@
                         </div>
                         <div class="box-body">
                             <div class="form-group">
-                                <input type="email" class="form-control" name="email" placeholder="Email">
+                                <input type='surel' class="form-control" name='surel' placeholder="Email">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="subject" placeholder="Judul Email">
+                                <input type="text" class="form-control" name='subjek' placeholder="Judul Email">
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control" name="message" id="message" cols="30" rows="10" placeholder="Pesan"></textarea>
+                                <textarea class="form-control" name='pesan' id='pesan' cols="30" rows="10" placeholder="Pesan"></textarea>
                             </div>
                         </div>
                         <div class="box-footer clearfix">
@@ -89,6 +89,6 @@
 
 <script type="text/javascript">
     var dashboard_provide_message = "Sediakan Pesan";
-    var dashboard_income          = [<?=$income?>];
-    var dashboard_expense         = [<?=$expense?>];
+    var dashboard_income          = [<?=$pemasukan?>];
+    var dashboard_expense         = [<?=$pengeluaran?>];
 </script>

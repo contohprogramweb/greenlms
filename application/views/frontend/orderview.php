@@ -13,7 +13,7 @@
 							    <header>
 							        <div class="row align-items-center">
 							            <div class="col-sm-7 text-center text-sm-left">
-							                <img class="header-logo" src="<?=app_image_link($generalsetting->logo, 'uploads/images/', 'logo.jpg')?>" alt="<?=$generalsetting->sitename?>" />
+							                <img class="header-logo" src="<?=app_image_link($pengaturan_umum->logo, 'uploads/images/', 'logo.jpg')?>" alt="<?=$pengaturan_umum->sitename?>" />
 							            </div>
 							            <div class="col-sm-5 text-center text-sm-right">
 							                <h4>Invoice</h4>
@@ -25,15 +25,15 @@
 							    <!-- Main Content -->
 							    <main>
 							        <div class="row">
-							            <div class="col-sm-6"><strong>Tanggal buat:</strong> <?=app_date($order->create_date)?></div>
-							            <div class="col-sm-6 text-sm-right"><strong>Nomor Invoice:</strong> <?=sprintf("%08d", $order->orderID);?></div>
+							            <div class="col-sm-6"><strong>Tanggal buat:</strong> <?=app_date($order->tanggal_dibuat)?></div>
+							            <div class="col-sm-6 text-sm-right"><strong>Nomor Invoice:</strong> <?=sprintf("%08d", $order->id_pesanan);?></div>
 							        </div>
 							        <hr />
 							        <div class="row">
 							            <div class="col-sm-6">
 							                <strong>Pesanan dari</strong>,
 							                <address>
-							                    <?=site_address($generalsetting)?>
+							                    <?=site_address($pengaturan_umum)?>
 							                </address>
 							            </div>
 							            <div class="col-sm-6 text-right">
@@ -54,14 +54,14 @@
 					                        </tr>
 					                    </thead>
 				                        <tbody>
-				                        	<?php if (calculate($orderitems)) {foreach ($orderitems as $orderitem) {?>
+				                        	<?php if (calculate($item_pesanan)) {foreach ($item_pesanan as $orderitem) {?>
 					                            <tr>
 					                                <td class="p-1">
-					                                	<img class="checkoutimage rounded mx-auto d-block" src="<?=app_image_link($orderitem->coverphoto,'uploads/storebook/','storebook.jpg')?>">
+					                                	<img class="checkoutimage rounded mx-auto d-block" src="<?=app_image_link($orderitem->coverphoto,'uploads/buku_toko/','buku_toko.jpg')?>">
 					                                </td>
-					                                <td><?=$orderitem->name?></td>
+					                                <td><?=$orderitem->nama?></td>
 					                                <td><?=$orderitem->unit_price?></td>
-					                                <td><?=$orderitem->quantity?></td>
+					                                <td><?=$orderitem->jumlah?></td>
 					                                <td class="text-bold"><?=app_amount_format($orderitem->subtotal)?></td>
 					                            </tr>
 				                        	<?php } } ?>

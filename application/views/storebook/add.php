@@ -3,38 +3,38 @@
   		<h1>Buku Toko</h1>
   		<ol class="breadcrumb">
         	<li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-  			<li><a href="<?=base_url('storebook/index')?>">Buku Toko</a></li>
-  			<li class="active">Tambah</li>
+  			<li><a href="<?=base_url('buku_toko/index')?>">Buku Toko</a></li>
+  			<li class='aktif'>Tambah</li>
   		</ol>
     </section>
     <section class="content">
 		<div class="box box-mytheme">
 			<div class="row">
 				<div class="col-md-6">
-					<form role="form" method="post" enctype="multipart/form-data">
+					<form peran="form" method="post" enctype="multipart/form-data">
 						<div class="box-body">
-							<div class="form-group <?=form_error('name') ? 'has-error' : ''?>">
-							 	<label for="name">Judul Buku</label> <span class="text-red">*</span>
-							  	<input type="text" class="form-control" id="name" name="name" value="<?=set_value('name')?>" placeholder="Enter name">
-							  	<?=form_error('name')?>
+							<div class="form-group <?=form_error('nama') ? 'has-error' : ''?>">
+							 	<label for='nama'>Judul Buku</label> <span class="text-red">*</span>
+							  	<input type="text" class="form-control" id='nama' name='nama' value="<?=set_value('nama')?>" placeholder="Enter name">
+							  	<?=form_error('nama')?>
 							</div>
 
-							<div class="form-group <?=form_error('author') ? 'has-error' : ''?>">
-							 	<label for="author">Penulis</label> <span class="text-red">*</span>
-							  	<input type="text" class="form-control" id="author" name="author" value="<?=set_value('author')?>" placeholder="Enter Author">
-							  	<?=form_error('author')?>
+							<div class="form-group <?=form_error('penulis') ? 'has-error' : ''?>">
+							 	<label for='penulis'>Penulis</label> <span class="text-red">*</span>
+							  	<input type="text" class="form-control" id='penulis' name='penulis' value="<?=set_value('penulis')?>" placeholder="Enter Author">
+							  	<?=form_error('penulis')?>
 							</div>
 
-							<div class="form-group <?=form_error('quantity') ? 'has-error' : ''?>">
-							 	<label for="quantity">Quantity</label> <span class="text-red">*</span>
-							  	<input type="number" class="form-control" id="quantity" name="quantity" value="<?=set_value('quantity')?>" placeholder="Enter Quantity">
-							  	<?=form_error('quantity')?>
+							<div class="form-group <?=form_error('jumlah') ? 'has-error' : ''?>">
+							 	<label for='jumlah'>Quantity</label> <span class="text-red">*</span>
+							  	<input type="number" class="form-control" id='jumlah' name='jumlah' value="<?=set_value('jumlah')?>" placeholder="Enter Quantity">
+							  	<?=form_error('jumlah')?>
 							</div>
 
-							<div class="form-group <?=form_error('price') ? 'has-error' : ''?>">
-							 	<label for="price">Harga</label> <span class="text-red">*</span>
-							  	<input type="text" class="form-control" id="price" name="price" value="<?=set_value('price')?>" placeholder="Enter Price">
-							  	<?=form_error('price')?>
+							<div class="form-group <?=form_error('harga') ? 'has-error' : ''?>">
+							 	<label for='harga'>Harga</label> <span class="text-red">*</span>
+							  	<input type="text" class="form-control" id='harga' name='harga' value="<?=set_value('harga')?>" placeholder="Enter Price">
+							  	<?=form_error('harga')?>
 							</div>
 
 							<div class="form-group <?=form_error('codeno') ? 'has-error' : ''?>">
@@ -54,7 +54,7 @@
 						                <div class="btn btn-success image-preview-input">
 						                    <span class="fa fa-repeat"></span>
 						                    <span class="image-preview-input-title">Browse</span>
-						                    <input type="file" accept="image/png, image/jpeg, image/gif" name="coverphoto"/>
+						                    <input type='file' accept="image/png, image/jpeg, image/gif" name="coverphoto"/>
 						                </div>
 						            </span>
 						        </div>
@@ -67,8 +67,8 @@
 									$storebookcategoryArray = [];
 									$storebookcategoryArray[0] = 'Silakan Pilih';
 									if(calculate($storebookcategorys)) {
-										foreach($storebookcategorys as $storebookcategory) {
-											$storebookcategoryArray[$storebookcategory->storebookcategoryID] = $storebookcategory->name;
+										foreach($storebookcategorys as $kategori_buku_toko) {
+											$storebookcategoryArray[$kategori_buku_toko->storebookcategoryID] = $kategori_buku_toko->nama;
 										}
 									}
 									echo form_dropdown('storebookcategoryID', $storebookcategoryArray, set_value('storebookcategoryID'), 'id="storebookcategoryID" class="form-control"');
@@ -94,10 +94,10 @@
 							  	<?=form_error('editiondate')?>
 							</div>
 							
-							<div class="form-group <?=form_error('publisher') ? 'has-error' : ''?>">
-							 	<label for="publisher">Penerbit</label>
-							  	<input type="text" class="form-control" id="publisher" name="publisher" value="<?=set_value('publisher')?>" placeholder="Enter Publisher">
-							  	<?=form_error('publisher')?>
+							<div class="form-group <?=form_error('penerbit') ? 'has-error' : ''?>">
+							 	<label for='penerbit'>Penerbit</label>
+							  	<input type="text" class="form-control" id='penerbit' name='penerbit' value="<?=set_value('penerbit')?>" placeholder="Enter Publisher">
+							  	<?=form_error('penerbit')?>
 							</div>
 							
 							<div class="form-group <?=form_error('publisheddate') ? 'has-error' : ''?>">
@@ -112,15 +112,15 @@
 							  	<?=form_error('notes')?>
 							</div>
 							
-							<div class="form-group <?=form_error('description') ? 'has-error' : ''?>">
-							  	<label for="description">Deskripsi</label> <span class="text-red">*</span>
-							  	<textarea name="description"  id="description" cols="30" rows="5" class="form-control" placeholder="Enter description"><?=set_value('description')?></textarea>
-							  	<?=form_error('description')?>
+							<div class="form-group <?=form_error('deskripsi') ? 'has-error' : ''?>">
+							  	<label for='deskripsi'>Deskripsi</label> <span class="text-red">*</span>
+							  	<textarea name='deskripsi'  id='deskripsi' cols="30" rows="5" class="form-control" placeholder="Enter description"><?=set_value('deskripsi')?></textarea>
+							  	<?=form_error('deskripsi')?>
 							</div>
 
 							<div class="form-group">
 		                        <label for="images">Gambar(Multiple)</label>
-							  	<input type="file" class="form-control" name="images[]" multiple id="images"/>
+							  	<input type='file' class="form-control" name="images[]" multiple id="images"/>
 		                    </div>
 		                    <div id="image_preview"></div>
 

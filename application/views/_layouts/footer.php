@@ -1,17 +1,17 @@
-	<section class="main-newsletter">
+	<section class="main-buletin">
 	    <div class="container">
 	        <div class="row">
 	            <div class="col-xl-6 col-lg-6">
-	                <div class="newsletter-content">
+	                <div class="buletin-content">
 	                    <h3>Daftar email berita</h3>
 	                    <p>Jadilah yang Pertama Tahu. Daftar email berita hari ini.</p>
 	                </div>
 	            </div>
 	            <div class="col-xl-6 col-lg-6">
-	                <div class="newsletter-box">
+	                <div class="buletin-box">
 	                    <form action="<?=base_url('frontend/subscribe')?>" method="POST">
 	                    	<div class="input-group input-group-search-form">
-		                        <input type="text" name="email" placeholder="Daftar sekarang masukkan email Anda" class="form-control form-control-lg input-group-search">
+		                        <input type="text" name='surel' placeholder="Daftar sekarang masukkan email Anda" class="form-control form-control-lg input-group-search">
 		                        <div class="input-group-append search-btn">
 		                            <input type="submit" class="input-group-text" value="Daftar">
 		                        </div>
@@ -27,15 +27,15 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6">
-					<p><?=$generalsetting->copyright_by?></p>
+					<p><?=$pengaturan_umum->copyright_by?></p>
 				</div>
 				<div class="col-sm-6 footer-bootom-menu">
 					<ul>
-						<li><a class="<?=$activemenu=='index' ? 'active' : ''?>" href="<?=base_url('frontend/index')?>">Home</a></li>
-						<li><a class="<?=$activemenu=='ebook' ? 'active' : ''?>" href="<?=base_url('frontend/ebook')?>">Ebook</a></li>
-						<li><a class="<?=$activemenu=='book' ? 'active' : ''?>" href="<?=base_url('frontend/book')?>">Buku</a></li>
-						<li><a class="<?=$activemenu=='shop' ? 'active' : ''?>" href="<?=base_url('frontend/shop')?>">Toko</a></li>
-						<li><a class="<?=$activemenu=='contact' ? 'active' : ''?>" href="<?=base_url('frontend/contact')?>">Kontak</a></li>
+						<li><a class="<?=$activemenu=='index' ? 'aktif' : ''?>" href="<?=base_url('frontend/index')?>">Home</a></li>
+						<li><a class="<?=$activemenu=='buku_elektronik' ? 'aktif' : ''?>" href="<?=base_url('frontend/buku_elektronik')?>">Ebook</a></li>
+						<li><a class="<?=$activemenu=='buku' ? 'aktif' : ''?>" href="<?=base_url('frontend/buku')?>">Buku</a></li>
+						<li><a class="<?=$activemenu=='shop' ? 'aktif' : ''?>" href="<?=base_url('frontend/shop')?>">Toko</a></li>
+						<li><a class="<?=$activemenu=='contact' ? 'aktif' : ''?>" href="<?=base_url('frontend/contact')?>">Kontak</a></li>
 					</ul>
 					
 				</div>

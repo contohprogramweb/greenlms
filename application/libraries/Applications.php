@@ -11,7 +11,7 @@ class Applications
 
         //Load email library
         $this->CI->load->library('parser');
-        $this->CI->load->library('email');
+        $this->CI->load->library('surel');
         $this->CI->load->model('emailsetting_m');
     }
 
@@ -24,12 +24,12 @@ class Applications
         if (calculate($sendemails)) {
             foreach ($sendemails as $senduserID => $sendemail) {
                 $viewload = $this->CI->load->view('_template/sendmail', $sendemail, true);
-                $this->CI->email->to($sendemail['email']);
-                $this->CI->email->from($fromemail, 'Portfolio');
-                $this->CI->email->subject($subject);
-                $this->CI->email->message($viewload);
+                $this->CI->surel->to($sendemail['surel']);
+                $this->CI->surel->from($fromemail, 'Portfolio');
+                $this->CI->surel->subjek($subject);
+                $this->CI->surel->pesan($viewload);
                 //Send email
-                if (!$this->CI->email->send()) {
+                if (!$this->CI->surel->send()) {
                     $notsendemailuser[$senduserID] = $senduserID;
                 }
             }
@@ -37,31 +37,31 @@ class Applications
         echo $notsendemailuser;
     }
 
-    // emailsend
+    // kirim_email
     public function sendemail($email, $message, $subject, $name, $fromemail = 'no-reply@admin.com')
     {
         $this->_configure_email_setting();
 
-        $passArray['message'] = $message;
+        $passArray['pesan'] = $message;
         $viewload             = $this->CI->load->view('_template/sendmail', $passArray, true);
-        $this->CI->email->to($email);
-        $this->CI->email->from($fromemail, $name);
-        $this->CI->email->subject($subject);
-        $this->CI->email->message($viewload);
+        $this->CI->surel->to($email);
+        $this->CI->surel->from($fromemail, $name);
+        $this->CI->surel->subjek($subject);
+        $this->CI->surel->pesan($viewload);
         //Send email
-        return $this->CI->email->send();
+        return $this->CI->surel->send();
     }
 
     public function sendmail($email, $message, $subject, $name, $fromemail = 'no-reply@admin.com')
     {
         $this->_configure_email_setting();
 
-        $this->CI->email->to($email);
-        $this->CI->email->from($fromemail, $name);
-        $this->CI->email->subject($subject);
-        $this->CI->email->message($message);
+        $this->CI->surel->to($email);
+        $this->CI->surel->from($fromemail, $name);
+        $this->CI->surel->subjek($subject);
+        $this->CI->surel->pesan($message);
         //Send email
-        return $this->CI->email->send();
+        return $this->CI->surel->send();
     }
 
     private function convert_tag($memebers, $message)
@@ -69,23 +69,23 @@ class Applications
         $retArray = [];
         if (calculate($memebers)) {
             foreach ($memebers as $memeber) {
-                $message = str_replace('[memberID]', "memeber ID " . $memeber->memberID, $message);
-                $message = str_replace('[name]', $memeber->name, $message);
+                $message = str_replace('[memberID]', "memeber ID " . $memeber->id_anggota, $message);
+                $message = str_replace('[name]', $memeber->nama, $message);
                 $message = str_replace('[dateofbirth]', date('d m Y H:i:s', strtotime($memeber->dateofbirth)), $message);
-                $message = str_replace('[gender]', $memeber->gender, $message);
-                $message = str_replace('[religion]', $memeber->religion, $message);
-                $message = str_replace('[email]', $memeber->email, $message);
-                $message = str_replace('[phone]', $memeber->phone, $message);
-                $message = str_replace('[address]', $memeber->address, $message);
+                $message = str_replace('[gender]', $memeber->jenis_kelamin, $message);
+                $message = str_replace('[religion]', $memeber->agama, $message);
+                $message = str_replace('[email]', $memeber->surel, $message);
+                $message = str_replace('[phone]', $memeber->telepon, $message);
+                $message = str_replace('[address]', $memeber->alamat, $message);
                 $message = str_replace('[joinningdate]', date('d m Y H:i:s', strtotime($memeber->joiningdate)), $message);
-                if ($memeber->photo) {
-                    $imageurl = "<img src='" . profile_img($memeber->photo) . "'/>";
+                if ($memeber->foto) {
+                    $imageurl = "<img src='" . profile_img($memeber->foto) . "'/>";
                     $message  = str_replace('[photo]', $imageurl, $message);
                 }
-                $message                                 = str_replace('[username]', $memeber->username, $message);
+                $message                                 = str_replace('[username]', $memeber->nama_pengguna, $message);
                 $message                                 = str_replace('[current_date]', date('d m Y H:i:s'), $message);
-                $retArray[$memeber->memberID]['message'] = $message;
-                $retArray[$memeber->memberID]['email']   = $memeber->email;
+                $retArray[$memeber->id_anggota]['pesan'] = $message;
+                $retArray[$memeber->id_anggota]['surel']   = $memeber->surel;
             }
         }
         return $retArray;
@@ -94,20 +94,20 @@ class Applications
     // SMTP & mail configuration
     private function _configure_email_setting()
     {
-        $emailsetting = (object) pluck($this->CI->emailsetting_m->get_emailsetting(), 'optionvalue', 'optionkey');
-        if (calculate($emailsetting)) {
+        $pengaturan_surel = (object) pluck($this->CI->emailsetting_m->get_emailsetting(), 'optionvalue', 'optionkey');
+        if (calculate($pengaturan_surel)) {
             $config = array(
-                'protocol'  => $emailsetting->mail_driver,
-                'smtp_host' => $emailsetting->mail_host,
-                'smtp_port' => $emailsetting->mail_port,
-                'smtp_user' => $emailsetting->mail_username,
-                'smtp_pass' => $emailsetting->mail_password,
+                'protocol'  => $pengaturan_surel->mail_driver,
+                'smtp_host' => $pengaturan_surel->mail_host,
+                'smtp_port' => $pengaturan_surel->mail_port,
+                'smtp_user' => $pengaturan_surel->mail_username,
+                'smtp_pass' => $pengaturan_surel->mail_password,
                 'mailtype'  => 'html',
                 'charset'   => 'utf-8',
             );
-            $this->CI->email->initialize($config);
-            $this->CI->email->set_mailtype("html");
-            $this->CI->email->set_newline("\r\n");
+            $this->CI->surel->initialize($config);
+            $this->CI->surel->set_mailtype("html");
+            $this->CI->surel->set_newline("\r\n");
         }
     }
 
