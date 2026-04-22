@@ -14,16 +14,16 @@
 			<div class="col-sm-9">
 				<div class="sliders owl-carousel owl-theme">
 					<div class="slider-item">
-						<img src="<?=base_url('assets/frontend/images/images1.png')?>" alt="">
+						<img src="<?=base_url('assets/Beranda/images/images1.png')?>" alt="">
 					</div>
 					<div class="slider-item">
-						<img src="<?=base_url('assets/frontend/images/images1.png')?>" alt="">
+						<img src="<?=base_url('assets/Beranda/images/images1.png')?>" alt="">
 					</div>
 					<div class="slider-item">
-						<img src="<?=base_url('assets/frontend/images/images1.png')?>" alt="">
+						<img src="<?=base_url('assets/Beranda/images/images1.png')?>" alt="">
 					</div>
 					<div class="slider-item">
-						<img src="<?=base_url('assets/frontend/images/images1.png')?>" alt="">
+						<img src="<?=base_url('assets/Beranda/images/images1.png')?>" alt="">
 					</div>
 				</div>
 			</div>

@@ -2,13 +2,13 @@
     <section class="sidebar">
         <div class="user-panel">
             <div class="pull-left image">
-                <a href="<?=base_url('profile/index')?>">
+                <a href="<?=base_url('Profil/index')?>">
                     <img src="<?=profile_img($this->session->userdata('foto'))?>" class="img-circle" style="height: 45px; width: 50px" alt="User Image">
                 </a>
             </div>
             <div class="pull-left info">
                 <p><?=$this->session->userdata('nama')?></p>
-                <a href="<?=base_url('profile/index')?>"><i class="fa fa-circle text-success"></i> Online</a>
+                <a href="<?=base_url('Profil/index')?>"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
         <ul class="sidebar-menu" data-widget="tree">

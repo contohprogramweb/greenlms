@@ -7,7 +7,7 @@ class Menu extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('menu_m');
+        $this->load->model('Menu_m');
         $lang = 'indonesia';
         $this->lang->load('menu', $lang);
     }

@@ -33,7 +33,7 @@
                     <li>
                       <ul class='menu'>
                         <li>
-                          <a href="<?=base_url('dashboard/langswitch/indonesia')?>">
+                          <a href="<?=base_url('Dasbor/langswitch/indonesia')?>">
                             <h3>
                                 <img class="languageimage" src="<?=base_url('uploads/language/indonesia.png')?>" alt="">
                                 Indonesia <?=$language=='indonesia' ? "<i class='fa fa-check'></i>" : ""?>
@@ -42,7 +42,7 @@
                         </li>
                         
                         <li>
-                          <a href="<?=base_url('dashboard/langswitch/english')?>">
+                          <a href="<?=base_url('Dasbor/langswitch/english')?>">
                             <h3>
                                 <img class="languageimage" src="<?=base_url('uploads/language/english.png')?>" alt="">
                                 English <?=$language=='english' ? "<i class='fa fa-check'></i>" : ""?>
@@ -70,10 +70,10 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="<?=base_url('profile/index')?>" class="btn btn-default btn-flat">Profile</a>
+                                <a href="<?=base_url('Profil/index')?>" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
-                                <a href="<?=base_url('login/logout')?>" class="btn btn-default btn-flat">Sign out</a>
+                                <a href="<?=base_url('Masuk/logout')?>" class="btn btn-default btn-flat">Sign out</a>
                             </div>
                         </li>
                     </ul>

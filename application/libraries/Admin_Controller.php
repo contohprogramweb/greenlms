@@ -7,18 +7,18 @@ class Admin_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('menu_m');
-        $this->load->model('permissions_m');
-        $this->load->model('permissionlog_m');
-        $this->load->model('generalsetting_m');
+        $this->load->model('Menu_m');
+        $this->load->model('Izin_m');
+        $this->load->model('Catatanizin_m');
+        $this->load->model('Pengaturanumum_m');
         $this->load->helper('text');
 
         if ($this->config->item('installed') == 'NO') {
-            redirect(base_url('install/index'));
+            redirect(base_url('Instalasi/index'));
         }
         $this->load->database();
 
-        $this->data['pengaturan_umum'] = (object) pluck($this->generalsetting_m->get_generalsetting(), 'optionvalue', 'optionkey');
+        $this->data['pengaturan_umum'] = (object) pluck($this->pengaturanumum_m->get_generalsetting(), 'optionvalue', 'optionkey');
         $this->data['bloodgroups']    = $this->_bloodgroup();
 
         $lang = $this->session->userdata('language');
@@ -27,17 +27,17 @@ class Admin_Controller extends MY_Controller
 
         $this->data['activemenu'] = $this->uri->segment(1);
         $exception_uris           = array(
-            'login/index',
-            'login/logout',
-            'login/reset_kata_sandi',
-            'login/registermember',
-            'login/resetpasswordconfirm',
+            'masuk/index',
+            'masuk/logout',
+            'masuk/reset_kata_sandi',
+            'masuk/registermember',
+            'masuk/resetpasswordconfirm',
         );
 
         if (in_array(uri_string(), $exception_uris) == false) {
             $logged = $this->session->userdata('loggedin');
             if ($logged == false) {
-                redirect(base_url('login/index'));
+                redirect(base_url('Masuk/index'));
             }
         }
 
@@ -56,7 +56,7 @@ class Admin_Controller extends MY_Controller
             $roleID        = $this->session->userdata('id_peran');
             $loginmemberID = $this->session->userdata('loginmemberID');
 
-            $permissionlogs   = $this->permissionlog_m->get_permissionlog();
+            $permissionlogs   = $this->catatanizin_m->get_permissionlog();
             $permissionsArray = [];
             if ($roleID == 1 && $loginmemberID == 1) {
                 if (calculate($permissionlogs)) {
@@ -65,7 +65,7 @@ class Admin_Controller extends MY_Controller
                     }
                 }
             } else {
-                $izin = $this->permissions_m->get_permissions_with_permissionlog_by_roleID($roleID);
+                $izin = $this->izin_m->get_permissions_with_permissionlog_by_roleID($roleID);
                 if (calculate($izin)) {
                     foreach ($izin as $permission) {
                         $permissionsArray['modulepermission_set'][$permission->nama] = $permission->aktif;
@@ -101,7 +101,7 @@ class Admin_Controller extends MY_Controller
         $modulepermission_set = $this->session->userdata('modulepermission_set');
         if ((isset($modulepermission_set[$permission]))) {
             if ($modulepermission_set[$permission] != "yes") {
-                redirect(base_url('exceptionpage/error'));
+                redirect(base_url('Halamaneksepsi/error'));
             }
         }
     }

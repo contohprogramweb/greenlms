@@ -12,7 +12,7 @@ class Applications
         //Load email library
         $this->CI->load->library('parser');
         $this->CI->load->library('surel');
-        $this->CI->load->model('emailsetting_m');
+        $this->CI->load->model('Pengaturanemail_m');
     }
 
     public function sendemails($users, $message, $subject, $fromemail = 'no-reply@admin.com')

@@ -2,7 +2,7 @@
     <section class="content-header">
   		<h1>Menu</h1>
         <ol class="breadcrumb">
-            <li><a href="<?=base_url('dashboard/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+            <li><a href="<?=base_url('Dasbor/index')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
             <li><a href="<?=base_url('menu/index')?>">Menu</a></li>
             <li class='aktif'>Tambah</li>
         </ol>
