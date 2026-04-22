@@ -1,0 +1,30 @@
+<?php
+
+$lang['profile_name'] = "Nama";
+$lang['profile_gender'] = "Jenis Kelamin";
+$lang['profile_religion'] = "Agama";
+$lang['profile_email'] = "Email";
+$lang['profile_phone'] = "Telepon";
+$lang['profile_address'] = "Alamat";
+$lang['profile_photo'] = "Foto";
+$lang['profile_role'] = "Peran";
+$lang['profile_username'] = "Nama Pengguna";
+$lang['profile_password'] = "Kata Sandi";
+$lang['profile_role'] = "Peran";
+$lang['profile_filebrowse'] = "Telusuri File";
+$lang['profile_active'] = "Aktif";
+$lang['profile_block'] = "Blokir";
+$lang['profile_status'] = "Status"; $lang['profile_profile'] = "Profil";
+$lang['profile_blood_group'] = "Golongan Darah";
+$lang['profile_joinning_date'] = "Tanggal bergabung";
+$lang['profile_date_of_birth'] = "Tanggal lahir";
+$lang['profile_book_issue'] = "Terbitan Buku";
+$lang['profile_action'] = "Tindakan";
+$lang['profile_member'] = "Anggota";
+$lang['profile_category'] = "Kategori";
+$lang['profile_book'] = "Buku";
+$lang['profile_book_no'] = "Nomor Buku";
+$lang['profile_status'] = "Status";
+$lang['profile_issued'] = "Diterbitkan";
+$lang['profile_return'] = "Dikembalikan";
+$lang['profile_lost'] = "Hilang";

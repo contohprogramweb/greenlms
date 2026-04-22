@@ -1,0 +1,40 @@
+<?php
+
+
+$lang['requestbook_slno'] = "#";
+$lang['requestbook_add'] = "Tambah";
+$lang['requestbook_edit'] = "Edit";
+$lang['requestbook_view'] = "Lihat";
+$lang['requestbook_delete'] = "Hapus";
+$lang['requestbook_name'] = "Nama";
+$lang['requestbook_please_select'] = "Silakan Pilih";
+$lang['requestbook_description'] = "Keterangan";
+$lang['requestbook_action'] = "Tindakan";
+$lang['requestbook_status'] = "Status";
+$lang['requestbook_enable'] = "Aktifkan";
+$lang['requestbook_disable'] = "Nonaktifkan";
+$lang['requestbook_add_requestbook'] = "Tambah Buku Permintaan"; 
+$lang['requestbook_update_requestbook'] = "Perbarui Buku Permintaan";
+$lang['requestbook_filebrowse'] = "Telusuri File";
+$lang['requestbook_clear'] = "Hapus";
+$lang['requestbook_cover_photo'] = "Foto Sampul";
+$lang['requestbook_author'] = "Penulis";
+$lang['requestbook_book_category'] = "Kategori Buku";
+$lang['requestbook_quantity'] = "Kuantitas";
+$lang['requestbook_price'] = "Harga";
+$lang['requestbook_isbn_no'] = "Nomor Isbn";
+$lang['requestbook_cover_photo'] = "Foto Sampul";
+$lang['requestbook_code_no'] = "Nomor Kode";
+$lang['requestbook_rack'] = "Rak"; 
+$lang['requestbook_edition_number'] = "Nomor Edisi";
+$lang['requestbook_edition_date'] = "Tanggal Edisi";
+$lang['requestbook_publisher'] = "Penerbit";
+$lang['requestbook_published_date'] = "Tanggal terbit";
+$lang['requestbook_notes'] = "Catatan";
+$lang['requestbook_add_book'] = "Tambah Buku";
+$lang['requestbook_book_add'] = "Tambah Buku";
+$lang['requestbook_rejected'] = "Ditolak";
+$lang['requestbook_requested'] = "Diminta";
+$lang['requestbook_accepted'] = "Diterima";
+$lang['requestbook_rejected'] = "Ditolak";
+$lang['requestbook_deleted'] = "Dihapus";
