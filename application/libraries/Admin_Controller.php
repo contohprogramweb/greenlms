@@ -7,18 +7,18 @@ class Admin_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('menu_m');
-        $this->load->model('permissions_m');
-        $this->load->model('permissionlog_m');
-        $this->load->model('generalsetting_m');
+        $this->load->model('Menu_m');
+        $this->load->model('Izin_m');
+        $this->load->model('Catatanizin_m');
+        $this->load->model('Pengaturanumum_m');
         $this->load->helper('text');
 
         if ($this->config->item('installed') == 'NO') {
-            redirect(base_url('install/index'));
+            redirect(base_url('Instalasi/index'));
         }
         $this->load->database();
 
-        $this->data["generalsetting"] = (object) pluck($this->generalsetting_m->get_generalsetting(), 'optionvalue', 'optionkey');
+        $this->data['pengaturan_umum'] = (object) pluck($this->pengaturanumum_m->get_generalsetting(), 'optionvalue', 'optionkey');
         $this->data['bloodgroups']    = $this->_bloodgroup();
 
         $lang = $this->session->userdata('language');
@@ -27,17 +27,17 @@ class Admin_Controller extends MY_Controller
 
         $this->data['activemenu'] = $this->uri->segment(1);
         $exception_uris           = array(
-            'login/index',
-            'login/logout',
-            'login/resetpassword',
-            'login/registermember',
-            'login/resetpasswordconfirm',
+            'masuk/index',
+            'masuk/logout',
+            'masuk/reset_kata_sandi',
+            'masuk/registermember',
+            'masuk/resetpasswordconfirm',
         );
 
         if (in_array(uri_string(), $exception_uris) == false) {
             $logged = $this->session->userdata('loggedin');
             if ($logged == false) {
-                redirect(base_url('login/index'));
+                redirect(base_url('Masuk/index'));
             }
         }
 
@@ -53,29 +53,29 @@ class Admin_Controller extends MY_Controller
         $modulepermission_set = $this->session->userdata('modulepermission_set');
         $loggedin             = $this->session->userdata('loggedin');
         if (!calculate($modulepermission_set) && $loggedin) {
-            $roleID        = $this->session->userdata('roleID');
+            $roleID        = $this->session->userdata('id_peran');
             $loginmemberID = $this->session->userdata('loginmemberID');
 
-            $permissionlogs   = $this->permissionlog_m->get_permissionlog();
+            $permissionlogs   = $this->catatanizin_m->get_permissionlog();
             $permissionsArray = [];
             if ($roleID == 1 && $loginmemberID == 1) {
                 if (calculate($permissionlogs)) {
-                    foreach ($permissionlogs as $permissionlog) {
-                        $permissionsArray['modulepermission_set'][$permissionlog->name] = $permissionlog->active;
+                    foreach ($permissionlogs as $catatan_izin) {
+                        $permissionsArray['modulepermission_set'][$catatan_izin->nama] = $catatan_izin->aktif;
                     }
                 }
             } else {
-                $permissions = $this->permissions_m->get_permissions_with_permissionlog_by_roleID($roleID);
-                if (calculate($permissions)) {
-                    foreach ($permissions as $permission) {
-                        $permissionsArray['modulepermission_set'][$permission->name] = $permission->active;
+                $izin = $this->izin_m->get_permissions_with_permissionlog_by_roleID($roleID);
+                if (calculate($izin)) {
+                    foreach ($izin as $permission) {
+                        $permissionsArray['modulepermission_set'][$permission->nama] = $permission->aktif;
                     }
                 }
 
                 if (calculate($permissionlogs)) {
-                    foreach ($permissionlogs as $permissionlog) {
-                        if (!isset($permissionsArray['modulepermission_set'][$permissionlog->name])) {
-                            $permissionsArray['modulepermission_set'][$permissionlog->name] = 'no';
+                    foreach ($permissionlogs as $catatan_izin) {
+                        if (!isset($permissionsArray['modulepermission_set'][$catatan_izin->nama])) {
+                            $permissionsArray['modulepermission_set'][$catatan_izin->nama] = 'no';
                         }
                     }
                 }
@@ -101,7 +101,7 @@ class Admin_Controller extends MY_Controller
         $modulepermission_set = $this->session->userdata('modulepermission_set');
         if ((isset($modulepermission_set[$permission]))) {
             if ($modulepermission_set[$permission] != "yes") {
-                redirect(base_url('exceptionpage/error'));
+                redirect(base_url('Halamaneksepsi/error'));
             }
         }
     }
@@ -114,14 +114,14 @@ class Admin_Controller extends MY_Controller
             foreach ($menus as $menu) {
                 if (visibleButtonMenu($menu->menulink) || ($menu->menulink == '#')) {
                     if ($menu->parentmenuID == 0) {
-                        if (!isset($menuArray[$menu->menuID])) {
-                            $menuArray[$menu->menuID] = (array) $menu;
+                        if (!isset($menuArray[$menu->id_menu])) {
+                            $menuArray[$menu->id_menu] = (array) $menu;
                         }
                     } else {
                         if (!isset($menuArray[$menu->parentmenuID]['child'])) {
                             $menuArray[$menu->parentmenuID]['child'] = [];
                         }
-                        $menuArray[$menu->parentmenuID]['child'][$menu->menuID] = (array) $menu;
+                        $menuArray[$menu->parentmenuID]['child'][$menu->id_menu] = (array) $menu;
                     }
                 }
             }
@@ -133,10 +133,10 @@ class Admin_Controller extends MY_Controller
     {
         $get_title = '';
         if ($title) {
-            $get_title = ucfirst($title) . " | " . $this->data["generalsetting"]->sitename;
+            $get_title = ucfirst($title) . " | " . $this->data['pengaturan_umum']->sitename;
         } else {
             $title     = empty($this->data['activemenu']) ? 'Dashboard' : $this->data['activemenu'];
-            $get_title = ucfirst($title) . " | " . $this->data["generalsetting"]->sitename;
+            $get_title = ucfirst($title) . " | " . $this->data['pengaturan_umum']->sitename;
         }
         return $get_title;
     }
@@ -162,7 +162,7 @@ class Admin_Controller extends MY_Controller
 
     public function checkAdminLibrarianPermission()
     {
-        $roleID = $this->session->userdata('roleID');
+        $roleID = $this->session->userdata('id_peran');
         if ($roleID == 1 || $roleID == 2) {
             return false;
         }

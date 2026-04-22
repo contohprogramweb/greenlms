@@ -58,7 +58,7 @@ class MY_Config extends CI_Config
 
         // Is the config file writable?
         if (!is_really_writable($this->config_path)) {
-            show_error($this->config_path . ' does not appear to have the proper file permissions.  Please make the file writeable.');
+            show_error($this->config_path . ' does not appear to have the proper file izin.  Please make the file writeable.');
         }
 
         // Read the config file as PHP
@@ -129,7 +129,7 @@ class MY_Config extends CI_Config
 
         // Is the database file writable?
         if (!is_really_writable($this->database_path)) {
-            show_error($this->database_path . ' does not appear to have the proper file permissions.  Please make the file writeable.');
+            show_error($this->database_path . ' does not appear to have the proper file izin.  Please make the file writeable.');
         }
 
         // load the file helper
@@ -174,7 +174,7 @@ class MY_Config extends CI_Config
 
         // Is the database file writable?
         if (!is_really_writable($this->database_path)) {
-            show_error($this->database_path . ' does not appear to have the proper file permissions.  Please make the file writeable.');
+            show_error($this->database_path . ' does not appear to have the proper file izin.  Please make the file writeable.');
         }
 
         // load the file helper
@@ -210,7 +210,7 @@ class MY_Config extends CI_Config
                         $expitem      = explode("=", $matchReplace);
                         if (calculate($expitem) >= 2) {
                             $expitemone = str_replace(array("'", '"', '[', ']'), array('', '', '', ''), $item);
-                            if ($expitemone == 'password') {
+                            if ($expitemone == 'kata_sandi') {
                                 $expitemtwo = str_replace("\'", "'", $expitem[1]);
                                 $expitemtwo = substr($expitemtwo, 1, -1);
                             } else {

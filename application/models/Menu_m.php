@@ -5,7 +5,7 @@ class Menu_m extends MY_Model
 {
 
     protected $_table_name  = 'menu';
-    protected $_primary_key = 'menuID';
+    protected $_primary_key = 'id_menu';
     protected $_order_by    = "menuID asc";
 
     public function __construct()

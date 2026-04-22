@@ -7,7 +7,7 @@ class Menu extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('menu_m');
+        $this->load->model('Menu_m');
         $lang = 'indonesia';
         $this->lang->load('menu', $lang);
     }
@@ -31,7 +31,7 @@ class Menu extends Admin_Controller
                 'rules' => 'trim|xss_clean|required|min_length[4]|max_length[128]',
             ),
             array(
-                'field' => 'priority',
+                'field' => 'prioritas',
                 'label' => $this->lang->line('menu_priority'),
                 'rules' => 'trim|xss_clean|required|is_natural',
             ),
@@ -61,18 +61,18 @@ class Menu extends Admin_Controller
                 'assets/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js',
             ),
         );
-		$this->data['get_title'] = 'Kelola Menu | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Kelola Menu | '.$this->data['pengaturan_umum']->sitename;
 		
         $this->data['menus']     = $this->menu_m->get_menu();
-        $this->data['menusName'] = pluck($this->data['menus'], 'menuname', 'menuID');
+        $this->data['menusName'] = pluck($this->data['menus'], 'menuname', 'id_menu');
         $this->data["subview"]   = "menu/index";
         $this->load->view('_main_layout', $this->data);
     }
 
     public function add()
     {
-		$this->data['get_title'] = 'Tambah Menu | '.$this->data["generalsetting"]->sitename;
-        $this->data['parentmenus'] = $this->menu_m->get_order_by_menu(array('parentmenuID' => 0), array('menuID', 'menuname'));
+		$this->data['get_title'] = 'Tambah Menu | '.$this->data['pengaturan_umum']->sitename;
+        $this->data['parentmenus'] = $this->menu_m->get_order_by_menu(array('parentmenuID' => 0), array('id_menu', 'menuname'));
         if ($_POST) {
             $rules = $this->rules();
             $this->form_validation->set_rules($rules);
@@ -84,7 +84,7 @@ class Menu extends Admin_Controller
                 $array['menuname']     = $this->input->post('menuname');
                 $array['menulink']     = $this->input->post('menulink');
                 $array['menuicon']     = $this->input->post('menuicon');
-                $array['priority']     = $this->input->post('priority');
+                $array['prioritas']     = $this->input->post('prioritas');
                 $array['parentmenuID'] = $this->input->post('parentmenuID');
                 $array['status']       = $this->input->post('status');
                 $this->menu_m->insert_menu($array);
@@ -101,12 +101,12 @@ class Menu extends Admin_Controller
     {
         $menuID = escapeString($this->uri->segment('3'));
 		
-		$this->data['get_title'] = 'Edit Menu | '.$this->data["generalsetting"]->sitename;
+		$this->data['get_title'] = 'Edit Menu | '.$this->data['pengaturan_umum']->sitename;
 		
         if ((int) $menuID) {
             $this->data['menu'] = $this->menu_m->get_single_menu($menuID);
             if (calculate($this->data['menu'])) {
-                $this->data['parentmenus'] = $this->menu_m->get_order_by_menu(array('parentmenuID' => 0), array('menuID', 'menuname'));
+                $this->data['parentmenus'] = $this->menu_m->get_order_by_menu(array('parentmenuID' => 0), array('id_menu', 'menuname'));
                 if ($_POST) {
                     $rules = $this->rules();
                     $this->form_validation->set_rules($rules);
@@ -118,7 +118,7 @@ class Menu extends Admin_Controller
                         $array['menuname']     = $this->input->post('menuname');
                         $array['menulink']     = $this->input->post('menulink');
                         $array['menuicon']     = $this->input->post('menuicon');
-                        $array['priority']     = $this->input->post('priority');
+                        $array['prioritas']     = $this->input->post('prioritas');
                         $array['parentmenuID'] = $this->input->post('parentmenuID');
                         $array['status']       = $this->input->post('status');
                         $this->menu_m->update_menu($array, $menuID);
@@ -143,7 +143,7 @@ class Menu extends Admin_Controller
     {
         $menuID = escapeString($this->uri->segment('3'));
         if ((int) $menuID) {
-            $menu = $this->menu_m->get_single_menu(array('menuID' => $menuID));
+            $menu = $this->menu_m->get_single_menu(array('id_menu' => $menuID));
             if (calculate($menu)) {
                 $this->menu_m->delete_menu($menuID);
                 $this->session->set_flashdata('success', 'Success');

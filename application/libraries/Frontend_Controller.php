@@ -1,35 +1,35 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Frontend_Controller extends MY_Controller
+class Beranda_Controller extends MY_Controller
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('generalsetting_m');
+        $this->load->model('Pengaturanumum_m');
         $this->load->library('cart');
 
         if ($this->config->item('installed') == 'NO') {
-            redirect(base_url('install/index'));
+            redirect(base_url('Instalasi/index'));
         }
         if ($this->config->item('frontend') == 'NO') {
             redirect(base_url('/'));
         }
         $this->load->database();
 
-        $this->data["generalsetting"] = (object) pluck($this->generalsetting_m->get_generalsetting(), 'optionvalue', 'optionkey');
+        $this->data['pengaturan_umum'] = (object) pluck($this->pengaturanumum_m->get_generalsetting(), 'optionvalue', 'optionkey');
 
         $exception_uris = array(
             'myaccount/index',
             'myaccount/order',
-            'frontend/checkout',
+            'beranda/checkout',
         );
 
         if (in_array(uri_string(), $exception_uris) == true) {
             $logged = $this->session->userdata('loggedin');
             if ($logged == false) {
-                redirect(base_url('myaccount/login'));
+                redirect(base_url('Akunsaya/login'));
             }
         }
 
@@ -46,14 +46,14 @@ class Frontend_Controller extends MY_Controller
         if (!$title) {
             $title = (empty($this->data['activemenu']) || $this->data['activemenu'] == 'index') ? 'Home Page' : $this->data['activemenu'];
         }
-        return ucfirst($title) . " | " . $this->data["generalsetting"]->sitename;
+        return ucfirst($title) . " | " . $this->data['pengaturan_umum']->sitename;
     }
 
     public function loggedCheck()
     {
         $logged = $this->session->userdata('loggedin');
         if ($logged) {
-            redirect(base_url('dashboard/index'));
+            redirect(base_url('Dasbor/index'));
         }
     }
 

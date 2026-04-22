@@ -267,7 +267,7 @@ function menu_treeview_show($array, $menulink, $text1, $text2)
     return "";
 }
 
-function profile_img($imagename = 'default.png', $path = 'uploads/member/')
+function profile_img($imagename = 'default.png', $path = 'uploads/anggota/')
 {
     if ($imagename) {
         $filepath = $path . $imagename;
@@ -579,7 +579,7 @@ function status_button($status)
 {
     $CI = &get_instance();
     if ($status == 1) {
-        return '<span class="btn btn-success btn-xs">' . $CI->lang->line('active') . '</span>';
+        return '<span class="btn btn-success btn-xs">' . $CI->lang->line('aktif') . '</span>';
     } elseif ($status == 2) {
         return '<span class="btn btn-danger btn-xs">' . $CI->lang->line('disable') . '</span>';
     } else {
@@ -632,47 +632,47 @@ function deleteAll($str)
     }
 }
 
-function site_address($generalsetting)
+function site_address($pengaturan_umum)
 {
-    $site_address = $generalsetting->sitename . "<br/>";
-    if ($generalsetting->phone) {
-        $site_address .= $generalsetting->phone . "<br/>";
+    $site_address = $pengaturan_umum->sitename . "<br/>";
+    if ($pengaturan_umum->telepon) {
+        $site_address .= $pengaturan_umum->telepon . "<br/>";
     }
-    if ($generalsetting->email) {
-        $site_address .= $generalsetting->email . "<br/>";
+    if ($pengaturan_umum->surel) {
+        $site_address .= $pengaturan_umum->surel . "<br/>";
     }
-    if ($generalsetting->address) {
-        $site_address .= $generalsetting->address . "<br/>";
+    if ($pengaturan_umum->alamat) {
+        $site_address .= $pengaturan_umum->alamat . "<br/>";
     }
     return $site_address;
 }
 
 function order_delivery_to($order)
 {
-    $delivery = $order->name . "<br/>";
-    if ($order->mobile) {
-        $delivery .= $order->mobile . "<br/>";
+    $delivery = $order->nama . "<br/>";
+    if ($order->seluler) {
+        $delivery .= $order->seluler . "<br/>";
     }
-    if ($order->email) {
-        $delivery .= $order->email . "<br/>";
+    if ($order->surel) {
+        $delivery .= $order->surel . "<br/>";
     }
-    if ($order->address) {
-        $delivery .= $order->address . "<br/>";
+    if ($order->alamat) {
+        $delivery .= $order->alamat . "<br/>";
     }
     return $delivery;
 }
 
-function order_invoice_to($member)
+function order_invoice_to($anggota)
 {
-    $invoice = $member->name . "<br/>";
-    if ($member->phone) {
-        $invoice .= $member->phone . "<br/>";
+    $invoice = $anggota->nama . "<br/>";
+    if ($anggota->telepon) {
+        $invoice .= $anggota->telepon . "<br/>";
     }
-    if ($member->email) {
-        $invoice .= $member->email . "<br/>";
+    if ($anggota->surel) {
+        $invoice .= $anggota->surel . "<br/>";
     }
-    if ($member->address) {
-        $invoice .= $member->address . "<br/>";
+    if ($anggota->alamat) {
+        $invoice .= $anggota->alamat . "<br/>";
     }
     return $invoice;
 }

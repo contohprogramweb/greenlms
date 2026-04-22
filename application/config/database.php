@@ -6,8 +6,8 @@ $active_record = true;
 
 $db['default']['dsn']          = '';
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = 'root';
+$db['default']['nama_pengguna'] = 'root';
+$db['default']['kata_sandi'] = 'root';
 $db['default']['database'] = 'greenlms';
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix']     = '';

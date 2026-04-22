@@ -3,7 +3,7 @@
 		<h1>Menu</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=base_url('/dashboard')?>"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li class="active">Menu</li>
+            <li class='aktif'>Menu</li>
 		</ol>
     </section>
     <section class="content">
@@ -33,7 +33,7 @@
                                 <td data-title="Nama Menu"><?=$menu->menuname?></td>
                                 <td data-title="Link"><?=$menu->menulink?></td>
                                 <td data-title="Icon"><?=$menu->menuicon?></td>
-                                <td data-title="Prioritas"><?=$menu->priority?></td>
+                                <td data-title="Prioritas"><?=$menu->prioritas?></td>
                                 <td data-title="Parent Menu"><?=isset($menusName[$menu->parentmenuID]) ? ucfirst($menusName[$menu->parentmenuID]) : ''?></td>
                                 <td data-title="Status"><?=status_button($menu->status)?></td>
                             </tr>

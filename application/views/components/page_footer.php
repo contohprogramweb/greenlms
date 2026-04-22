@@ -1,5 +1,5 @@
     <footer class="main-footer">
-        <strong><?=$generalsetting->copyright_by?></strong>
+        <strong><?=$pengaturan_umum->copyright_by?></strong>
         <div class="pull-right hidden-xs">
             <b>Version</b> <?=$this->config->item('appversion');?>
         </div>

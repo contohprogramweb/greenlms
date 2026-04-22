@@ -8,7 +8,7 @@ class MY_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->data['message'] = [];
+        $this->data['pesan'] = [];
         $this->data['success'] = [];
         $this->data['errors']  = [];
     }

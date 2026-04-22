@@ -178,7 +178,7 @@ $mobiles = array(
     'o2'                   => 'O2',
 
     // Fallback
-    'mobile'               => 'Generic Mobile',
+    'seluler'               => 'Generic Mobile',
     'wireless'             => 'Generic Mobile',
     'j2me'                 => 'Generic Mobile',
     'midp'                 => 'Generic Mobile',
