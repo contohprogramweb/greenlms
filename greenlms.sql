@@ -15,88 +15,88 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 -- Dumping structure for table greenlms.book
-CREATE TABLE IF NOT EXISTS `book` (
-  `bookID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `author` varchar(100) NOT NULL,
-  `bookcategoryID` int NOT NULL,
-  `quantity` int NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `isbnno` varchar(100) NOT NULL,
-  `coverphoto` varchar(200) NOT NULL,
-  `codeno` varchar(100) NOT NULL,
-  `rackID` int DEFAULT NULL,
-  `editionnumber` varchar(100) NOT NULL,
-  `editiondate` datetime DEFAULT NULL,
-  `publisher` varchar(100) NOT NULL,
-  `publisheddate` datetime DEFAULT NULL,
-  `notes` text NOT NULL,
-  `status` tinyint NOT NULL COMMENT '0= Book Available, 1= Book Not Available',
-  `deleted_at` tinyint NOT NULL COMMENT '0= Book Available, 1=Book Deleted ',
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`bookID`)
+CREATE TABLE IF NOT EXISTS `buku` (
+  `id_buku` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  `penulis` varchar(100) NOT NULL,
+  `id_kategori_buku` int NOT NULL,
+  `jumlah` int NOT NULL,
+  `harga` decimal(10,2) NOT NULL,
+  `nomor_isbn` varchar(100) NOT NULL,
+  `foto_sampul` varchar(200) NOT NULL,
+  `nomor_kode` varchar(100) NOT NULL,
+  `id_rak` int DEFAULT NULL,
+  `nomor_edisi` varchar(100) NOT NULL,
+  `tanggal_edisi` datetime DEFAULT NULL,
+  `penerbit` varchar(100) NOT NULL,
+  `tanggal_terbit` datetime DEFAULT NULL,
+  `catatan` text NOT NULL,
+  `status` tinyint NOT NULL COMMENT '0= Buku Tersedia, 1= Buku Tidak Tersedia',
+  `dihapus_pada` tinyint NOT NULL COMMENT '0= Buku Tersedia, 1=Buku Dihapus ',
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_buku`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.book: ~0 rows (approximately)
-INSERT INTO `book` (`bookID`, `name`, `author`, `bookcategoryID`, `quantity`, `price`, `isbnno`, `coverphoto`, `codeno`, `rackID`, `editionnumber`, `editiondate`, `publisher`, `publisheddate`, `notes`, `status`, `deleted_at`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `buku` (`id_buku`, `nama`, `penulis`, `id_kategori_buku`, `jumlah`, `harga`, `nomor_isbn`, `foto_sampul`, `nomor_kode`, `id_rak`, `nomor_edisi`, `tanggal_edisi`, `penerbit`, `tanggal_terbit`, `catatan`, `status`, `dihapus_pada`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, 'Unified Modeling Language', 'Munawar', 1, 2, 50000.00, '1234567', '594b5e9a68270057b5d44939551492377d2fc44095cb53827ab0de699eb7135c6df9cd9ad3c6aa2aaedf67b013f16ab49ac004b51f803c269f05624cbf6900ed.jpg', '200.10.0001', 2, '1', '2025-01-01 00:00:00', 'Informatika', '2025-01-01 00:00:00', '-', 1, 0, '2025-01-14 11:22:38', 1, 1, '2025-01-14 11:22:38', 1, 1);
 
 -- Dumping structure for table greenlms.bookcategory
-CREATE TABLE IF NOT EXISTS `bookcategory` (
-  `bookcategoryID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `description` text NOT NULL,
-  `coverphoto` varchar(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS `kategori_buku` (
+  `id_kategori_buku` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `foto_sampul` varchar(255) NOT NULL,
   `status` tinyint NOT NULL,
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`bookcategoryID`)
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_kategori_buku`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.bookcategory: ~0 rows (approximately)
-INSERT INTO `bookcategory` (`bookcategoryID`, `name`, `description`, `coverphoto`, `status`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `kategori_buku` (`id_kategori_buku`, `nama`, `deskripsi`, `foto_sampul`, `status`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, 'Rekayasa Perangkat Lunak', 'Deskripsi Rekayasa Perangkat Lunak', 'bookcategory.jpg', 1, '2025-01-12 08:45:17', 1, 1, '2025-01-12 08:45:47', 1, 1);
 
 -- Dumping structure for table greenlms.bookissue
-CREATE TABLE IF NOT EXISTS `bookissue` (
-  `bookissueID` int NOT NULL AUTO_INCREMENT,
-  `roleID` int NOT NULL,
-  `memberID` int NOT NULL,
-  `bookcategoryID` int NOT NULL,
-  `bookID` int NOT NULL,
-  `bookno` int NOT NULL,
-  `notes` varchar(255) NOT NULL,
-  `issue_date` datetime NOT NULL,
-  `expire_date` datetime NOT NULL,
-  `renewed` tinyint NOT NULL,
-  `max_renewed_limit` tinyint NOT NULL,
-  `book_fine_per_day` decimal(10,2) NOT NULL,
-  `fineamount` decimal(10,2) NOT NULL,
-  `paymentamount` decimal(10,2) NOT NULL,
-  `discountamount` decimal(10,2) NOT NULL,
-  `paidstatus` tinyint NOT NULL DEFAULT '0' COMMENT '0 = due,  1 = partial, 2 = Paid',
-  `status` tinyint NOT NULL DEFAULT '0' COMMENT '0 = Issued,  1 = Return, 2 = Lost',
-  `deleted_at` tinyint NOT NULL DEFAULT '0' COMMENT '0 = Not Deleted, 1 = Deleted',
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`bookissueID`)
+CREATE TABLE IF NOT EXISTS `peminjaman_buku` (
+  `id_peminjaman` int NOT NULL AUTO_INCREMENT,
+  `id_peran` int NOT NULL,
+  `id_anggota` int NOT NULL,
+  `id_kategori_buku` int NOT NULL,
+  `id_buku` int NOT NULL,
+  `nomor_buku` int NOT NULL,
+  `catatan` varchar(255) NOT NULL,
+  `tanggal_pinjam` datetime NOT NULL,
+  `tanggal_kadaluarsa` datetime NOT NULL,
+  `diperbarui` tinyint NOT NULL,
+  `batas_maksimal_perpanjangan` tinyint NOT NULL,
+  `denda_per_hari` decimal(10,2) NOT NULL,
+  `jumlah_denda` decimal(10,2) NOT NULL,
+  `jumlah_pembayaran` decimal(10,2) NOT NULL,
+  `jumlah_diskon` decimal(10,2) NOT NULL,
+  `status_pembayaran` tinyint NOT NULL DEFAULT '0' COMMENT '0 = belum lunas,  1 = sebagian, 2 = lunas',
+  `status` tinyint NOT NULL DEFAULT '0' COMMENT '0 = Dipinjam,  1 = Dikembalikan, 2 = Hilang',
+  `dihapus_pada` tinyint NOT NULL DEFAULT '0' COMMENT '0 = Tidak Dihapus, 1 = Dihapus',
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_peminjaman`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.bookissue: ~4 rows (approximately)
-INSERT INTO `bookissue` (`bookissueID`, `roleID`, `memberID`, `bookcategoryID`, `bookID`, `bookno`, `notes`, `issue_date`, `expire_date`, `renewed`, `max_renewed_limit`, `book_fine_per_day`, `fineamount`, `paymentamount`, `discountamount`, `paidstatus`, `status`, `deleted_at`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `peminjaman_buku` (`id_peminjaman`, `id_peran`, `id_anggota`, `id_kategori_buku`, `id_buku`, `nomor_buku`, `catatan`, `tanggal_pinjam`, `tanggal_kadaluarsa`, `diperbarui`, `batas_maksimal_perpanjangan`, `denda_per_hari`, `jumlah_denda`, `jumlah_pembayaran`, `jumlah_diskon`, `status_pembayaran`, `status`, `dihapus_pada`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, 3, 4, 1, 1, 1, '-', '2025-01-01 00:00:00', '2025-01-24 00:00:00', 1, 2, 2000.00, 8000.00, 8000.00, 0.00, 2, 1, 0, '2025-01-14 15:36:45', 3, 2, '2025-01-14 15:36:45', 3, 2),
 	(2, 3, 4, 1, 1, 1, '-', '2025-01-31 00:00:00', '2025-02-20 00:00:00', 1, 2, 2000.00, 50000.00, 50000.00, 0.00, 2, 2, 0, '2025-01-14 15:42:15', 3, 2, '2025-01-14 15:42:15', 3, 2),
 	(3, 3, 4, 1, 1, 1, '', '2025-01-21 00:00:00', '2025-02-10 00:00:00', 1, 2, 2000.00, 0.00, 0.00, 0.00, 0, 1, 0, '2025-01-21 22:41:11', 1, 1, '2025-01-21 22:41:11', 1, 1),
@@ -104,88 +104,88 @@ INSERT INTO `bookissue` (`bookissueID`, `roleID`, `memberID`, `bookcategoryID`, 
 	(5, 3, 4, 1, 1, 2, '', '2025-01-22 00:00:00', '2025-02-05 00:00:00', 1, 2, 2000.00, 0.00, 0.00, 0.00, 0, 0, 0, '2025-01-21 23:46:30', 1, 1, '2025-01-21 23:46:30', 1, 1);
 
 -- Dumping structure for table greenlms.bookitem
-CREATE TABLE IF NOT EXISTS `bookitem` (
-  `bookitemID` int NOT NULL AUTO_INCREMENT,
-  `bookID` int NOT NULL,
-  `bookno` int NOT NULL,
-  `status` tinyint NOT NULL COMMENT '0= Book Available, 1= Book Issued, 2=Book Lost',
-  `deleted_at` tinyint NOT NULL COMMENT '0= Book Available, 1= Book Not Available',
-  PRIMARY KEY (`bookitemID`)
+CREATE TABLE IF NOT EXISTS `item_buku` (
+  `id_item_buku` int NOT NULL AUTO_INCREMENT,
+  `id_buku` int NOT NULL,
+  `nomor_buku` int NOT NULL,
+  `status` tinyint NOT NULL COMMENT '0= Buku Tersedia, 1= Buku Dipinjam, 2=Buku Hilang',
+  `dihapus_pada` tinyint NOT NULL COMMENT '0= Buku Tersedia, 1= Buku Tidak Tersedia',
+  PRIMARY KEY (`id_item_buku`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table greenlms.bookitem: ~2 rows (approximately)
-INSERT INTO `bookitem` (`bookitemID`, `bookID`, `bookno`, `status`, `deleted_at`) VALUES
+INSERT INTO `item_buku` (`id_item_buku`, `id_buku`, `nomor_buku`, `status`, `dihapus_pada`) VALUES
 	(1, 1, 1, 1, 0),
 	(2, 1, 2, 1, 0);
 
 -- Dumping structure for table greenlms.chat
-CREATE TABLE IF NOT EXISTS `chat` (
-  `chatID` int NOT NULL AUTO_INCREMENT,
-  `message` text NOT NULL,
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`chatID`)
+CREATE TABLE IF NOT EXISTS `obrolan` (
+  `id_obrolan` int NOT NULL AUTO_INCREMENT,
+  `pesan` text NOT NULL,
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_obrolan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.chat: ~0 rows (approximately)
-INSERT INTO `chat` (`chatID`, `message`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `obrolan` (`id_obrolan`, `pesan`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, 'Hello', '2025-01-02 20:13:32', 1, 1, '2025-01-02 20:13:32', 1, 1),
 	(2, 'Hai admin', '2025-01-13 06:50:44', 3, 2, '2025-01-13 06:50:44', 3, 2);
 
 -- Dumping structure for table greenlms.ebook
-CREATE TABLE IF NOT EXISTS `ebook` (
-  `ebookID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `author` varchar(100) NOT NULL,
-  `coverphoto` varchar(200) NOT NULL,
+CREATE TABLE IF NOT EXISTS `buku_elektronik` (
+  `id_buku_elektronik` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  `penulis` varchar(100) NOT NULL,
+  `foto_sampul` varchar(200) NOT NULL,
   `file` varchar(200) NOT NULL,
-  `file_original_name` varchar(200) NOT NULL,
-  `notes` text NOT NULL,
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`ebookID`)
+  `nama_file_asli` varchar(200) NOT NULL,
+  `catatan` text NOT NULL,
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_buku_elektronik`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table greenlms.ebook: ~0 rows (approximately)
-INSERT INTO `ebook` (`ebookID`, `name`, `author`, `coverphoto`, `file`, `file_original_name`, `notes`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `buku_elektronik` (`id_buku_elektronik`, `nama`, `penulis`, `foto_sampul`, `file`, `nama_file_asli`, `catatan`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, 'Software Engineering (Sommerville)', 'Ian Sommerville', '14101636e9d5d4c86cf2d13b5263b44e1ce72b6215cfdf2712c3b1857c9ca0df4f7161b1a1e0414b3055f582b114a1d3fad855030dbb223d39c98aa6a3efe8f5.jpg', '5382d3294fce215c6f40a0ec0f95f103bfeaa1710504a55a673d6786edc55431702220df8df5ddb35edc7c17bff0c262149c91a420abd06b829c28ab9c78dc25.pdf', '', '-', '2025-01-12 09:10:35', 1, 1, '2025-01-14 11:14:13', 1, 1);
 
 -- Dumping structure for table greenlms.emailsend
-CREATE TABLE IF NOT EXISTS `emailsend` (
-  `emailsendID` int NOT NULL AUTO_INCREMENT,
-  `subject` varchar(200) NOT NULL,
-  `message` text NOT NULL,
-  `sender_name` text NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `sender_memberID` int NOT NULL,
-  `sender_roleID` int NOT NULL,
-  `emailtemplateID` int NOT NULL DEFAULT '0',
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `on_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '0=show, 1=delete',
-  PRIMARY KEY (`emailsendID`)
+CREATE TABLE IF NOT EXISTS `kirim_email` (
+  `id_kirim_email` int NOT NULL AUTO_INCREMENT,
+  `subjek` varchar(200) NOT NULL,
+  `pesan` text NOT NULL,
+  `nama_pengirim` text NOT NULL,
+  `surel` varchar(255) DEFAULT NULL,
+  `id_anggota_pengirim` int NOT NULL,
+  `id_peran_pengirim` int NOT NULL,
+  `id_templat_email` int NOT NULL DEFAULT '0',
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `pada_dihapus` tinyint NOT NULL DEFAULT '0' COMMENT '0=show, 1=delete',
+  PRIMARY KEY (`id_kirim_email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.emailsend: ~0 rows (approximately)
 
 -- Dumping structure for table greenlms.emailsetting
-CREATE TABLE IF NOT EXISTS `emailsetting` (
-  `optionkey` varchar(100) NOT NULL,
-  `optionvalue` text NOT NULL,
-  UNIQUE KEY `frontendkey` (`optionkey`)
+CREATE TABLE IF NOT EXISTS `pengaturan_surel` (
+  `kunci_opsi` varchar(100) NOT NULL,
+  `nilai_opsi` text NOT NULL,
+  UNIQUE KEY `frontendkey` (`kunci_opsi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.emailsetting: ~6 rows (approximately)
-INSERT INTO `emailsetting` (`optionkey`, `optionvalue`) VALUES
+INSERT INTO `pengaturan_surel` (`kunci_opsi`, `nilai_opsi`) VALUES
 	('mail_driver', ''),
 	('mail_encryption', ''),
 	('mail_host', ''),
@@ -194,64 +194,64 @@ INSERT INTO `emailsetting` (`optionkey`, `optionvalue`) VALUES
 	('mail_username', '');
 
 -- Dumping structure for table greenlms.emailtemplate
-CREATE TABLE IF NOT EXISTS `emailtemplate` (
-  `emailtemplateID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) NOT NULL,
-  `template` text NOT NULL,
-  `priority` int NOT NULL DEFAULT '0',
+CREATE TABLE IF NOT EXISTS `templat_surel` (
+  `id_templat_email` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(60) NOT NULL,
+  `templat` text NOT NULL,
+  `prioritas` int NOT NULL DEFAULT '0',
   `status` int NOT NULL DEFAULT '1',
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`emailtemplateID`)
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_templat_email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.emailtemplate: ~0 rows (approximately)
 
 -- Dumping structure for table greenlms.expense
-CREATE TABLE IF NOT EXISTS `expense` (
-  `expenseID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `date` datetime NOT NULL,
-  `amount` decimal(10,2) NOT NULL,
+CREATE TABLE IF NOT EXISTS `pengeluaran` (
+  `id_pengeluaran` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  `tanggal` datetime NOT NULL,
+  `jumlah` decimal(10,2) NOT NULL,
   `file` varchar(200) DEFAULT NULL,
-  `fileoriginalname` varchar(200) DEFAULT NULL,
-  `note` varchar(255) DEFAULT NULL,
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`expenseID`)
+  `nama_file_asli` varchar(200) DEFAULT NULL,
+  `catatan` varchar(255) DEFAULT NULL,
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_pengeluaran`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.expense: ~0 rows (approximately)
 
 -- Dumping structure for table greenlms.finehistory
-CREATE TABLE IF NOT EXISTS `finehistory` (
-  `finehistoryID` int NOT NULL AUTO_INCREMENT,
-  `bookissueID` int NOT NULL,
-  `bookstatusID` int NOT NULL COMMENT '0 = Issued,  1 = Return, 2 = Lost',
-  `renewed` tinyint NOT NULL,
-  `from_date` datetime DEFAULT NULL,
-  `to_date` datetime DEFAULT NULL,
-  `fineamount` decimal(10,2) NOT NULL,
-  `notes` varchar(255) DEFAULT NULL,
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`finehistoryID`)
+CREATE TABLE IF NOT EXISTS `riwayat_denda` (
+  `id_riwayat_denda` int NOT NULL AUTO_INCREMENT,
+  `id_peminjaman_buku` int NOT NULL,
+  `id_status_buku` int NOT NULL COMMENT '0 = Issued,  1 = Return, 2 = Lost',
+  `diperbarui` tinyint NOT NULL,
+  `dari_tanggal` datetime DEFAULT NULL,
+  `ke_tanggal` datetime DEFAULT NULL,
+  `jumlah_denda` decimal(10,2) NOT NULL,
+  `catatan` varchar(255) DEFAULT NULL,
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_riwayat_denda`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.finehistory: ~8 rows (approximately)
-INSERT INTO `finehistory` (`finehistoryID`, `bookissueID`, `bookstatusID`, `renewed`, `from_date`, `to_date`, `fineamount`, `notes`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `riwayat_denda` (`id_riwayat_denda`, `id_peminjaman_buku`, `id_status_buku`, `diperbarui`, `dari_tanggal`, `ke_tanggal`, `jumlah_denda`, `catatan`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, 1, 0, 1, NULL, NULL, 0.00, NULL, '2025-01-14 15:36:45', 3, 2, '2025-01-14 15:36:45', 3, 2),
 	(2, 1, 1, 1, '2025-01-12 00:00:00', '2025-01-13 00:00:00', 8000.00, '', '2025-01-14 15:38:04', 3, 2, '2025-01-14 15:38:04', 3, 2),
 	(3, 2, 0, 1, NULL, NULL, 0.00, NULL, '2025-01-14 15:42:15', 3, 2, '2025-01-14 15:42:15', 3, 2),
@@ -262,14 +262,14 @@ INSERT INTO `finehistory` (`finehistoryID`, `bookissueID`, `bookstatusID`, `rene
 	(8, 5, 0, 1, NULL, NULL, 0.00, NULL, '2025-01-21 23:46:31', 1, 1, '2025-01-21 23:46:31', 1, 1);
 
 -- Dumping structure for table greenlms.generalsetting
-CREATE TABLE IF NOT EXISTS `generalsetting` (
-  `optionkey` varchar(100) NOT NULL,
-  `optionvalue` varchar(250) DEFAULT NULL,
-  UNIQUE KEY `frontendkey` (`optionkey`)
+CREATE TABLE IF NOT EXISTS `pengaturan_umum` (
+  `kunci_opsi` varchar(100) NOT NULL,
+  `nilai_opsi` varchar(250) DEFAULT NULL,
+  UNIQUE KEY `frontendkey` (`kunci_opsi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.generalsetting: ~16 rows (approximately)
-INSERT INTO `generalsetting` (`optionkey`, `optionvalue`) VALUES
+INSERT INTO `pengaturan_umum` (`kunci_opsi`, `nilai_opsi`) VALUES
 	('address', 'Jl Jend. Sudirman No. 21 Pedurungan Semarang Jawa Tengah'),
 	('copyright_by', 'Perpustakaan'),
 	('delivery_charge', '0'),
@@ -288,76 +288,76 @@ INSERT INTO `generalsetting` (`optionkey`, `optionvalue`) VALUES
 	('web_address', 'http://localhost/greenlms/');
 
 -- Dumping structure for table greenlms.income
-CREATE TABLE IF NOT EXISTS `income` (
-  `incomeID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `date` datetime NOT NULL,
-  `amount` decimal(10,2) NOT NULL,
+CREATE TABLE IF NOT EXISTS `pemasukan` (
+  `id_pemasukan` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  `tanggal` datetime NOT NULL,
+  `jumlah` decimal(10,2) NOT NULL,
   `file` varchar(200) DEFAULT NULL,
-  `fileoriginalname` varchar(200) DEFAULT NULL,
-  `note` varchar(255) DEFAULT NULL,
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`incomeID`)
+  `nama_file_asli` varchar(200) DEFAULT NULL,
+  `catatan` varchar(255) DEFAULT NULL,
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_pemasukan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.income: ~2 rows (approximately)
-INSERT INTO `income` (`incomeID`, `name`, `date`, `amount`, `file`, `fileoriginalname`, `note`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `pemasukan` (`id_pemasukan`, `nama`, `tanggal`, `jumlah`, `file`, `nama_file_asli`, `catatan`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, 'Biaya Denda', '2025-01-01 00:00:00', 8000.00, '', '', '', '2025-01-14 15:45:29', 3, 2, '2025-01-14 15:45:29', 3, 2),
 	(2, 'Biaya Buku Hilang', '2025-01-01 00:00:00', 50000.00, '', '', '', '2025-01-14 15:45:50', 3, 2, '2025-01-14 15:45:50', 3, 2);
 
 -- Dumping structure for table greenlms.libraryconfigure
-CREATE TABLE IF NOT EXISTS `libraryconfigure` (
-  `libraryconfigureID` int NOT NULL AUTO_INCREMENT,
-  `roleID` int NOT NULL,
-  `max_issue_book` int NOT NULL,
-  `max_renewed_limit` int NOT NULL,
-  `per_renew_limit_day` int NOT NULL,
-  `book_fine_per_day` decimal(11,0) NOT NULL,
-  `issue_off_limit_amount` decimal(11,0) NOT NULL,
-  PRIMARY KEY (`libraryconfigureID`)
+CREATE TABLE IF NOT EXISTS `konfigurasi_perpustakaan` (
+  `id_konfigurasi_perpustakaan` int NOT NULL AUTO_INCREMENT,
+  `id_peran` int NOT NULL,
+  `maksimal_buku_pinjaman` int NOT NULL,
+  `batas_maksimal_perpanjangan` int NOT NULL,
+  `hari_batas_perpanjangan` int NOT NULL,
+  `denda_buku_per_hari` decimal(11,0) NOT NULL,
+  `jumlah_batas_pinjaman` decimal(11,0) NOT NULL,
+  PRIMARY KEY (`id_konfigurasi_perpustakaan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.libraryconfigure: ~4 rows (approximately)
-INSERT INTO `libraryconfigure` (`libraryconfigureID`, `roleID`, `max_issue_book`, `max_renewed_limit`, `per_renew_limit_day`, `book_fine_per_day`, `issue_off_limit_amount`) VALUES
+INSERT INTO `konfigurasi_perpustakaan` (`id_konfigurasi_perpustakaan`, `id_peran`, `maksimal_buku_pinjaman`, `batas_maksimal_perpanjangan`, `hari_batas_perpanjangan`, `denda_buku_per_hari`, `jumlah_batas_pinjaman`) VALUES
 	(1, 1, 0, 0, 0, 0, 200),
 	(2, 2, 0, 0, 0, 0, 150),
 	(3, 3, 2, 2, 14, 1000, 100),
 	(4, 4, 0, 0, 0, 0, 50);
 
 -- Dumping structure for table greenlms.member
-CREATE TABLE IF NOT EXISTS `member` (
-  `memberID` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) NOT NULL,
-  `dateofbirth` datetime DEFAULT NULL,
-  `gender` varchar(15) DEFAULT NULL,
-  `religion` varchar(30) DEFAULT NULL,
-  `email` varchar(60) NOT NULL,
-  `phone` varchar(15) NOT NULL,
-  `bloodgroup` varchar(20) NOT NULL,
-  `address` text,
-  `joinningdate` datetime DEFAULT NULL,
-  `photo` varchar(200) NOT NULL,
-  `username` varchar(60) NOT NULL,
-  `password` varchar(128) NOT NULL,
-  `roleID` int NOT NULL,
+CREATE TABLE IF NOT EXISTS `anggota` (
+  `id_anggota` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(60) NOT NULL,
+  `tanggal_lahir` datetime DEFAULT NULL,
+  `jenis_kelamin` varchar(15) DEFAULT NULL,
+  `agama` varchar(30) DEFAULT NULL,
+  `surel` varchar(60) NOT NULL,
+  `telepon` varchar(15) NOT NULL,
+  `golongan_darah` varchar(20) NOT NULL,
+  `alamat` text,
+  `tanggal_bergabung` datetime DEFAULT NULL,
+  `foto` varchar(200) NOT NULL,
+  `nama_pengguna` varchar(60) NOT NULL,
+  `kata_sandi` varchar(128) NOT NULL,
+  `id_peran` int NOT NULL,
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '0=New, 1=active, 2=Block',
-  `deleted_at` tinyint DEFAULT '0' COMMENT '0 = Not Deleted, 1 = Deleted',
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`memberID`)
+  `dihapus_pada` tinyint DEFAULT '0' COMMENT '0 = Not Deleted, 1 = Deleted',
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_anggota`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table greenlms.member: ~4 rows (approximately)
-INSERT INTO `member` (`memberID`, `name`, `dateofbirth`, `gender`, `religion`, `email`, `phone`, `bloodgroup`, `address`, `joinningdate`, `photo`, `username`, `password`, `roleID`, `status`, `deleted_at`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `anggota` (`id_anggota`, `nama`, `tanggal_lahir`, `jenis_kelamin`, `agama`, `surel`, `telepon`, `golongan_darah`, `alamat`, `tanggal_bergabung`, `foto`, `nama_pengguna`, `kata_sandi`, `id_peran`, `status`, `dihapus_pada`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, 'admin', '2025-01-01 00:00:00', 'Male', 'Islam', 'admin@admin.com', '08884018148', 'O+', 'Jl Gemah Kencana VI No 2 Gemah Pedurungan Semarang', '2025-01-01 00:00:00', '', 'admin', '0a030acac45b16fc1b9eaa25f8c7201cc316b70c581814c0c08cfba36720d21bd5cd636e547f079b57107df400eb186081f42b41928042a3bb18b73b4e612a68', 1, 1, 0, '2025-01-01 20:50:39', 1, 1, '2025-01-13 06:36:47', 1, 1),
 	(2, 'librarian cantik', '2025-01-01 00:00:00', 'Female', 'Islam', 'librarian@gmail.com', '628884018148', 'O+', 'Semarang', '2025-01-01 00:00:00', 'default.png', 'librarian', '747fbf3a7bc7ddc272c209fc90574395517028de5b8e0f3967b55e2b4cf4fbc88e0ca483bff97a518f25df473b5e8da26ecd8efe31133cc1497631a8d11b774a', 2, 1, 0, '2025-01-01 21:51:27', 1, 1, '2025-01-01 21:51:27', 1, 1),
 	(3, 'Petugas 001', '2025-01-01 00:00:00', 'Male', 'Islam', 'sasa@gmail.com', '085640565699', 'O+', '-', '2025-01-01 00:00:00', 'default.png', 'petugas', 'c99874f9b883033080cb607fbc372bf47c6a1678cc1d4eb7bc62207154e9171036c37cb73996608f739502a4e2646e26db3ddd0a4fccfbf1d7f26613e8d8866c', 2, 1, 0, '2025-01-13 06:39:48', 1, 1, '2025-01-13 06:39:48', 1, 1),
@@ -365,18 +365,18 @@ INSERT INTO `member` (`memberID`, `name`, `dateofbirth`, `gender`, `religion`, `
 
 -- Dumping structure for table greenlms.menu
 CREATE TABLE IF NOT EXISTS `menu` (
-  `menuID` int NOT NULL AUTO_INCREMENT,
-  `menuname` varchar(128) NOT NULL,
-  `menulink` varchar(128) NOT NULL,
-  `menuicon` varchar(128) DEFAULT NULL,
-  `priority` int NOT NULL DEFAULT '500',
-  `parentmenuID` int NOT NULL DEFAULT '0',
+  `id_menu` int NOT NULL AUTO_INCREMENT,
+  `nama_menu` varchar(128) NOT NULL,
+  `tautan_menu` varchar(128) NOT NULL,
+  `ikon_menu` varchar(128) DEFAULT NULL,
+  `prioritas` int NOT NULL DEFAULT '500',
+  `id_menu_induk` int NOT NULL DEFAULT '0',
   `status` int NOT NULL DEFAULT '1',
-  PRIMARY KEY (`menuID`)
+  PRIMARY KEY (`id_menu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table greenlms.menu: ~39 rows (approximately)
-INSERT INTO `menu` (`menuID`, `menuname`, `menulink`, `menuicon`, `priority`, `parentmenuID`, `status`) VALUES
+INSERT INTO `menu` (`id_menu`, `nama_menu`, `tautan_menu`, `ikon_menu`, `prioritas`, `id_menu_induk`, `status`) VALUES
 	(1, 'dashboard', 'dashboard', 'fa fa-dashboard', 500, 0, 1),
 	(2, 'bookissue', 'bookissue', 'fa lms-educational-book', 500, 0, 1),
 	(3, 'member', 'member', 'fa fa-user-plus', 500, 0, 1),
@@ -418,92 +418,92 @@ INSERT INTO `menu` (`menuID`, `menuname`, `menulink`, `menuicon`, `priority`, `p
 	(39, 'paymentsetting', 'paymentsetting', 'fa fa-credit-card-alt', 0, 34, 1);
 
 -- Dumping structure for table greenlms.newsletter
-CREATE TABLE IF NOT EXISTS `newsletter` (
-  `newsletterID` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(200) NOT NULL,
-  `verify` int NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`newsletterID`)
+CREATE TABLE IF NOT EXISTS `buletin` (
+  `id_buletin` int NOT NULL AUTO_INCREMENT,
+  `surel` varchar(200) NOT NULL,
+  `verifikasi` int NOT NULL DEFAULT '0',
+  `dibuat_pada` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_buletin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table greenlms.newsletter: ~0 rows (approximately)
 
 -- Dumping structure for table greenlms.orderitems
-CREATE TABLE IF NOT EXISTS `orderitems` (
-  `orderitemID` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `orderID` bigint unsigned NOT NULL,
-  `storebookID` bigint unsigned NOT NULL,
-  `quantity` int unsigned NOT NULL,
-  `unit_price` double(13,2) unsigned NOT NULL,
-  `subtotal` double(13,2) unsigned NOT NULL,
-  `create_date` timestamp NULL DEFAULT NULL,
-  `modify_date` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`orderitemID`)
+CREATE TABLE IF NOT EXISTS `item_pesanan` (
+  `id_item_pesanan` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `id_pesanan` bigint unsigned NOT NULL,
+  `id_buku_toko` bigint unsigned NOT NULL,
+  `jumlah` int unsigned NOT NULL,
+  `harga_satuan` double(13,2) unsigned NOT NULL,
+  `sub_total` double(13,2) unsigned NOT NULL,
+  `tanggal_dibuat` timestamp NULL DEFAULT NULL,
+  `tanggal_diubah` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id_item_pesanan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table greenlms.orderitems: ~0 rows (approximately)
-INSERT INTO `orderitems` (`orderitemID`, `orderID`, `storebookID`, `quantity`, `unit_price`, `subtotal`, `create_date`, `modify_date`) VALUES
+INSERT INTO `item_pesanan` (`id_item_pesanan`, `id_pesanan`, `id_buku_toko`, `jumlah`, `harga_satuan`, `sub_total`, `tanggal_dibuat`, `tanggal_diubah`) VALUES
 	(1, 1, 1, 1, 40000.00, 40000.00, '2025-01-14 04:33:07', '2025-01-14 04:33:07');
 
 -- Dumping structure for table greenlms.orders
-CREATE TABLE IF NOT EXISTS `orders` (
-  `orderID` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `memberID` bigint unsigned NOT NULL,
-  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mobile` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `delivery_charge` double(13,2) unsigned NOT NULL,
-  `subtotal` double(13,2) unsigned NOT NULL,
+CREATE TABLE IF NOT EXISTS `pesanan` (
+  `id_pesanan` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `id_anggota` bigint unsigned NOT NULL,
+  `nama` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `seluler` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `surel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `biaya_pengiriman` double(13,2) unsigned NOT NULL,
+  `sub_total` double(13,2) unsigned NOT NULL,
   `total` double(13,2) unsigned NOT NULL,
-  `payment_status` tinyint unsigned NOT NULL COMMENT 'PAID=5, UNPAID=10',
-  `payment_method` tinyint unsigned NOT NULL COMMENT 'CASH_ON_DELIVERY=5',
-  `paid_amount` double(13,2) unsigned NOT NULL,
-  `discounted_price` double(13,2) unsigned NOT NULL DEFAULT '0.00',
-  `misc` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `status_pembayaran` tinyint unsigned NOT NULL COMMENT 'PAID=5, UNPAID=10',
+  `metode_pembayaran` tinyint unsigned NOT NULL COMMENT 'CASH_ON_DELIVERY=5',
+  `jumlah_dibayar` double(13,2) unsigned NOT NULL,
+  `harga_diskon` double(13,2) unsigned NOT NULL DEFAULT '0.00',
+  `lainnya` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `status` tinyint unsigned NOT NULL COMMENT 'PENDING = 5, CANCEL = 10, REJECT = 15, ACCEPT = 20, PROCESS = 25, ON_THE_WAY = 30, COMPLETED = 35',
-  `notes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `create_date` timestamp NULL DEFAULT NULL,
-  `modify_date` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`orderID`)
+  `catatan` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tanggal_dibuat` timestamp NULL DEFAULT NULL,
+  `tanggal_diubah` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id_pesanan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table greenlms.orders: ~0 rows (approximately)
-INSERT INTO `orders` (`orderID`, `memberID`, `name`, `address`, `mobile`, `email`, `delivery_charge`, `subtotal`, `total`, `payment_status`, `payment_method`, `paid_amount`, `discounted_price`, `misc`, `status`, `notes`, `create_date`, `modify_date`) VALUES
+INSERT INTO `pesanan` (`id_pesanan`, `id_anggota`, `nama`, `alamat`, `seluler`, `surel`, `biaya_pengiriman`, `sub_total`, `total`, `status_pembayaran`, `metode_pembayaran`, `jumlah_dibayar`, `harga_diskon`, `lainnya`, `status`, `catatan`, `tanggal_dibuat`, `tanggal_diubah`) VALUES
 	(1, 1, 'Alex', 'Jakarta', '8884018148', 'alex@gmail.com', 0.00, 40000.00, 40000.00, 15, 5, 40000.00, 0.00, NULL, 30, '-', '2025-01-14 04:33:06', '2025-01-14 04:33:06');
 
 -- Dumping structure for table greenlms.paymentanddiscount
-CREATE TABLE IF NOT EXISTS `paymentanddiscount` (
-  `paymentanddiscountID` int NOT NULL AUTO_INCREMENT,
-  `bookissueID` int NOT NULL,
-  `paymentamount` decimal(10,2) NOT NULL,
-  `discountamount` decimal(10,2) NOT NULL,
-  `notes` varchar(255) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`paymentanddiscountID`)
+CREATE TABLE IF NOT EXISTS `pembayaran_dan_diskon` (
+  `id_pembayaran_dan_diskon` int NOT NULL AUTO_INCREMENT,
+  `id_peminjaman_buku` int NOT NULL,
+  `jumlah_pembayaran` decimal(10,2) NOT NULL,
+  `jumlah_diskon` decimal(10,2) NOT NULL,
+  `catatan` varchar(255) NOT NULL,
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_pembayaran_dan_diskon`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.paymentanddiscount: ~2 rows (approximately)
-INSERT INTO `paymentanddiscount` (`paymentanddiscountID`, `bookissueID`, `paymentamount`, `discountamount`, `notes`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `pembayaran_dan_diskon` (`id_pembayaran_dan_diskon`, `id_peminjaman_buku`, `jumlah_pembayaran`, `jumlah_diskon`, `catatan`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, 1, 8000.00, 0.00, '', '2025-01-14 15:38:59', 3, 2, '2025-01-14 15:38:59', 3, 2),
 	(2, 2, 50000.00, 0.00, '', '2025-01-14 15:44:23', 3, 2, '2025-01-14 15:44:23', 3, 2);
 
 -- Dumping structure for table greenlms.permissionlog
-CREATE TABLE IF NOT EXISTS `permissionlog` (
-  `permissionlogID` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT '',
-  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `active` enum('yes','no') CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'yes',
-  PRIMARY KEY (`permissionlogID`)
+CREATE TABLE IF NOT EXISTS `catatan_izin` (
+  `id_catatan_izin` int unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT '',
+  `deskripsi` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `aktif` enum('yes','no') CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'yes',
+  PRIMARY KEY (`id_catatan_izin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table greenlms.permissionlog: ~95 rows (approximately)
-INSERT INTO `permissionlog` (`permissionlogID`, `name`, `description`, `active`) VALUES
+INSERT INTO `catatan_izin` (`id_catatan_izin`, `nama`, `deskripsi`, `aktif`) VALUES
 	(1, 'dashboard', 'Dashboard', 'yes'),
 	(2, 'bookissue', 'Book Issue', 'yes'),
 	(3, 'bookissue_add', 'Book Issue Add', 'yes'),
@@ -601,13 +601,13 @@ INSERT INTO `permissionlog` (`permissionlogID`, `name`, `description`, `active`)
 	(96, 'paymentsetting', 'Payment Setting', 'yes');
 
 -- Dumping structure for table greenlms.permissions
-CREATE TABLE IF NOT EXISTS `permissions` (
-  `permissionlogID` int NOT NULL,
-  `roleID` int NOT NULL
+CREATE TABLE IF NOT EXISTS `izin` (
+  `id_catatan_izin` int NOT NULL,
+  `id_peran` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 -- Dumping data for table greenlms.permissions: ~186 rows (approximately)
-INSERT INTO `permissions` (`permissionlogID`, `roleID`) VALUES
+INSERT INTO `izin` (`id_catatan_izin`, `id_peran`) VALUES
 	(1, 1),
 	(2, 1),
 	(3, 1),
@@ -796,155 +796,155 @@ INSERT INTO `permissions` (`permissionlogID`, `roleID`) VALUES
 	(94, 3);
 
 -- Dumping structure for table greenlms.rack
-CREATE TABLE IF NOT EXISTS `rack` (
+CREATE TABLE IF NOT EXISTS `rak` (
   `rackID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `description` text NOT NULL,
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
   PRIMARY KEY (`rackID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.rack: ~2 rows (approximately)
-INSERT INTO `rack` (`rackID`, `name`, `description`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `rak` (`rackID`, `nama`, `deskripsi`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, '100', 'Filasat', '2025-01-14 11:16:15', 1, 1, '2025-01-14 11:16:15', 1, 1),
 	(2, '200', 'Komputer', '2025-01-14 11:16:31', 1, 1, '2025-01-14 11:16:31', 1, 1);
 
 -- Dumping structure for table greenlms.requestbook
-CREATE TABLE IF NOT EXISTS `requestbook` (
-  `requestbookID` int NOT NULL AUTO_INCREMENT,
-  `memberID` int NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `author` varchar(100) NOT NULL,
-  `coverphoto` varchar(200) NOT NULL,
-  `bookcategoryID` int NOT NULL,
-  `isbnno` varchar(100) DEFAULT NULL,
-  `editionnumber` varchar(50) DEFAULT NULL,
-  `editiondate` date DEFAULT NULL,
-  `publisher` varchar(50) DEFAULT NULL,
-  `publisheddate` date DEFAULT NULL,
-  `notes` text,
+CREATE TABLE IF NOT EXISTS `permintaan_buku` (
+  `id_permintaan_buku` int NOT NULL AUTO_INCREMENT,
+  `id_anggota` int NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `penulis` varchar(100) NOT NULL,
+  `foto_sampul` varchar(200) NOT NULL,
+  `id_kategori_buku` int NOT NULL,
+  `nomor_isbn` varchar(100) DEFAULT NULL,
+  `nomor_edisi` varchar(50) DEFAULT NULL,
+  `tanggal_edisi` date DEFAULT NULL,
+  `penerbit` varchar(50) DEFAULT NULL,
+  `tanggal_terbit` date DEFAULT NULL,
+  `catatan` text,
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '0= Request Book, 1= Request Book Accepet, 2= Request Book Rejected',
-  `deleted_at` tinyint NOT NULL DEFAULT '0' COMMENT '0= Request Book Not Deleted, 1=Request Book Deleted ',
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`requestbookID`)
+  `dihapus_pada` tinyint NOT NULL DEFAULT '0' COMMENT '0= Request Book Not Deleted, 1=Request Book Deleted ',
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_permintaan_buku`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.requestbook: ~0 rows (approximately)
 
 -- Dumping structure for table greenlms.resetpassword
-CREATE TABLE IF NOT EXISTS `resetpassword` (
-  `resetpasswordID` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(60) NOT NULL,
-  `email` varchar(60) NOT NULL,
-  `code` varchar(11) NOT NULL,
-  `memberID` int NOT NULL,
-  `roleID` int NOT NULL,
-  `create_date` datetime NOT NULL,
-  `modify_date` datetime NOT NULL,
-  PRIMARY KEY (`resetpasswordID`)
+CREATE TABLE IF NOT EXISTS `reset_kata_sandi` (
+  `id_reset_kata_sandi` int NOT NULL AUTO_INCREMENT,
+  `nama_pengguna` varchar(60) NOT NULL,
+  `surel` varchar(60) NOT NULL,
+  `kode` varchar(11) NOT NULL,
+  `id_anggota` int NOT NULL,
+  `id_peran` int NOT NULL,
+  `tanggal_dibuat` datetime NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  PRIMARY KEY (`id_reset_kata_sandi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.resetpassword: ~0 rows (approximately)
 
 -- Dumping structure for table greenlms.role
-CREATE TABLE IF NOT EXISTS `role` (
-  `roleID` int unsigned NOT NULL AUTO_INCREMENT,
-  `role` varchar(30) NOT NULL,
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `create_roleID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  `modify_roleID` int NOT NULL,
-  PRIMARY KEY (`roleID`)
+CREATE TABLE IF NOT EXISTS `peran` (
+  `id_peran` int unsigned NOT NULL AUTO_INCREMENT,
+  `peran` varchar(30) NOT NULL,
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `id_peran_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  `id_peran_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_peran`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table greenlms.role: ~4 rows (approximately)
-INSERT INTO `role` (`roleID`, `role`, `create_date`, `create_memberID`, `create_roleID`, `modify_date`, `modify_memberID`, `modify_roleID`) VALUES
+INSERT INTO `peran` (`id_peran`, `peran`, `tanggal_dibuat`, `id_anggota_pembuat`, `id_peran_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`, `id_peran_pengubah`) VALUES
 	(1, 'Admin', '2019-09-25 20:19:22', 1, 1, '2019-09-25 20:19:22', 1, 1),
 	(2, 'Librarian', '2019-09-25 20:19:32', 1, 1, '2020-01-29 23:32:27', 1, 1),
 	(3, 'Member', '2019-09-25 20:19:39', 1, 1, '2019-11-03 00:03:22', 1, 1),
 	(4, 'Customer', '2019-12-10 20:38:31', 1, 1, '2019-12-10 20:38:31', 1, 1);
 
 -- Dumping structure for table greenlms.storebook
-CREATE TABLE IF NOT EXISTS `storebook` (
-  `storebookID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `author` varchar(100) NOT NULL,
-  `storebookcategoryID` int NOT NULL,
-  `quantity` int NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `isbnno` varchar(100) NOT NULL,
-  `coverphoto` varchar(200) NOT NULL,
-  `codeno` varchar(100) NOT NULL,
-  `editionnumber` varchar(100) NOT NULL,
-  `editiondate` datetime DEFAULT NULL,
-  `publisher` varchar(100) NOT NULL,
-  `publisheddate` datetime DEFAULT NULL,
-  `notes` text NOT NULL,
-  `description` text NOT NULL,
+CREATE TABLE IF NOT EXISTS `buku_toko` (
+  `id_buku_toko` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  `penulis` varchar(100) NOT NULL,
+  `id_kategori_buku_toko` int NOT NULL,
+  `jumlah` int NOT NULL,
+  `harga` decimal(10,2) NOT NULL,
+  `nomor_isbn` varchar(100) NOT NULL,
+  `foto_sampul` varchar(200) NOT NULL,
+  `nomor_kode` varchar(100) NOT NULL,
+  `nomor_edisi` varchar(100) NOT NULL,
+  `tanggal_edisi` datetime DEFAULT NULL,
+  `penerbit` varchar(100) NOT NULL,
+  `tanggal_terbit` datetime DEFAULT NULL,
+  `catatan` text NOT NULL,
+  `deskripsi` text NOT NULL,
   `status` tinyint NOT NULL COMMENT '0= Book Available, 1= Book Not Available',
-  `deleted_at` tinyint NOT NULL COMMENT '0= Book Available, 1=Book Deleted ',
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  PRIMARY KEY (`storebookID`)
+  `dihapus_pada` tinyint NOT NULL COMMENT '0= Book Available, 1=Book Deleted ',
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_buku_toko`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.storebook: ~0 rows (approximately)
-INSERT INTO `storebook` (`storebookID`, `name`, `author`, `storebookcategoryID`, `quantity`, `price`, `isbnno`, `coverphoto`, `codeno`, `editionnumber`, `editiondate`, `publisher`, `publisheddate`, `notes`, `description`, `status`, `deleted_at`, `create_date`, `create_memberID`, `modify_date`, `modify_memberID`) VALUES
+INSERT INTO `buku_toko` (`id_buku_toko`, `nama`, `penulis`, `id_kategori_buku_toko`, `jumlah`, `harga`, `nomor_isbn`, `foto_sampul`, `nomor_kode`, `nomor_edisi`, `tanggal_edisi`, `penerbit`, `tanggal_terbit`, `catatan`, `deskripsi`, `status`, `dihapus_pada`, `tanggal_dibuat`, `id_anggota_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`) VALUES
 	(1, 'Bahasa Inggris Dasar Untuk Mahasiswa', '-', 1, 3, 40000.00, '12345677', 'c6c82b8b2fedc4f2d0c5a4bbbc8d4fdcecaa62ba6c64c053bf0e4c1684a49b8a8051e354b98f0670e18eafef426dcf5e7529904f132883d2f09f198c3bdce65d.png', '100.100.0001', '1', '2025-01-07 00:00:00', 'UN Press', '2025-01-07 00:00:00', '-', '-', 0, 0, '2025-01-14 11:31:14', 1, '2025-01-14 11:31:14', 1);
 
 -- Dumping structure for table greenlms.storebookcategory
-CREATE TABLE IF NOT EXISTS `storebookcategory` (
-  `storebookcategoryID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `description` text NOT NULL,
-  `coverphoto` varchar(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS `kategori_buku_toko` (
+  `id_kategori_buku_toko` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `foto_sampul` varchar(255) NOT NULL,
   `status` tinyint NOT NULL,
-  `create_date` datetime NOT NULL,
-  `create_memberID` int NOT NULL,
-  `modify_date` datetime NOT NULL,
-  `modify_memberID` int NOT NULL,
-  PRIMARY KEY (`storebookcategoryID`)
+  `tanggal_dibuat` datetime NOT NULL,
+  `id_anggota_pembuat` int NOT NULL,
+  `tanggal_diubah` datetime NOT NULL,
+  `id_anggota_pengubah` int NOT NULL,
+  PRIMARY KEY (`id_kategori_buku_toko`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.storebookcategory: ~0 rows (approximately)
-INSERT INTO `storebookcategory` (`storebookcategoryID`, `name`, `description`, `coverphoto`, `status`, `create_date`, `create_memberID`, `modify_date`, `modify_memberID`) VALUES
+INSERT INTO `kategori_buku_toko` (`id_kategori_buku_toko`, `nama`, `deskripsi`, `foto_sampul`, `status`, `tanggal_dibuat`, `id_anggota_pembuat`, `tanggal_diubah`, `id_anggota_pengubah`) VALUES
 	(1, 'Buku Komputer', '-', 'storebookcategory.jpg', 1, '2025-01-13 06:44:41', 3, '2025-01-13 06:44:41', 3);
 
 -- Dumping structure for table greenlms.storebookimage
-CREATE TABLE IF NOT EXISTS `storebookimage` (
-  `storebookimageID` int NOT NULL AUTO_INCREMENT,
-  `storebookID` int NOT NULL,
-  `file_name` varchar(255) NOT NULL,
-  `client_name` varchar(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS `gambar_buku_toko` (
+  `id_gambar_buku_toko` int NOT NULL AUTO_INCREMENT,
+  `id_buku_toko` int NOT NULL,
+  `nama_file` varchar(255) NOT NULL,
+  `nama_klien` varchar(255) NOT NULL,
   `meta` text NOT NULL,
-  PRIMARY KEY (`storebookimageID`)
+  PRIMARY KEY (`id_gambar_buku_toko`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.storebookimage: ~0 rows (approximately)
 
 -- Dumping structure for table greenlms.updates
-CREATE TABLE IF NOT EXISTS `updates` (
-  `updateID` int NOT NULL AUTO_INCREMENT,
-  `version` varchar(20) NOT NULL,
-  `date` date NOT NULL,
-  `memberID` int NOT NULL,
+CREATE TABLE IF NOT EXISTS `pembaruan` (
+  `id_pembaruan` int NOT NULL AUTO_INCREMENT,
+  `versi` varchar(20) NOT NULL,
+  `tanggal` date NOT NULL,
+  `id_anggota` int NOT NULL,
   `status` tinyint NOT NULL,
-  `description` text,
-  PRIMARY KEY (`updateID`)
+  `deskripsi` text,
+  PRIMARY KEY (`id_pembaruan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table greenlms.updates: ~0 rows (approximately)
