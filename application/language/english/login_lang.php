@@ -1,0 +1,29 @@
+<?php
+
+$lang['login_name'] = "Nama";
+$lang['login_submit'] = "Kirim";
+$lang['login_email'] = "Email";
+$lang['login_phone'] = "Telepon";
+$lang['login_photo'] = "Foto";
+$lang['login_username'] = "Nama Pengguna";
+$lang['login_password'] = "Kata Sandi";
+$lang['login_filebrowse'] = "Telusuri File";
+$lang['login_clear'] = "Hapus";
+$lang['login_sign_in'] = "Masuk";
+$lang['login_remember_me'] = "Ingat Saya";
+$lang['login_send_email'] = "Kirim Email";
+$lang['login_back_to_login'] = "Kembali ke Login"; 
+$lang['login_reset_your_password'] = "Setel ulang kata sandi Anda";
+$lang['login_signin_session_start'] = "Masuk untuk memulai sesi Anda";
+$lang['login_username_or_email'] = "Nama pengguna atau Email";
+$lang['login_register_new_member'] = "Daftarkan anggota baru";
+$lang['login_unique_email_activate'] = "Email sudah terdaftar, silakan aktifkan akun Anda.";
+$lang['login_provide_username_email'] = "Silakan berikan nama pengguna atau email yang valid untuk mendapatkan kata sandi yang disetel ulang.";
+$lang['login_remove_whitespace_username_email'] = "Silakan hapus spasi dan berikan nama pengguna atau email yang valid untuk mendapatkan kata sandi yang disetel ulang.";
+$lang['login_provide_valid_username_email'] = "Silakan berikan nama pengguna atau email valid yang terdaftar untuk mendapatkan kata sandi yang disetel ulang."; 
+$lang['login_provide_validinformation'] = "Silakan berikan informasi yang valid untuk mengaktifkan akun Anda dengan sukses.";
+$lang['login_provide_valid_information_to_verification'] = "Silakan berikan informasi yang valid untuk memverifikasi akun Anda dengan sukses.";
+$lang['login_username_or_email_not_found'] = "Nama pengguna atau email tidak ditemukan. Anda dapat mendaftarkan kembali nama pengguna atau email ini.";
+$lang['login_reset_your_password_checking'] = "Periksa email Anda untuk menyelesaikan pemeriksaan pengaturan ulang kata sandi.";
+$lang['login_verification_code'] = "Kode Verifikasi";
+$lang['login_confirm_password'] = "Konfirmasi Kata Sandi";
